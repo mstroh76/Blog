@@ -3,126 +3,126 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://strohmayers.com/tags/blog/</loc>
+    <loc>https://mstroh76.github.io/Blog/tags/blog/</loc>
     <lastmod>2021-01-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://strohmayers.com/categories/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://strohmayers.com/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="https://strohmayers.com/pt/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="de"
-                href="https://strohmayers.com/categories/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://strohmayers.com/tags/hugo/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://strohmayers.com/post/hugo-blog/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://strohmayers.com/post/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://strohmayers.com/tags/</loc>
+    <loc>https://mstroh76.github.io/Blog/categories/</loc>
     <lastmod>2021-01-04T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://strohmayers.com/en/tags/"
+                href="https://mstroh76.github.io/Blog/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="https://strohmayers.com/pt/tags/"
+                href="https://mstroh76.github.io/Blog/pt/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="de"
-                href="https://strohmayers.com/tags/"
+                href="https://mstroh76.github.io/Blog/categories/"
                 />
   </url>
   
   <url>
-    <loc>https://strohmayers.com/categories/web/</loc>
+    <loc>https://mstroh76.github.io/Blog/tags/hugo/</loc>
     <lastmod>2021-01-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://strohmayers.com/</loc>
+    <loc>https://mstroh76.github.io/Blog/post/hugo-blog/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/post/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/tags/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mstroh76.github.io/Blog/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mstroh76.github.io/Blog/pt/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://mstroh76.github.io/Blog/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/categories/web/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://strohmayers.com/en/"
+                href="https://mstroh76.github.io/Blog/en/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="https://strohmayers.com/pt/"
+                href="https://mstroh76.github.io/Blog/pt/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="de"
-                href="https://strohmayers.com/"
+                href="https://mstroh76.github.io/Blog/"
                 />
   </url>
   
   <url>
-    <loc>https://strohmayers.com/archives/</loc>
+    <loc>https://mstroh76.github.io/Blog/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://strohmayers.com/tags/markdown/</loc>
+    <loc>https://mstroh76.github.io/Blog/tags/markdown/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://strohmayers.com/post/markdown-syntax/</loc>
+    <loc>https://mstroh76.github.io/Blog/post/markdown-syntax/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://strohmayers.com/about/</loc>
+    <loc>https://mstroh76.github.io/Blog/about/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://strohmayers.com/series/</loc>
+    <loc>https://mstroh76.github.io/Blog/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://strohmayers.com/en/series/"
+                href="https://mstroh76.github.io/Blog/en/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="https://strohmayers.com/pt/series/"
+                href="https://mstroh76.github.io/Blog/pt/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="de"
-                href="https://strohmayers.com/series/"
+                href="https://mstroh76.github.io/Blog/series/"
                 />
   </url>
   
