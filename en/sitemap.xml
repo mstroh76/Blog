@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://strohmayers.com/en/categories/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://strohmayers.com/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://strohmayers.com/pt/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://strohmayers.com/en/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://strohmayers.com/en/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://strohmayers.com/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://strohmayers.com/pt/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://strohmayers.com/en/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://strohmayers.com/en/series/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://strohmayers.com/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://strohmayers.com/pt/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://strohmayers.com/en/series/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://strohmayers.com/en/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://strohmayers.com/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://strohmayers.com/pt/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://strohmayers.com/en/tags/"
+                />
+  </url>
+  
+</urlset>
