@@ -8,6 +8,244 @@
     <copyright>Copyright © 2021, Martin Strohmayer</copyright>
     <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://mstroh76.github.io/Blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>STM32-O-Scope das &lt;10 Euro Osilloskop</title>
+      <link>https://mstroh76.github.io/Blog/post/stm32-o-scope/</link>
+      <pubDate>Sun, 31 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mstroh76.github.io/Blog/post/stm32-o-scope/</guid>
+      <description>
+        
+          &lt;p&gt;Mit einem günstigen STM32 Mikrocontroller und einen SPI-TFT-Display kann man einfaches Oszilloskop bauen. Hier erfährst du wie das geht...&lt;/p&gt;
+&lt;h2 id=&#34;beschreibung&#34;&gt;Beschreibung&lt;/h2&gt;
+&lt;p&gt;Das Projekt &lt;a href=&#34;https://github.com/pingumacpenguin/STM32-O-Scope&#34;&gt;STM32-O-Scope&lt;/a&gt; von pingumacpenguin macht aus einem günstigen STM32 Mikrocontroller System und einem SPI-TFT-Display ein einfaches Oszilloskop. Das Projekt ist extrem einfach aufgebaut. Leider wird die Firmware aber nur als Source bzw. Arduino IDE Projekt angeboten. Man muss sich also um die Konfiguration der Entwicklungsumgebung, um die Bibliotheken und die Kompilierung und schlussendlich den Flashvorgang selbst kümmern. Hier warten leider viele Hürden, also doch kein Projekt für Anfänger.
+Die dazugehörige README und &lt;a href=&#34;https://github.com/pingumacpenguin/STM32-O-Scope/wiki&#34;&gt;Wiki-Seite&lt;/a&gt; helfen nämlich an den entscheidenen Stellen nicht weiter!
+Eine weiter neuere Anleitung aus 2017 von satoshinm blog &lt;a href=&#34;https://satoshinm.github.io/blog/180105_stm32scope_building_an_amazing_10_oscilloscope_with_an_stm32_blue_pill_lcd_touchscreen_and_stm32-o-scope_software.html&#34;&gt;Building an Amazing $10 Oscilloscope with an STM32 blue pill, LCD touchscreen, and STM32-O-Scope software&lt;/a&gt; verbessert die Situation.
+Hier ist die Pin -Belediung übersichtlich beschrieben. Aber das Kapitel &amp;quot;Compiling the software&amp;quot; enthält eichtige Anpassungen aber auch irrefürende Hinweise und fürt SChlussendlich auch nicht zur fehlerfreien Kompilierung.&lt;/p&gt;
+&lt;p&gt;Aus diemen Grund habe ich mich dazu entschlossen eine möglichst einfache detailierte Schritt für Schritt Anleitung zu erstellen.&lt;/p&gt;
+&lt;h2 id=&#34;komponenten&#34;&gt;Komponenten&lt;/h2&gt;
+&lt;p&gt;Man benötigt für das Projekt lediglich:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;STM32F103C8T6 ARM STM32 Minimum System Development Board Module , Preis ca. 2-3 Euro&lt;/li&gt;
+&lt;li&gt;TFT Display mit ili9341 Chipsatz, 320x240 Auflösung (verfügbar mit 2,2 ; 2,4 oder 2,8 Zoll Größe ), Preis 5-8 Euro&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.st.com/en/microcontrollers-microprocessors/stm32f103.html&#34;&gt;STM32F103&lt;/a&gt; ist eine Mikrokontroller von STMicrosystems mit einem ARM Cortex-M3 Prozessorkern. Die Taktrate beträgt maximal 72 MHz. Der Code &amp;quot;C8&amp;quot; im Namen bedeutet, dass 64 kByte Flash Speicher und 20 kByte SRAM im IC vorhanden sind.
+Die Systemplatine mit diesem IC wird für teilweise unter 2 Euro verkauft. Es wird auch mit dem Namen &amp;quot;blue pill&amp;quot; bezeichnet.
+Aber Achtung, teilweise werden Nachbauten mit einem Clone IC verkauft. Dieser Chip fängt dann mit einer anderen Bezeichnung, wie &amp;quot;CH32&amp;quot; oder &amp;quot;CS32&amp;quot; an. Hände weg davon!&lt;/p&gt;
+&lt;p&gt;Das Display mit dem ili9341 ist ein weit verbreiteter standard Typ mit SPI-Schnittstelle. Optinal wird auch die Touch Funktion des Displays unterstützt. In dieser Anleitung aber nicht beachtet.&lt;/p&gt;
+&lt;h2 id=&#34;anschluss&#34;&gt;Anschluss&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;STM32  Anschluss&lt;/th&gt;
+&lt;th&gt;LCD Anschluss&lt;/th&gt;
+&lt;th&gt;Beschreibung&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;A0&lt;/td&gt;
+&lt;td&gt;D/C&lt;/td&gt;
+&lt;td&gt;Data/Command&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;A1&lt;/td&gt;
+&lt;td&gt;CS&lt;/td&gt;
+&lt;td&gt;Chip select&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;A2&lt;/td&gt;
+&lt;td&gt;RESET&lt;/td&gt;
+&lt;td&gt;Reset&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;3.3&lt;/td&gt;
+&lt;td&gt;LED&lt;/td&gt;
+&lt;td&gt;Hintergrundbeleuchtung&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;A5&lt;/td&gt;
+&lt;td&gt;SCK&lt;/td&gt;
+&lt;td&gt;SPI Takt&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;A6&lt;/td&gt;
+&lt;td&gt;SDO(MISO)&lt;/td&gt;
+&lt;td&gt;SPI master input / slave output nur bei Touchfunktion&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;A7&lt;/td&gt;
+&lt;td&gt;SDI(MOSI)&lt;/td&gt;
+&lt;td&gt;SPI master output / slave input&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;G&lt;/td&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;td&gt;Ground&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;3.3&lt;/td&gt;
+&lt;td&gt;VCC&lt;/td&gt;
+&lt;td&gt;Versorgung&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Optinal könnte man die Hintergrundbeleuchtung auch bei A3 Anschließen, allerdings ist die Stromaufnahme zumeist zu hoch für den Chip Ausgang (in meinen Fall 26 mA). Daher würde ich ihn fix auf 3.3 V legen. Ansonsten sollte man eine FET- oder Transitorschaltung vorsehen, sofern diese nicht im Display vorhanden ist.&lt;/p&gt;
+&lt;p&gt;Der Anschluss B0 ist der Analoge Eingang des Oszilloskopes. Achtung der Eingang ist unbeschaltet nur für Spannungen von 0-3.3 V geignet!&lt;br&gt;
+Am Ausgang B1 wird ein 500 Hz Rechtecksignal ausgegeben, das zu Verifikation verwendet werden kann. Eine Drahtbrücke von B1 zu B2 führt also zu Messen dieses Rechtecksignals. Dies sollte für den ersten Test durchgeführt werden.&lt;/p&gt;
+&lt;h2 id=&#34;stm32duino-firmware-übertragen&#34;&gt;STM32Duino Firmware übertragen&lt;/h2&gt;
+&lt;p&gt;Bei den üblichen Anleitungen wird empfohlen STM32Duino auf das System aufzuspielen. Das hat den Vorteil, dass ab dann das System direkt über den USB-Anschluss programmiert werden kann. Auf den ersten Blick eine Vorteil, allerdings benötigt die Firmware einen großen Teil vom Speicher und verringert also den nutzbaren Flash-Speicher unseres Programms.&lt;br&gt;
+Bei mir hat das dann nicht funktioniert, ich vermute wegen zu wenig Speicher.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Das aufspielen der STM32Duino Firmware ist also nicht nötig!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Auch wenn man die Firmware aufspielen möchte, so muss man zumindest bei ersten mal eine andere Möglichkeit zum Flashen benutzen.&lt;br&gt;
+Man kann dies über ein eigenes ST-Link Adapter tun, der über USB an die 4 unteren Kontakte (GND, DCLK, DIO, 3.3) am Modul angeschlossen wird.
+In diesem Fall benutzen wir aber eine USB zu UART Adapter mit 3.3 V. Ich verwende hierzu einen Adapter mit CP2102 Chip der gut unter Linux und Windows unterstützt wird.  &lt;br&gt;
+Auf einem Raspberry PI kann direkt der vorhandene UART benutzt werden. In diesem Fall benötigt man gar keine zusätzliche Hardware.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;STM32  Anschluss&lt;/th&gt;
+&lt;th&gt;UART Adapter / RaspPi(BCM)&lt;/th&gt;
+&lt;th&gt;Beschreibung (PC sicht)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;A9&lt;/td&gt;
+&lt;td&gt;RXD (15)&lt;/td&gt;
+&lt;td&gt;Receive&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;A10&lt;/td&gt;
+&lt;td&gt;TXD (14)&lt;/td&gt;
+&lt;td&gt;Transmit&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;G&lt;/td&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;td&gt;Ground&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;3.3&lt;/td&gt;
+&lt;td&gt;3V3&lt;/td&gt;
+&lt;td&gt;Versorgung&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Achtung wenn das STM32-System über den UART Adapter versorgt wird (3.3 Volt) benötigt man keine weitere Versorgung!&lt;/p&gt;
+&lt;p&gt;Nun muss man das Übertragungs- bzw Flash-Programm vom Hersteller bereitstellen. Es kann unter &lt;a href=&#34;https://sourceforge.net/projects/stm32flash/&#34;&gt;https://sourceforge.net/projects/stm32flash/&lt;/a&gt; heruntergeladen werden.
+Danach muss es kompiliert und installiert werden.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;cd ~
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;mkdir stm
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;cd stm
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;apt get install build-essential
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;wget https://sourceforge.net/projects/stm32flash/files/stm32flash-0.5.tar.gz/download
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;tar xzvf stm32flash-0.5.tar.gz
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;cd stm32flash
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;make
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;sudo make install
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;cd ..
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Möchte man nun die STM32duino Firmware installieren, was nicht nötig ist, so mnuss man folgfendermaßen vorgehen.&lt;/p&gt;
+&lt;p&gt;Man holt sich eine zum STM32-System passende Firmware von &lt;a href=&#34;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&#34;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&lt;/a&gt; bzw. &lt;a href=&#34;https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries&#34;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries&lt;/a&gt;. In meinen Fall ist &amp;quot;generic_boot20_pc13.bin&amp;quot; die richtige Version, da am Board eine LED an PC13 angeschlossen ist.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;wget https://github.com/rogerclarkmelbourne/STM32duino-bootloader/raw/master/binaries/generic_boot20_pc13.bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; in Linux eingebunden. Beim Raspberry Pi müsste man den Parameter &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; durch &lt;code&gt;/dev/ttyAMA0&lt;/code&gt; ersetzen.&lt;br&gt;
+Dann kann die Firmware übertragen werden.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyUSB0&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Folgende Ausgabe ist am Bildschirm zu sehen:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;stm32flash 0.5
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;http://stm32flash.sourceforge.net/
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;Using Parser : Raw BINARY
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;Interface serial_posix: 115200 8E1
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;Version      : 0x22
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;Option 1     : 0x00
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;Option 2     : 0x00
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;Device ID    : 0x0410 (STM32F10xxx Medium-density)
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;- RAM        : 20KiB  (512b reserved by bootloader)
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;- Flash      : 128KiB (size first sector: 4x1024)
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;- Option RAM : 16b
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;- System RAM : 2KiB
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;Write to memory
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;Erasing memory
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;Wrote address 0x080056fc (100.00%) Done.
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;Starting execution at address 0x08000000... done.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun kann der USB-Adapter angesteckt und der Jumper zurück auf 0 gesetzt werden.&lt;br&gt;
+Verbindet man den Mikrokontroller per USB mit dem PC System, werden folgenden Meldungen in Systemlog (Abrufbar mit &lt;code&gt;dmesg&lt;/code&gt;) geschrieben:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;[ 1538.366444] usb 2-1: new full-speed USB device number 7 using xhci_hcd
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;[ 1538.515763] usb 2-1: New USB device found, idVendor=1eaf, idProduct=0003, bcdDevice= 2.01
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;[ 1538.515770] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;[ 1538.515774] usb 2-1: Product: Maple 003
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;[ 1538.515777] usb 2-1: Manufacturer: LeafLabs
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;[ 1538.515779] usb 2-1: SerialNumber: LLM 003
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;[ 1539.898913] usb 2-1: USB disconnect, device number 7
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;[ 1540.206402] usb 2-1: new full-speed USB device number 8 using xhci_hcd
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;[ 1540.356171] usb 2-1: New USB device found, idVendor=1eaf, idProduct=0004, bcdDevice= 2.00
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;[ 1540.356177] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;[ 1540.356180] usb 2-1: Product: Maple
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;[ 1540.356183] usb 2-1: Manufacturer: LeafLabs
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;[ 1540.377856] cdc_acm 2-1:1.0: ttyACM0: USB ACM device
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;[ 1540.378174] usbcore: registered new interface driver cdc_acm
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;[ 1540.378175] cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;arduino-ide-vorbereiten&#34;&gt;Arduino IDE vorbereiten&lt;/h2&gt;
+&lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
+&lt;p&gt;Bei Linux Mint 20 könnte man zwar die Arduino IDE mit &lt;code&gt;sudo apt install arduino&lt;/code&gt; installieren, dies ist aber eine zu alte Version. Darum sollte man sie manuell installieren. Auf der Web-Seite &lt;a href=&#34;https://www.arduino.cc/en/software&#34;&gt;https://www.arduino.cc/en/software&lt;/a&gt; kann die &amp;quot;Linux 64 bits&amp;quot; Version heruntergeladen werden.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;cd ~
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;tar xvf arduino-1.8.13-linux64.tar.xz
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;cd arduino-1.8.13/
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;sudo sh install.sh 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mit dem Auruf &lt;code&gt;sudo arduino&lt;/code&gt; oder dem Programmeintrag &amp;quot;Arduino IDE (Arduino)&amp;quot; wird das Programm dann gestartet.
+Man muss nach dem ersten Start den aktuellen Benutzer der Gruppe &amp;quot;dialup&amp;quot; hinzufügen.&lt;/p&gt;
+&lt;h3 id=&#34;stm32-support-und-einstellungen&#34;&gt;STM32 Support und Einstellungen&lt;/h3&gt;
+&lt;p&gt;Nun muss man STM32 Support in der Arduino IDE hinzufügen. Dazu geht man im Menü auf
+File -&amp;gt; Preferences bei Additional Board Manager URLs fügt man &amp;quot;http://dan.drown.org/stm32duino/package_STM32duino_index.json&amp;quot; hinzu.&lt;/p&gt;
+&lt;p&gt;Danach geht man im Menü auf Tools -&amp;gt; Board -&amp;gt; Boards Manager. Dort kann man bei Suche &amp;quot;stm&amp;quot; eintragen und dann den Typ &amp;quot;STM32F1xx/GD32F1xx boards&amp;quot; installieren.&lt;br&gt;
+Nun geht man im Menü auf Tools -&amp;gt; Board -&amp;gt; STM32F1 boards (Arduino_STM32) und wählt dort den Typ &amp;quot;Generic STM32F103C series&amp;quot; aus.&lt;br&gt;
+Hat man eine Vesion mit 128 KB Flash so kann man Tools -&amp;gt; Variant einstellen.&lt;br&gt;
+Bei Tools -&amp;gt; Upload method kann man nun &amp;quot;STM32duino bootloader&amp;quot; auswählen wenn die Firmware installiert ist. Ich bevorzuge aber unter Tools -&amp;gt; Variant die Einstellung &amp;quot;Serial&amp;quot;.&lt;br&gt;
+Unter Tools -&amp;gt; Port muss auch die entsprechende Schnittstelle (/dev/ttyUSB0 oder /dev/ttyAMA0) ausgewählt werden. Man darf aber auch nicht vergessen vor dem Übertragen den Jumper auf 1 zu setzen. Verwendet man STM32duino so muss bei Port /dev/ttyACM0 ausgewählt werden.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/ArduinoIDE-STM32F103.png&#34; alt=&#34;ArduinoIDE STM32F103 Einstellungen&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;software-erstellen-und-übertragen&#34;&gt;Software erstellen und übertragen&lt;/h2&gt;
+&lt;h2 id=&#34;sketch-laden&#34;&gt;Sketch laden&lt;/h2&gt;
+&lt;p&gt;Nun lädt man sich das STM32-O-Scope Projekt herunter.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;git clone https://github.com/pingumacpenguin/STM32-O-Scope.git
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;cd STM32-O-Scope
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In der Arduino IDE kann das Projekt dann über das Menü mit File -&amp;gt; Open... und dem Auswählen der STM32-O-Scope.ino Datei, geladen werden.&lt;/p&gt;
+&lt;h2 id=&#34;bibliotheken-installieren&#34;&gt;Bibliotheken installieren&lt;/h2&gt;
+&lt;p&gt;Für das Projekt werden mehrere Librarys benötigt, die manuell installiert werden müssen.&lt;/p&gt;
+&lt;p&gt;Im Menü auf Tools -&amp;gt; Manage Librarys... auswählen. Dort kann man bei Suche &amp;quot;gfx&amp;quot; eintragen und dann den Typ &amp;quot;Adafruit GFX Library&amp;quot; installieren.&lt;/p&gt;
+&lt;p&gt;Von der Webseite &lt;a href=&#34;http://www.rinkydinkelectronics.com/library.php?id=92&#34;&gt;http://www.rinkydinkelectronics.com/library.php?id=92&lt;/a&gt; kann man sich die URTouch Library herunterladen.
+Im Menü über Sketch -&amp;gt; include Library -&amp;gt; Add .ZIP library... kann die Zip-Datei URTouch.zip ausgewählt werden.&lt;/p&gt;
+&lt;p&gt;Von der Webseite &lt;a href=&#34;https://github.com/PaulStoffregen/Time/archive/v1.6.zip&#34;&gt;https://github.com/PaulStoffregen/Time/archive/v1.6.zip&lt;/a&gt; kann man sich die Time Library herunterladen.
+Im Menü über Sketch -&amp;gt; include Library -&amp;gt; Add .ZIP library... kann die Zip-Datei Time-1.6.zip ausgewählt werden.&lt;/p&gt;
+&lt;p&gt;Von der Webseite &lt;a href=&#34;https://github.com/kroimon/Arduino-SerialCommand&#34;&gt;https://github.com/kroimon/Arduino-SerialCommand&lt;/a&gt; kann man sich die SerialCommand Library herunterladen. Da sie aber nicht also Zip-Datei angeboten wird, kann man sie lokal erstellen.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;git clone https://github.com/kroimon/Arduino-SerialCommand.git
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;mv Arduino-SerialCommand/ SerialCommand/
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;zip ~/Downloads/SerialCommand.zip SerialCommand/*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Im Menü über Sketch -&amp;gt; include Library -&amp;gt; Add .ZIP library... kann die Zip-Datei SerialCommand.zip ausgewählt werden.&lt;/p&gt;
+&lt;h2 id=&#34;bibliotheken-korrigieren&#34;&gt;Bibliotheken korrigieren&lt;/h2&gt;
+&lt;p&gt;Leider kann das Projekt nach der Installation der Librarys nicht erfolgreich kompiliert werden. Es bedarf mehrerer Anpassungen.&lt;/p&gt;
+&lt;p&gt;Im Verzeichnis ~/.arduino15/packages/stm32duino/hardware/STM32F1/2020.12.26/libraries/Adafruit_ILI9341_STM muss in den Dateien
+Adafruit_ILI9341_STM.cpp und Adafruit_ILI9341_STM.h alle Teile mit AS entfernt werden.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;GFX_AS&lt;/code&gt; -&amp;gt; &lt;code&gt;GFX&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Im Verzeichnis ~/.arduino15/packages/stm32duino/hardware/STM32F1/2020.12.26/libraries/Wire/utility/ muss in den Dateien
+WireBase.cpp und WireBase.h alle Pointer der write-Funktionen auf const Pointer umgestellt werden.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;size_t write(uint8*, int);&lt;/code&gt; -&amp;gt; &lt;code&gt;size_t write(const uint8*, int);&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;size_t write(int*, int);&lt;/code&gt; -&amp;gt; &lt;code&gt;size_t write(const int*, int);&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;void write(char*);&lt;/code&gt;  -&amp;gt; &lt;code&gt;void write(const char*);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;size_t WireBase::write(uint8* buf, int len) {&lt;/code&gt; -&amp;gt; &lt;code&gt;size_t WireBase::write(const uint8* buf, int len) {&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;size_t WireBase::write(int* buf, int len) {&lt;/code&gt; -&amp;gt; &lt;code&gt;size_t WireBase::write(const int* buf, int len) {&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;void WireBase::write(char* buf) {&lt;/code&gt; -&amp;gt; &lt;code&gt;void WireBase::write(const char* buf) {&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;übertragen&#34;&gt;Übertragen&lt;/h2&gt;
+&lt;p&gt;Nun erst kann das Projekt mit der Hacken Schaltfläche verifiziert und danch mit der Pfeil Schaltfläche auf das System übertragnen werden.
+Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wieder auf 0.&lt;/p&gt;
+&lt;p&gt;Hat alle geklappt so wird am Display die aktuelle analoge Kurve vom Eingang B0 angezeigt.  Achtung nur von 0 bis 3,3 V verwenden!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/STM32-O-Scope.jpg&#34; alt=&#34;Anzeige 500 Hz Kondensator Lade- bzw. Endladekurve&#34;&gt;&lt;/p&gt;
+        
+      </description>
+    </item>
+    
+    <item>
       <title>Hugo Blog</title>
       <link>https://mstroh76.github.io/Blog/post/hugo-blog/</link>
       <pubDate>Mon, 04 Jan 2021 00:00:00 +0000</pubDate>

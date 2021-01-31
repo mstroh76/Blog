@@ -3,13 +3,8 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://mstroh76.github.io/Blog/tags/blog/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mstroh76.github.io/Blog/categories/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -28,23 +23,33 @@
   </url>
   
   <url>
-    <loc>https://mstroh76.github.io/Blog/tags/hugo/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+    <loc>https://mstroh76.github.io/Blog/categories/elektronik/</loc>
+    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mstroh76.github.io/Blog/post/hugo-blog/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+    <loc>https://mstroh76.github.io/Blog/tags/mikrocontroller/</loc>
+    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mstroh76.github.io/Blog/post/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/tags/raspberry-pi/</loc>
+    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/post/stm32-o-scope/</loc>
+    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mstroh76.github.io/Blog/tags/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -60,6 +65,21 @@
                 hreflang="de"
                 href="https://mstroh76.github.io/Blog/tags/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/tags/blog/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/tags/hugo/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mstroh76.github.io/Blog/post/hugo-blog/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
