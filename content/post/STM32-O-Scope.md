@@ -10,7 +10,7 @@ tags = [
 ]
 categories = [
     "Elektronik"
-]11
+]
 image = "images/STM32-O-Scope.jpg"
 thumbnail = "images/STM32-O-Scope.jpg"
 +++
