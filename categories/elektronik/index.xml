@@ -18,20 +18,19 @@
           &lt;p&gt;Mit einem günstigen STM32 Mikrocontroller und einen SPI-TFT-Display kann man einfaches Oszilloskop bauen. Hier erfährst du wie das geht...&lt;/p&gt;
 &lt;h2 id=&#34;beschreibung&#34;&gt;Beschreibung&lt;/h2&gt;
 &lt;p&gt;Das Projekt &lt;a href=&#34;https://github.com/pingumacpenguin/STM32-O-Scope&#34;&gt;STM32-O-Scope&lt;/a&gt; von pingumacpenguin macht aus einem günstigen STM32 Mikrocontroller System und einem SPI-TFT-Display ein einfaches Oszilloskop. Das Projekt ist extrem einfach aufgebaut. Leider wird die Firmware aber nur als Source bzw. Arduino IDE Projekt angeboten. Man muss sich also um die Konfiguration der Entwicklungsumgebung, um die Bibliotheken und die Kompilierung und schlussendlich den Flashvorgang selbst kümmern. Hier warten leider viele Hürden, also doch kein Projekt für Anfänger.
-Die dazugehörige README und &lt;a href=&#34;https://github.com/pingumacpenguin/STM32-O-Scope/wiki&#34;&gt;Wiki-Seite&lt;/a&gt; helfen nämlich an den entscheidenen Stellen nicht weiter!
+Die dazugehörige README und &lt;a href=&#34;https://github.com/pingumacpenguin/STM32-O-Scope/wiki&#34;&gt;Wiki-Seite&lt;/a&gt; helfen nämlich an den entscheidenden Stellen nicht weiter!
 Eine weiter neuere Anleitung aus 2017 von satoshinm blog &lt;a href=&#34;https://satoshinm.github.io/blog/180105_stm32scope_building_an_amazing_10_oscilloscope_with_an_stm32_blue_pill_lcd_touchscreen_and_stm32-o-scope_software.html&#34;&gt;Building an Amazing $10 Oscilloscope with an STM32 blue pill, LCD touchscreen, and STM32-O-Scope software&lt;/a&gt; verbessert die Situation.
-Hier ist die Pin -Belediung übersichtlich beschrieben. Aber das Kapitel &amp;quot;Compiling the software&amp;quot; enthält eichtige Anpassungen aber auch irrefürende Hinweise und fürt SChlussendlich auch nicht zur fehlerfreien Kompilierung.&lt;/p&gt;
-&lt;p&gt;Aus diemen Grund habe ich mich dazu entschlossen eine möglichst einfache detailierte Schritt für Schritt Anleitung zu erstellen.&lt;/p&gt;
+Hier ist die Pin-Belegung übersichtlich beschrieben. Aber das Kapitel &amp;quot;Compiling the software&amp;quot; enthält einige Anpassungen aber auch irrefürende Hinweise und führt Schlussendlich auch nicht zur fehlerfreien Kompilierung.&lt;/p&gt;
+&lt;p&gt;Aus diesem Grund habe ich mich dazu entschlossen eine möglichst einfache detaillierte Schritt für Schritt Anleitung zu erstellen.&lt;/p&gt;
 &lt;h2 id=&#34;komponenten&#34;&gt;Komponenten&lt;/h2&gt;
 &lt;p&gt;Man benötigt für das Projekt lediglich:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;STM32F103C8T6 ARM STM32 Minimum System Development Board Module , Preis ca. 2-3 Euro&lt;/li&gt;
-&lt;li&gt;TFT Display mit ili9341 Chipsatz, 320x240 Auflösung (verfügbar mit 2,2 ; 2,4 oder 2,8 Zoll Größe ), Preis 5-8 Euro&lt;/li&gt;
+&lt;li&gt;STM32F103C8T6 ARM STM32 Minimum System Development Board Module , China Preis ca. 2 Euro&lt;/li&gt;
+&lt;li&gt;TFT Display mit ili9341 Chipsatz, 320x240 Auflösung (verfügbar mit 2.2, 2.4 oder 2.8 Zoll Größe ), China Preis 5-8 Euro&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.st.com/en/microcontrollers-microprocessors/stm32f103.html&#34;&gt;STM32F103&lt;/a&gt; ist eine Mikrokontroller von STMicrosystems mit einem ARM Cortex-M3 Prozessorkern. Die Taktrate beträgt maximal 72 MHz. Der Code &amp;quot;C8&amp;quot; im Namen bedeutet, dass 64 kByte Flash Speicher und 20 kByte SRAM im IC vorhanden sind.
-Die Systemplatine mit diesem IC wird für teilweise unter 2 Euro verkauft. Es wird auch mit dem Namen &amp;quot;blue pill&amp;quot; bezeichnet.
-Aber Achtung, teilweise werden Nachbauten mit einem Clone IC verkauft. Dieser Chip fängt dann mit einer anderen Bezeichnung, wie &amp;quot;CH32&amp;quot; oder &amp;quot;CS32&amp;quot; an. Hände weg davon!&lt;/p&gt;
-&lt;p&gt;Das Display mit dem ili9341 ist ein weit verbreiteter standard Typ mit SPI-Schnittstelle. Optinal wird auch die Touch Funktion des Displays unterstützt. In dieser Anleitung aber nicht beachtet.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.st.com/en/microcontrollers-microprocessors/stm32f103.html&#34;&gt;STM32F103&lt;/a&gt; ist eine Mikrocontroller von STMicrosystems mit einem ARM Cortex-M3 Prozessorkern. Die Taktrate beträgt maximal 72 MHz. Der Code &amp;quot;C8&amp;quot; im Namen bedeutet, dass 64 kByte Flash Speicher (undokumentiert oft auch 128 kByte verfügbar) und 20 kByte SRAM im IC vorhanden sind.
+Die Systemplatine mit diesem IC wird für teilweise unter 2 Euro verkauft. Es wird auch mit dem Namen &amp;quot;blue pill&amp;quot; bezeichnet.  Mehr Informationen über das System findet man auf &lt;a href=&#34;http://stefanfrings.de/stm32/stm32f1.html#bluepill&#34;&gt;http://stefanfrings.de/stm32/stm32f1.html#bluepill&lt;/a&gt; . Aber Achtung, teilweise werden Nachbauten mit einem Clone IC verkauft. Dieser Chip fängt dann mit einer anderen Bezeichnung, wie &amp;quot;CH32&amp;quot; oder &amp;quot;CS32&amp;quot; an. &lt;strong&gt;Hände weg von diesen Clone Systemen!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Das Display mit dem ili9341 ist ein weit verbreiteter standard Typ mit SPI-Schnittstelle. Optional wird auch die Touch Funktion des Displays unterstützt. In dieser Anleitung wird sie aber nicht beachtet.&lt;/p&gt;
 &lt;h2 id=&#34;anschluss&#34;&gt;Anschluss&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -89,16 +88,16 @@ Aber Achtung, teilweise werden Nachbauten mit einem Clone IC verkauft. Dieser Ch
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;Optinal könnte man die Hintergrundbeleuchtung auch bei A3 Anschließen, allerdings ist die Stromaufnahme zumeist zu hoch für den Chip Ausgang (in meinen Fall 26 mA). Daher würde ich ihn fix auf 3.3 V legen. Ansonsten sollte man eine FET- oder Transitorschaltung vorsehen, sofern diese nicht im Display vorhanden ist.&lt;/p&gt;
-&lt;p&gt;Der Anschluss B0 ist der Analoge Eingang des Oszilloskopes. Achtung der Eingang ist unbeschaltet nur für Spannungen von 0-3.3 V geignet!&lt;br&gt;
-Am Ausgang B1 wird ein 500 Hz Rechtecksignal ausgegeben, das zu Verifikation verwendet werden kann. Eine Drahtbrücke von B1 zu B2 führt also zu Messen dieses Rechtecksignals. Dies sollte für den ersten Test durchgeführt werden.&lt;/p&gt;
-&lt;h2 id=&#34;stm32duino-firmware-übertragen&#34;&gt;STM32Duino Firmware übertragen&lt;/h2&gt;
-&lt;p&gt;Bei den üblichen Anleitungen wird empfohlen STM32Duino auf das System aufzuspielen. Das hat den Vorteil, dass ab dann das System direkt über den USB-Anschluss programmiert werden kann. Auf den ersten Blick eine Vorteil, allerdings benötigt die Firmware einen großen Teil vom Speicher und verringert also den nutzbaren Flash-Speicher unseres Programms.&lt;br&gt;
+&lt;p&gt;Optional könnte man die Hintergrundbeleuchtung auch bei A3 Anschließen, allerdings ist die Stromaufnahme zumeist zu hoch für den Chip Ausgang (in meinen Fall 26 mA). Daher würde ich ihn fix auf 3,3 V legen. Ansonsten sollte man eine FET- oder Transistorschaltung vorsehen, sofern diese nicht im Display vorhanden ist.&lt;/p&gt;
+&lt;p&gt;Der Anschluss B0 ist der Analoge Eingang des Oszilloskopes. Achtung der Eingang ist unbeschaltet nur für Spannungen von 0 bis 3,3 V geeignet!&lt;br&gt;
+Am Ausgang B1 wird ein 500 Hz Rechtecksignal ausgegeben, das zu Verifikation verwendet werden kann. Eine Drahtbrücke von B0 zu B1 führt also zu Messen dieses Rechtecksignals. Dies sollte für den ersten Test durchgeführt werden.&lt;/p&gt;
+&lt;h2 id=&#34;stm32duino-firmware-übertragen&#34;&gt;STM32duino Firmware übertragen&lt;/h2&gt;
+&lt;p&gt;Bei den üblichen Anleitungen wird empfohlen STM32duino auf das System aufzuspielen. Das hat den Vorteil, dass ab dann das System direkt über den USB-Anschluss programmiert werden kann. Auf den ersten Blick eine Vorteil, allerdings benötigt die Firmware einen großen Teil vom Speicher und verringert also den nutzbaren Flash-Speicher unseres Programms.&lt;br&gt;
 Bei mir hat das dann nicht funktioniert, ich vermute wegen zu wenig Speicher.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Das aufspielen der STM32Duino Firmware ist also nicht nötig!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Das aufspielen der STM32duino Firmware ist also nicht nötig!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Auch wenn man die Firmware aufspielen möchte, so muss man zumindest bei ersten mal eine andere Möglichkeit zum Flashen benutzen.&lt;br&gt;
 Man kann dies über ein eigenes ST-Link Adapter tun, der über USB an die 4 unteren Kontakte (GND, DCLK, DIO, 3.3) am Modul angeschlossen wird.
-In diesem Fall benutzen wir aber eine USB zu UART Adapter mit 3.3 V. Ich verwende hierzu einen Adapter mit CP2102 Chip der gut unter Linux und Windows unterstützt wird.  &lt;br&gt;
+In diesem Fall benutzen wir aber eine USB zu UART Adapter mit 3,3 V. Ich verwende hierzu einen Adapter mit CP2102 Chip der gut unter Linux und Windows unterstützt wird.&lt;br&gt;
 Auf einem Raspberry PI kann direkt der vorhandene UART benutzt werden. In diesem Fall benötigt man gar keine zusätzliche Hardware.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -144,7 +143,7 @@ Danach muss es kompiliert und installiert werden.&lt;/p&gt;
 &lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;make
 &lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;sudo make install
 &lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;cd ..
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Möchte man nun die STM32duino Firmware installieren, was nicht nötig ist, so mnuss man folgfendermaßen vorgehen.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Möchte man nun die STM32duino Firmware installieren, was nicht nötig ist, so muss man folgendermaßen vorgehen.&lt;/p&gt;
 &lt;p&gt;Man holt sich eine zum STM32-System passende Firmware von &lt;a href=&#34;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&#34;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&lt;/a&gt; bzw. &lt;a href=&#34;https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries&#34;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries&lt;/a&gt;. In meinen Fall ist &amp;quot;generic_boot20_pc13.bin&amp;quot; die richtige Version, da am Board eine LED an PC13 angeschlossen ist.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;wget https://github.com/rogerclarkmelbourne/STM32duino-bootloader/raw/master/binaries/generic_boot20_pc13.bin
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; in Linux eingebunden. Beim Raspberry Pi müsste man den Parameter &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; durch &lt;code&gt;/dev/ttyAMA0&lt;/code&gt; ersetzen.&lt;br&gt;
@@ -171,7 +170,7 @@ Dann kann die Firmware übertragen werden.&lt;/p&gt;
 &lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;
 &lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;Starting execution at address 0x08000000... done.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun kann der USB-Adapter angesteckt und der Jumper zurück auf 0 gesetzt werden.&lt;br&gt;
-Verbindet man den Mikrokontroller per USB mit dem PC System, werden folgenden Meldungen in Systemlog (Abrufbar mit &lt;code&gt;dmesg&lt;/code&gt;) geschrieben:&lt;/p&gt;
+Verbindet man den Mikrocontroller per USB mit dem PC System, werden folgenden Meldungen in Systemlog (Abrufbar mit &lt;code&gt;dmesg&lt;/code&gt;) geschrieben:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;[ 1538.366444] usb 2-1: new full-speed USB device number 7 using xhci_hcd
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;[ 1538.515763] usb 2-1: New USB device found, idVendor=1eaf, idProduct=0003, bcdDevice= 2.01
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;[ 1538.515770] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
@@ -194,14 +193,14 @@ Verbindet man den Mikrokontroller per USB mit dem PC System, werden folgenden Me
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;tar xvf arduino-1.8.13-linux64.tar.xz
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;cd arduino-1.8.13/
 &lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;sudo sh install.sh 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mit dem Auruf &lt;code&gt;sudo arduino&lt;/code&gt; oder dem Programmeintrag &amp;quot;Arduino IDE (Arduino)&amp;quot; wird das Programm dann gestartet.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mit dem Aufruf &lt;code&gt;sudo arduino&lt;/code&gt; oder dem Programmeintrag &amp;quot;Arduino IDE (Arduino)&amp;quot; wird das Programm dann gestartet.
 Man muss nach dem ersten Start den aktuellen Benutzer der Gruppe &amp;quot;dialup&amp;quot; hinzufügen.&lt;/p&gt;
 &lt;h3 id=&#34;stm32-support-und-einstellungen&#34;&gt;STM32 Support und Einstellungen&lt;/h3&gt;
 &lt;p&gt;Nun muss man STM32 Support in der Arduino IDE hinzufügen. Dazu geht man im Menü auf
 File -&amp;gt; Preferences bei Additional Board Manager URLs fügt man &amp;quot;http://dan.drown.org/stm32duino/package_STM32duino_index.json&amp;quot; hinzu.&lt;/p&gt;
 &lt;p&gt;Danach geht man im Menü auf Tools -&amp;gt; Board -&amp;gt; Boards Manager. Dort kann man bei Suche &amp;quot;stm&amp;quot; eintragen und dann den Typ &amp;quot;STM32F1xx/GD32F1xx boards&amp;quot; installieren.&lt;br&gt;
 Nun geht man im Menü auf Tools -&amp;gt; Board -&amp;gt; STM32F1 boards (Arduino_STM32) und wählt dort den Typ &amp;quot;Generic STM32F103C series&amp;quot; aus.&lt;br&gt;
-Hat man eine Vesion mit 128 KB Flash so kann man Tools -&amp;gt; Variant einstellen.&lt;br&gt;
+Hat man eine Version mit 128 KB Flash so kann man Tools -&amp;gt; Variant einstellen.&lt;br&gt;
 Bei Tools -&amp;gt; Upload method kann man nun &amp;quot;STM32duino bootloader&amp;quot; auswählen wenn die Firmware installiert ist. Ich bevorzuge aber unter Tools -&amp;gt; Variant die Einstellung &amp;quot;Serial&amp;quot;.&lt;br&gt;
 Unter Tools -&amp;gt; Port muss auch die entsprechende Schnittstelle (/dev/ttyUSB0 oder /dev/ttyAMA0) ausgewählt werden. Man darf aber auch nicht vergessen vor dem Übertragen den Jumper auf 1 zu setzen. Verwendet man STM32duino so muss bei Port /dev/ttyACM0 ausgewählt werden.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../images/ArduinoIDE-STM32F103.png&#34; alt=&#34;ArduinoIDE STM32F103 Einstellungen&#34;&gt;&lt;/p&gt;

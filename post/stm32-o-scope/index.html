@@ -18,13 +18,13 @@
 <meta property="og:locale" content="de" />
 
 <meta property="og:type" content="article">
-<meta name="description" content="Wie man einen Hugo Blog einrichtet...">
+<meta name="description" content="Mit einem günstigen STM32 Mikrocontroller und einen SPI-TFT-Display kann man einfaches Oszilloskop bauen. Hier erfährst du wie das geht...">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@m_stroh">
 <meta name="twitter:title" content="STM32-O-Scope das &lt;10 Euro Osilloskop" />
 <meta property="og:url" content="https://mstroh76.github.io/Blog/post/stm32-o-scope/" />
 <meta property="og:title" content="STM32-O-Scope das &lt;10 Euro Osilloskop" />
-<meta property="og:description" content="Wie man einen Hugo Blog einrichtet..." />
+<meta property="og:description" content="Mit einem günstigen STM32 Mikrocontroller und einen SPI-TFT-Display kann man einfaches Oszilloskop bauen. Hier erfährst du wie das geht..." />
 <meta property="og:image" content="https://mstroh76.github.io/Blog/images/STM32-O-Scope.jpg" />
 <link rel="apple-touch-icon" sizes="180x180" href='https://mstroh76.github.io/Blog/icons/apple-touch-icon.png'>
 <link rel="icon" type="image/png" sizes="32x32" href='https://mstroh76.github.io/Blog/icons/favicon-32x32.png'>
@@ -172,20 +172,19 @@
     <p>Mit einem günstigen STM32 Mikrocontroller und einen SPI-TFT-Display kann man einfaches Oszilloskop bauen. Hier erfährst du wie das geht...</p>
 <h2 id="beschreibung">Beschreibung</h2>
 <p>Das Projekt <a href="https://github.com/pingumacpenguin/STM32-O-Scope">STM32-O-Scope</a> von pingumacpenguin macht aus einem günstigen STM32 Mikrocontroller System und einem SPI-TFT-Display ein einfaches Oszilloskop. Das Projekt ist extrem einfach aufgebaut. Leider wird die Firmware aber nur als Source bzw. Arduino IDE Projekt angeboten. Man muss sich also um die Konfiguration der Entwicklungsumgebung, um die Bibliotheken und die Kompilierung und schlussendlich den Flashvorgang selbst kümmern. Hier warten leider viele Hürden, also doch kein Projekt für Anfänger.
-Die dazugehörige README und <a href="https://github.com/pingumacpenguin/STM32-O-Scope/wiki">Wiki-Seite</a> helfen nämlich an den entscheidenen Stellen nicht weiter!
+Die dazugehörige README und <a href="https://github.com/pingumacpenguin/STM32-O-Scope/wiki">Wiki-Seite</a> helfen nämlich an den entscheidenden Stellen nicht weiter!
 Eine weiter neuere Anleitung aus 2017 von satoshinm blog <a href="https://satoshinm.github.io/blog/180105_stm32scope_building_an_amazing_10_oscilloscope_with_an_stm32_blue_pill_lcd_touchscreen_and_stm32-o-scope_software.html">Building an Amazing $10 Oscilloscope with an STM32 blue pill, LCD touchscreen, and STM32-O-Scope software</a> verbessert die Situation.
-Hier ist die Pin -Belediung übersichtlich beschrieben. Aber das Kapitel &quot;Compiling the software&quot; enthält eichtige Anpassungen aber auch irrefürende Hinweise und fürt SChlussendlich auch nicht zur fehlerfreien Kompilierung.</p>
-<p>Aus diemen Grund habe ich mich dazu entschlossen eine möglichst einfache detailierte Schritt für Schritt Anleitung zu erstellen.</p>
+Hier ist die Pin-Belegung übersichtlich beschrieben. Aber das Kapitel &quot;Compiling the software&quot; enthält einige Anpassungen aber auch irrefürende Hinweise und führt Schlussendlich auch nicht zur fehlerfreien Kompilierung.</p>
+<p>Aus diesem Grund habe ich mich dazu entschlossen eine möglichst einfache detaillierte Schritt für Schritt Anleitung zu erstellen.</p>
 <h2 id="komponenten">Komponenten</h2>
 <p>Man benötigt für das Projekt lediglich:</p>
 <ul>
-<li>STM32F103C8T6 ARM STM32 Minimum System Development Board Module , Preis ca. 2-3 Euro</li>
-<li>TFT Display mit ili9341 Chipsatz, 320x240 Auflösung (verfügbar mit 2,2 ; 2,4 oder 2,8 Zoll Größe ), Preis 5-8 Euro</li>
+<li>STM32F103C8T6 ARM STM32 Minimum System Development Board Module , China Preis ca. 2 Euro</li>
+<li>TFT Display mit ili9341 Chipsatz, 320x240 Auflösung (verfügbar mit 2.2, 2.4 oder 2.8 Zoll Größe ), China Preis 5-8 Euro</li>
 </ul>
-<p><a href="https://www.st.com/en/microcontrollers-microprocessors/stm32f103.html">STM32F103</a> ist eine Mikrokontroller von STMicrosystems mit einem ARM Cortex-M3 Prozessorkern. Die Taktrate beträgt maximal 72 MHz. Der Code &quot;C8&quot; im Namen bedeutet, dass 64 kByte Flash Speicher und 20 kByte SRAM im IC vorhanden sind.
-Die Systemplatine mit diesem IC wird für teilweise unter 2 Euro verkauft. Es wird auch mit dem Namen &quot;blue pill&quot; bezeichnet.
-Aber Achtung, teilweise werden Nachbauten mit einem Clone IC verkauft. Dieser Chip fängt dann mit einer anderen Bezeichnung, wie &quot;CH32&quot; oder &quot;CS32&quot; an. Hände weg davon!</p>
-<p>Das Display mit dem ili9341 ist ein weit verbreiteter standard Typ mit SPI-Schnittstelle. Optinal wird auch die Touch Funktion des Displays unterstützt. In dieser Anleitung aber nicht beachtet.</p>
+<p><a href="https://www.st.com/en/microcontrollers-microprocessors/stm32f103.html">STM32F103</a> ist eine Mikrocontroller von STMicrosystems mit einem ARM Cortex-M3 Prozessorkern. Die Taktrate beträgt maximal 72 MHz. Der Code &quot;C8&quot; im Namen bedeutet, dass 64 kByte Flash Speicher (undokumentiert oft auch 128 kByte verfügbar) und 20 kByte SRAM im IC vorhanden sind.
+Die Systemplatine mit diesem IC wird für teilweise unter 2 Euro verkauft. Es wird auch mit dem Namen &quot;blue pill&quot; bezeichnet.  Mehr Informationen über das System findet man auf <a href="http://stefanfrings.de/stm32/stm32f1.html#bluepill">http://stefanfrings.de/stm32/stm32f1.html#bluepill</a> . Aber Achtung, teilweise werden Nachbauten mit einem Clone IC verkauft. Dieser Chip fängt dann mit einer anderen Bezeichnung, wie &quot;CH32&quot; oder &quot;CS32&quot; an. <strong>Hände weg von diesen Clone Systemen!</strong></p>
+<p>Das Display mit dem ili9341 ist ein weit verbreiteter standard Typ mit SPI-Schnittstelle. Optional wird auch die Touch Funktion des Displays unterstützt. In dieser Anleitung wird sie aber nicht beachtet.</p>
 <h2 id="anschluss">Anschluss</h2>
 <table>
 <thead>
@@ -243,16 +242,16 @@ Aber Achtung, teilweise werden Nachbauten mit einem Clone IC verkauft. Dieser Ch
 </tr>
 </tbody>
 </table>
-<p>Optinal könnte man die Hintergrundbeleuchtung auch bei A3 Anschließen, allerdings ist die Stromaufnahme zumeist zu hoch für den Chip Ausgang (in meinen Fall 26 mA). Daher würde ich ihn fix auf 3.3 V legen. Ansonsten sollte man eine FET- oder Transitorschaltung vorsehen, sofern diese nicht im Display vorhanden ist.</p>
-<p>Der Anschluss B0 ist der Analoge Eingang des Oszilloskopes. Achtung der Eingang ist unbeschaltet nur für Spannungen von 0-3.3 V geignet!<br>
-Am Ausgang B1 wird ein 500 Hz Rechtecksignal ausgegeben, das zu Verifikation verwendet werden kann. Eine Drahtbrücke von B1 zu B2 führt also zu Messen dieses Rechtecksignals. Dies sollte für den ersten Test durchgeführt werden.</p>
-<h2 id="stm32duino-firmware-übertragen">STM32Duino Firmware übertragen</h2>
-<p>Bei den üblichen Anleitungen wird empfohlen STM32Duino auf das System aufzuspielen. Das hat den Vorteil, dass ab dann das System direkt über den USB-Anschluss programmiert werden kann. Auf den ersten Blick eine Vorteil, allerdings benötigt die Firmware einen großen Teil vom Speicher und verringert also den nutzbaren Flash-Speicher unseres Programms.<br>
+<p>Optional könnte man die Hintergrundbeleuchtung auch bei A3 Anschließen, allerdings ist die Stromaufnahme zumeist zu hoch für den Chip Ausgang (in meinen Fall 26 mA). Daher würde ich ihn fix auf 3,3 V legen. Ansonsten sollte man eine FET- oder Transistorschaltung vorsehen, sofern diese nicht im Display vorhanden ist.</p>
+<p>Der Anschluss B0 ist der Analoge Eingang des Oszilloskopes. Achtung der Eingang ist unbeschaltet nur für Spannungen von 0 bis 3,3 V geeignet!<br>
+Am Ausgang B1 wird ein 500 Hz Rechtecksignal ausgegeben, das zu Verifikation verwendet werden kann. Eine Drahtbrücke von B0 zu B1 führt also zu Messen dieses Rechtecksignals. Dies sollte für den ersten Test durchgeführt werden.</p>
+<h2 id="stm32duino-firmware-übertragen">STM32duino Firmware übertragen</h2>
+<p>Bei den üblichen Anleitungen wird empfohlen STM32duino auf das System aufzuspielen. Das hat den Vorteil, dass ab dann das System direkt über den USB-Anschluss programmiert werden kann. Auf den ersten Blick eine Vorteil, allerdings benötigt die Firmware einen großen Teil vom Speicher und verringert also den nutzbaren Flash-Speicher unseres Programms.<br>
 Bei mir hat das dann nicht funktioniert, ich vermute wegen zu wenig Speicher.</p>
-<p><strong>Das aufspielen der STM32Duino Firmware ist also nicht nötig!</strong></p>
+<p><strong>Das aufspielen der STM32duino Firmware ist also nicht nötig!</strong></p>
 <p>Auch wenn man die Firmware aufspielen möchte, so muss man zumindest bei ersten mal eine andere Möglichkeit zum Flashen benutzen.<br>
 Man kann dies über ein eigenes ST-Link Adapter tun, der über USB an die 4 unteren Kontakte (GND, DCLK, DIO, 3.3) am Modul angeschlossen wird.
-In diesem Fall benutzen wir aber eine USB zu UART Adapter mit 3.3 V. Ich verwende hierzu einen Adapter mit CP2102 Chip der gut unter Linux und Windows unterstützt wird.  <br>
+In diesem Fall benutzen wir aber eine USB zu UART Adapter mit 3,3 V. Ich verwende hierzu einen Adapter mit CP2102 Chip der gut unter Linux und Windows unterstützt wird.<br>
 Auf einem Raspberry PI kann direkt der vorhandene UART benutzt werden. In diesem Fall benötigt man gar keine zusätzliche Hardware.</p>
 <table>
 <thead>
@@ -298,7 +297,7 @@ Danach muss es kompiliert und installiert werden.</p>
 <span class="ln"> 8</span>make
 <span class="ln"> 9</span>sudo make install
 <span class="ln">10</span>cd ..
-</code></pre></div><p>Möchte man nun die STM32duino Firmware installieren, was nicht nötig ist, so mnuss man folgfendermaßen vorgehen.</p>
+</code></pre></div><p>Möchte man nun die STM32duino Firmware installieren, was nicht nötig ist, so muss man folgendermaßen vorgehen.</p>
 <p>Man holt sich eine zum STM32-System passende Firmware von <a href="https://github.com/rogerclarkmelbourne/STM32duino-bootloader">https://github.com/rogerclarkmelbourne/STM32duino-bootloader</a> bzw. <a href="https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries">https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries</a>. In meinen Fall ist &quot;generic_boot20_pc13.bin&quot; die richtige Version, da am Board eine LED an PC13 angeschlossen ist.</p>
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>wget https://github.com/rogerclarkmelbourne/STM32duino-bootloader/raw/master/binaries/generic_boot20_pc13.bin
 </code></pre></div><p>Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als <code>/dev/ttyUSB0</code> in Linux eingebunden. Beim Raspberry Pi müsste man den Parameter <code>/dev/ttyUSB0</code> durch <code>/dev/ttyAMA0</code> ersetzen.<br>
@@ -325,7 +324,7 @@ Dann kann die Firmware übertragen werden.</p>
 <span class="ln">18</span>
 <span class="ln">19</span>Starting execution at address 0x08000000... done.
 </code></pre></div><p>Nun kann der USB-Adapter angesteckt und der Jumper zurück auf 0 gesetzt werden.<br>
-Verbindet man den Mikrokontroller per USB mit dem PC System, werden folgenden Meldungen in Systemlog (Abrufbar mit <code>dmesg</code>) geschrieben:</p>
+Verbindet man den Mikrocontroller per USB mit dem PC System, werden folgenden Meldungen in Systemlog (Abrufbar mit <code>dmesg</code>) geschrieben:</p>
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>[ 1538.366444] usb 2-1: new full-speed USB device number 7 using xhci_hcd
 <span class="ln"> 2</span>[ 1538.515763] usb 2-1: New USB device found, idVendor=1eaf, idProduct=0003, bcdDevice= 2.01
 <span class="ln"> 3</span>[ 1538.515770] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
@@ -348,14 +347,14 @@ Verbindet man den Mikrokontroller per USB mit dem PC System, werden folgenden Me
 <span class="ln">2</span>tar xvf arduino-1.8.13-linux64.tar.xz
 <span class="ln">3</span>cd arduino-1.8.13/
 <span class="ln">4</span>sudo sh install.sh 
-</code></pre></div><p>Mit dem Auruf <code>sudo arduino</code> oder dem Programmeintrag &quot;Arduino IDE (Arduino)&quot; wird das Programm dann gestartet.
+</code></pre></div><p>Mit dem Aufruf <code>sudo arduino</code> oder dem Programmeintrag &quot;Arduino IDE (Arduino)&quot; wird das Programm dann gestartet.
 Man muss nach dem ersten Start den aktuellen Benutzer der Gruppe &quot;dialup&quot; hinzufügen.</p>
 <h3 id="stm32-support-und-einstellungen">STM32 Support und Einstellungen</h3>
 <p>Nun muss man STM32 Support in der Arduino IDE hinzufügen. Dazu geht man im Menü auf
 File -&gt; Preferences bei Additional Board Manager URLs fügt man &quot;http://dan.drown.org/stm32duino/package_STM32duino_index.json&quot; hinzu.</p>
 <p>Danach geht man im Menü auf Tools -&gt; Board -&gt; Boards Manager. Dort kann man bei Suche &quot;stm&quot; eintragen und dann den Typ &quot;STM32F1xx/GD32F1xx boards&quot; installieren.<br>
 Nun geht man im Menü auf Tools -&gt; Board -&gt; STM32F1 boards (Arduino_STM32) und wählt dort den Typ &quot;Generic STM32F103C series&quot; aus.<br>
-Hat man eine Vesion mit 128 KB Flash so kann man Tools -&gt; Variant einstellen.<br>
+Hat man eine Version mit 128 KB Flash so kann man Tools -&gt; Variant einstellen.<br>
 Bei Tools -&gt; Upload method kann man nun &quot;STM32duino bootloader&quot; auswählen wenn die Firmware installiert ist. Ich bevorzuge aber unter Tools -&gt; Variant die Einstellung &quot;Serial&quot;.<br>
 Unter Tools -&gt; Port muss auch die entsprechende Schnittstelle (/dev/ttyUSB0 oder /dev/ttyAMA0) ausgewählt werden. Man darf aber auch nicht vergessen vor dem Übertragen den Jumper auf 1 zu setzen. Verwendet man STM32duino so muss bei Port /dev/ttyACM0 ausgewählt werden.</p>
 <p><img src="../../images/ArduinoIDE-STM32F103.png" alt="ArduinoIDE STM32F103 Einstellungen"></p>
@@ -410,6 +409,9 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
     <h2 class="mt-4">Empfohlene Artikel</h2>
     <ul>
       <li>
+        <a href="https://mstroh76.github.io/Blog/post/pi400/" class="nav-link">Raspberry Pi 400 - Review</a>
+      </li>
+      <li>
         <a href="https://mstroh76.github.io/Blog/post/hugo-blog/" class="nav-link">Hugo Blog</a>
       </li>
       <li>
@@ -418,6 +420,9 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
     </ul>
     <h2 class="mt-4">Neueste Artikel</h2>
     <ul class="flex-column">
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/pi400/" class="nav-link">Raspberry Pi 400 - Review</a>
+      </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/hugo-blog/" class="nav-link">Hugo Blog</a>
       </li>
@@ -438,6 +443,11 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
           <span class="button_tally">1</span>
         </a>
         
+        <a href='https://mstroh76.github.io/Blog/categories/raspberry-pi/' class="post_tag button button_translucent">
+          RASPBERRY-PI
+          <span class="button_tally">1</span>
+        </a>
+        
         
       </nav>
     </div>
@@ -446,6 +456,11 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
       <nav class="tags_nav">
         <a href='https://mstroh76.github.io/Blog/tags/hugo/' class="post_tag button button_translucent">
           HUGO
+          <span class="button_tally">2</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/raspberry-pi/' class="post_tag button button_translucent">
+          RASPBERRY-PI
           <span class="button_tally">2</span>
         </a>
         
@@ -461,11 +476,6 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
         
         <a href='https://mstroh76.github.io/Blog/tags/mikrocontroller/' class="post_tag button button_translucent">
           MIKROCONTROLLER
-          <span class="button_tally">1</span>
-        </a>
-        
-        <a href='https://mstroh76.github.io/Blog/tags/raspberry-pi/' class="post_tag button button_translucent">
-          RASPBERRY-PI
           <span class="button_tally">1</span>
         </a>
         
