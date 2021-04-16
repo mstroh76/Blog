@@ -88,7 +88,7 @@ cd ~
 mkdir stm
 cd stm
 apt get install build-essential
-wget https://sourceforge.net/projects/stm32flash/files/stm32flash-0.5.tar.gz/download
+wget --trust-server-name https://sourceforge.net/projects/stm32flash/files/stm32flash-0.5.tar.gz/download
 tar xzvf stm32flash-0.5.tar.gz
 cd stm32flash
 make
@@ -105,10 +105,16 @@ Man holt sich eine zum STM32-System passende Firmware von https://github.com/rog
 wget https://github.com/rogerclarkmelbourne/STM32duino-bootloader/raw/master/binaries/generic_boot20_pc13.bin
 ```
 
-Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als ``/dev/ttyUSB0`` in Linux eingebunden. Beim Raspberry Pi müsste man den Parameter ``/dev/ttyUSB0`` durch ``/dev/ttyAMA0`` ersetzen.  
-Dann kann die Firmware übertragen werden.
+Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als ``/dev/ttyUSB0`` in Linux eingebunden. Beim Raspberry Pi muss man den Parameter ``/dev/ttyUSB0`` durch ``/dev/ttyAMA0`` ersetzen. Zuvor muss man aber auch noch der Terminal-Dienst beenden werden. Dann kann die Firmware übertragen werden.
 
+**USB UART-Adapter:** 
 ``sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyUSB0``
+
+**Raspberry Pi:** 
+```
+sudo service serial-getty@ttyAMA0 stop
+sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyAMA0
+```
 
 
 
