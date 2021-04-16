@@ -18,13 +18,13 @@
 <meta property="og:locale" content="de" />
 
 <meta property="og:type" content="article">
-<meta name="description" content="Der neue Raspberry Pi 400 ist eine kompakte Tastatur mit integrierter verbesserter Raspberry Pi 4 Hardware, was sie besser kann, mal sehen ...">
+<meta name="description" content="Der neue Raspberry Pi 400 ist eine kompakte Tastatur mit integrierter verbesserter Raspberry Pi 4 Hardware, hier ein paar alternative Infos dazu ...">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@m_stroh">
 <meta name="twitter:title" content="Raspberry Pi 400 - Review" />
 <meta property="og:url" content="https://mstroh76.github.io/Blog/post/pi400/" />
 <meta property="og:title" content="Raspberry Pi 400 - Review" />
-<meta property="og:description" content="Der neue Raspberry Pi 400 ist eine kompakte Tastatur mit integrierter verbesserter Raspberry Pi 4 Hardware, was sie besser kann, mal sehen ..." />
+<meta property="og:description" content="Der neue Raspberry Pi 400 ist eine kompakte Tastatur mit integrierter verbesserter Raspberry Pi 4 Hardware, hier ein paar alternative Infos dazu ..." />
 <meta property="og:image" content="https://mstroh76.github.io/Blog/images/Pi400.jpg" />
 <link rel="apple-touch-icon" sizes="180x180" href='https://mstroh76.github.io/Blog/icons/apple-touch-icon.png'>
 <link rel="icon" type="image/png" sizes="32x32" href='https://mstroh76.github.io/Blog/icons/favicon-32x32.png'>
@@ -167,11 +167,11 @@
   </div>
 
     
-    <p>Der neue Raspberry Pi 400 ist eine kompakte Tastatur mit integrierter verbesserter Raspberry Pi 4 Hardware, was sie besser kann, mal sehen ...</p>
+    <p>Der neue Raspberry Pi 400 ist eine kompakte Tastatur mit integrierter verbesserter Raspberry Pi 4 Hardware, hier ein paar alternative Infos dazu ...</p>
 <h2 id="beschreibung">Beschreibung</h2>
-<p>Das neueste Produkt der Raspberry Pi (Trading) Ltd. ist eine kompakte Tastatur in der Raspberry Pi 4 Hardware integriert wurde. Es wurde eine verbesserte Version (Revision) des SoC BCM2711 mit der Zusatzbezeichung C0 eingebaut. Die Taktrate wurde also im Vergleich zum Pi 4 mit Revision B0 von 1,5 GHz auf 1,8 GHz erhöht.  Es stehen 4 GB RAM zur Verfügung. Die Anschlüsse sind zum Pi 4 identisch, außer dass ein USB 2.0 Anschluss weniger vorhanden ist. Der Tastatur fehlt im Vergleich zur standard Tastatur der Nummern-Block. Dadurch ist die kompakte Größe möglich.</p>
+<p>Das neueste Produkt der Raspberry Pi (Trading) Ltd. ist eine kompakte Tastatur, in der Raspberry Pi 4 Hardware integriert wurde. Es wurde eine verbesserte Version (Revision) des SoC BCM2711 mit der Zusatzbezeichung C0 eingebaut. Die Taktrate wurde also im Vergleich zum Pi 4 mit Revision B0 von 1,5 GHz auf 1,8 GHz erhöht. Es stehen 4 GB RAM zur Verfügung. Die Anschlüsse sind zum Pi 4 identisch, außer dass ein USB 2.0 Anschluss weniger vorhanden ist. Der Anschluss für die Kamera und Display ist beim Pi 400 auch nicht vorhanden. Der Tastatur fehlt im Vergleich zu einer standard Tastatur der Nummern-Block. Dadurch ist die kompakte Größe möglich.</p>
 <p><img src="../../images/Pi400-size.jpg" alt="Pi 400 Vergleich zu einer standard Tastatur"></p>
-<p>Angeboten wird der Pi 400 entweder als &quot;nacktes System&quot; also nur die Tastatur oder als Bundle mit Netzteil, Kabeln, Maus, SD-Karte und einer umfangreichen Dokumentation. Achtung einer Bestellung auf das Tastaturlayout achten!</p>
+<p>Angeboten wird der Pi 400 entweder als &quot;nacktes System&quot; also nur die Tastatur oder als Bundle mit Netzteil, Kabeln, Maus, SD-Karte und einer umfangreichen Dokumentation. Achtung bei der Bestellung auf das Tastaturlayout achten!</p>
 <p>Preis Bundle DE <a href="https://geizhals.at/raspberry-pi-400-kit-raspberry-pi-400-de-kit-a2414639.html">geizhals.at</a>:  100-104 Euro<br>
 Preis Pi400 DE <a href="https://electronics.semaf.at/Raspberry-Pi-400">semaf electronics</a>:  ~78 Euro</p>
 <h2 id="eckdaten">Eckdaten</h2>
@@ -208,7 +208,7 @@ Preis Pi400 DE <a href="https://electronics.semaf.at/Raspberry-Pi-400">semaf ele
 <h2 id="test">Test</h2>
 <p>CNX: <a href="https://www.cnx-software.com/2020/11/02/raspberry-pi-400-review-benchmarks-vs-raspberry-pi-4/">Raspberry Pi 400 Keyboard PC Review and Benchmarks vs Raspberry Pi 4</a><br>
 Michael Kofler: <a href="https://kofler.info/raspberry-pi-400/">RASPBERRY PI 400</a></p>
-<p>Abseits von den vielen Pi 400 Tests die ich gelesen habe, haben mich ein paar technische Dinge interessiert die bisher nicht beleuchtet wurden. Diesen will ich mich nun widmen.</p>
+<p>Abseits von den vielen Pi 400 Tests die ich gelesen habe, haben mich ein paar technische Dinge interessiert, die bisher nicht beleuchtet wurden. Diesen will ich mich nun widmen.</p>
 <h3 id="lokalisierung">Lokalisierung</h3>
 <p>Ich finde es immer etwas Absurd, dass es im Jahre 2021 noch immer nicht möglich ist, ein Tastaturlayout automatisch zu erkennen. Besonders sonderbar ist es, wenn die Tastatur selbst das Computersystem ist, wie bei Pi 400. Nach dem ersten Start wird man vor der Anmeldung gebeten die Lokalisierungeinstellungen zu tätigen. Das passt ganz gut, so kann man das deutsche Layout bereits vor der Passworteingabe setzen. Später kann man dann gleich &quot;raspberry&quot; als Passwort eingeben und nicht wie bei der Raspberry Pi OS Lite Version &quot;raspberrz&quot;.<br>
 Allerdings relativiert sich der Eindruck dann gleich wieder, den die Tastatureinstellung gilt nur für die grafische Oberfläche. Wechselt man mit Strg+Alt+F1 auf die Konsole, so ist das englische Layout aktiv. Nun muss man nochmal die Lokalisierungseinstellungen bei Konfigurationstool <code> rasp-config</code> eingeben, damit alles passt.</p>
@@ -253,7 +253,7 @@ Schaut man sich aber die Werte der Samsung 840 Pro SSD am USB an, so spielt dies
 </tbody>
 </table>
 <p><strong>Pi 4:</strong></p>
-<p>Beim Pi 4 liegt die CPU-Spannung fix bei bei <strong>0,8875 V</strong>. Die höhere Taktrate des Pi 400 wird also durch Erhöhung der CPI-Spannung erreicht!</p>
+<p>Beim Pi 4 liegt die CPU-Spannung fix bei bei <strong>0,8875 V</strong>. Die höhere Taktrate des Pi 400 wird also durch Erhöhung der CPU-Spannung erreicht!</p>
 <table>
 <thead>
 <tr>
@@ -344,7 +344,7 @@ Aber auch wenn man die Version 2.52 nachinstalliert, so gibt es keine Erkennung 
 <span class="ln">37</span> | BCM | wPi |   Name  | Mode | V | Physical | V | Mode | Name    | wPi | BCM |
 <span class="ln">38</span> +-----+-----+---------+------+---+---Pi 400-+---+------+---------+-----+-----+
 </code></pre></div><h2 id="fazit">Fazit</h2>
-<p>Der Sinn der Hardware erschließt sich mir kaum. Einen Pi 400 kann man sich mit einem normalen Pi 4 selbst zusammenstellen. Auch die 1,8 GHz können problemlos erreicht werden. Die Raspberry Pi Tastatur bekommt man für 25 Euro (inkl. integriertem USB Hub). Der Raspberry Pi 4 GB kostet ca. 57,5 Euro. Macht zusammen 82,5 Euro statt der 78 für den Pi 400. Mehr Sinn macht da schon das Bundle für ca. 100 Euro immerhin bekommt man dann, ein Netzteil, eine Maus und eine qualitativ hochwertige 16 GB SD-Karte dazu. Nicht zu vergessen auch noch das Handbuch. Da kommt man mit den einzelnen Komponenten schnell darüber.<br>
+<p>Der Sinn der Hardware erschließt sich mir kaum. Der angepeilte Nutzer soll wohl der Desktop Benutzer sein. Aber so einen Pi 400 kann man sich mit einem normalen Pi 4 leicht selbst zusammenstellen. Auch die 1,8 GHz können problemlos erreicht werden. Die Raspberry Pi Tastatur bekommt man für 25 Euro (inkl. integriertem USB Hub). Der Raspberry Pi 4 GB kostet ca. 57,5 Euro. Macht zusammen 82,5 Euro statt der 78 für den Pi 400. Mehr Sinn macht da schon das Bundle für ca. 100 Euro immerhin bekommt man dann, ein Netzteil, eine Maus und eine qualitativ hochwertige 16 GB SD-Karte dazu. Nicht zu vergessen auch noch das Handbuch. Da kommt man mit den einzelnen Komponenten knapp darüber.<br>
 Also wenn schon Pi 400 dann als Bundle. Ich würde aber eher davon abraten und auf einen standard Raspberry Pi setzen, mit den Eingabegeräten seiner Wahl.
 So kann man später die Hardware auch mal anders einsetzen als Server oder zur Homeautomation. Eine defekt Tastatur kann dann auch einfach ausgetauscht werden.</p>
 <p>Komplett überzeugend ist das interne passive Kühlsystem. Es führt dazu, dass das System absolut lautlos seinen Dienst verrichtet. Die CPU kommt nie in einen kritischen Temperaturbereich, sodass eine Taktreduzierung gefürchtet werden müsste.</p>
@@ -377,6 +377,9 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
     <h2 class="mt-4">Empfohlene Artikel</h2>
     <ul>
       <li>
+        <a href="https://mstroh76.github.io/Blog/post/tools/" class="nav-link">Raspberry Pi Werkzeuge</a>
+      </li>
+      <li>
         <a href="https://mstroh76.github.io/Blog/post/stm32-o-scope/" class="nav-link">STM32-O-Scope das &lt;10 Euro Osilloskop</a>
       </li>
       <li>
@@ -388,6 +391,9 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
     </ul>
     <h2 class="mt-4">Neueste Artikel</h2>
     <ul class="flex-column">
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/tools/" class="nav-link">Raspberry Pi Werkzeuge</a>
+      </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/stm32-o-scope/" class="nav-link">STM32-O-Scope das &lt;10 Euro Osilloskop</a>
       </li>
@@ -401,6 +407,11 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
     <div>
       <h2 class="mt-4 taxonomy" id="categories-section">Kategorien</h2>
       <nav class="tags_nav">
+        <a href='https://mstroh76.github.io/Blog/categories/raspberry-pi/' class="post_tag button button_translucent">
+          RASPBERRY-PI
+          <span class="button_tally">2</span>
+        </a>
+        
         <a href='https://mstroh76.github.io/Blog/categories/web/' class="post_tag button button_translucent">
           WEB
           <span class="button_tally">2</span>
@@ -411,24 +422,19 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
           <span class="button_tally">1</span>
         </a>
         
-        <a href='https://mstroh76.github.io/Blog/categories/raspberry-pi/' class="post_tag button button_translucent">
-          RASPBERRY-PI
-          <span class="button_tally">1</span>
-        </a>
-        
         
       </nav>
     </div>
     <div>
       <h2 class="mt-4 taxonomy" id="tags-section">Tags</h2>
       <nav class="tags_nav">
-        <a href='https://mstroh76.github.io/Blog/tags/hugo/' class="post_tag button button_translucent">
-          HUGO
-          <span class="button_tally">2</span>
-        </a>
-        
         <a href='https://mstroh76.github.io/Blog/tags/raspberry-pi/' class="post_tag button button_translucent">
           RASPBERRY-PI
+          <span class="button_tally">3</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/hugo/' class="post_tag button button_translucent">
+          HUGO
           <span class="button_tally">2</span>
         </a>
         
@@ -444,6 +450,11 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
         
         <a href='https://mstroh76.github.io/Blog/tags/mikrocontroller/' class="post_tag button button_translucent">
           MIKROCONTROLLER
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/tools/' class="post_tag button button_translucent">
+          TOOLS
           <span class="button_tally">1</span>
         </a>
         

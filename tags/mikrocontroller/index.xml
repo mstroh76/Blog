@@ -137,7 +137,7 @@ Danach muss es kompiliert und installiert werden.&lt;/p&gt;
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;mkdir stm
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;cd stm
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;apt get install build-essential
-&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;wget https://sourceforge.net/projects/stm32flash/files/stm32flash-0.5.tar.gz/download
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;wget --trust-server-name https://sourceforge.net/projects/stm32flash/files/stm32flash-0.5.tar.gz/download
 &lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;tar xzvf stm32flash-0.5.tar.gz
 &lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;cd stm32flash
 &lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;make
@@ -146,10 +146,13 @@ Danach muss es kompiliert und installiert werden.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Möchte man nun die STM32duino Firmware installieren, was nicht nötig ist, so muss man folgendermaßen vorgehen.&lt;/p&gt;
 &lt;p&gt;Man holt sich eine zum STM32-System passende Firmware von &lt;a href=&#34;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&#34;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&lt;/a&gt; bzw. &lt;a href=&#34;https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries&#34;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries&lt;/a&gt;. In meinen Fall ist &amp;quot;generic_boot20_pc13.bin&amp;quot; die richtige Version, da am Board eine LED an PC13 angeschlossen ist.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;wget https://github.com/rogerclarkmelbourne/STM32duino-bootloader/raw/master/binaries/generic_boot20_pc13.bin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; in Linux eingebunden. Beim Raspberry Pi müsste man den Parameter &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; durch &lt;code&gt;/dev/ttyAMA0&lt;/code&gt; ersetzen.&lt;br&gt;
-Dann kann die Firmware übertragen werden.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyUSB0&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Folgende Ausgabe ist am Bildschirm zu sehen:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; in Linux eingebunden. Beim Raspberry Pi muss man den Parameter &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; durch &lt;code&gt;/dev/ttyAMA0&lt;/code&gt; ersetzen. Zuvor muss man aber auch noch der Terminal-Dienst beenden werden. Dann kann die Firmware übertragen werden.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;USB UART-Adapter:&lt;/strong&gt;
+&lt;code&gt;sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyUSB0&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Raspberry Pi:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo service serial-getty@ttyAMA0 stop
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyAMA0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Folgende Ausgabe ist am Bildschirm zu sehen:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;stm32flash 0.5
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;http://stm32flash.sourceforge.net/

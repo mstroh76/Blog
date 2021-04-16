@@ -291,7 +291,7 @@ Danach muss es kompiliert und installiert werden.</p>
 <span class="ln"> 2</span>mkdir stm
 <span class="ln"> 3</span>cd stm
 <span class="ln"> 4</span>apt get install build-essential
-<span class="ln"> 5</span>wget https://sourceforge.net/projects/stm32flash/files/stm32flash-0.5.tar.gz/download
+<span class="ln"> 5</span>wget --trust-server-name https://sourceforge.net/projects/stm32flash/files/stm32flash-0.5.tar.gz/download
 <span class="ln"> 6</span>tar xzvf stm32flash-0.5.tar.gz
 <span class="ln"> 7</span>cd stm32flash
 <span class="ln"> 8</span>make
@@ -300,10 +300,13 @@ Danach muss es kompiliert und installiert werden.</p>
 </code></pre></div><p>Möchte man nun die STM32duino Firmware installieren, was nicht nötig ist, so muss man folgendermaßen vorgehen.</p>
 <p>Man holt sich eine zum STM32-System passende Firmware von <a href="https://github.com/rogerclarkmelbourne/STM32duino-bootloader">https://github.com/rogerclarkmelbourne/STM32duino-bootloader</a> bzw. <a href="https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries">https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries</a>. In meinen Fall ist &quot;generic_boot20_pc13.bin&quot; die richtige Version, da am Board eine LED an PC13 angeschlossen ist.</p>
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>wget https://github.com/rogerclarkmelbourne/STM32duino-bootloader/raw/master/binaries/generic_boot20_pc13.bin
-</code></pre></div><p>Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als <code>/dev/ttyUSB0</code> in Linux eingebunden. Beim Raspberry Pi müsste man den Parameter <code>/dev/ttyUSB0</code> durch <code>/dev/ttyAMA0</code> ersetzen.<br>
-Dann kann die Firmware übertragen werden.</p>
-<p><code>sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyUSB0</code></p>
-<p>Folgende Ausgabe ist am Bildschirm zu sehen:</p>
+</code></pre></div><p>Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als <code>/dev/ttyUSB0</code> in Linux eingebunden. Beim Raspberry Pi muss man den Parameter <code>/dev/ttyUSB0</code> durch <code>/dev/ttyAMA0</code> ersetzen. Zuvor muss man aber auch noch der Terminal-Dienst beenden werden. Dann kann die Firmware übertragen werden.</p>
+<p><strong>USB UART-Adapter:</strong>
+<code>sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyUSB0</code></p>
+<p><strong>Raspberry Pi:</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>sudo service serial-getty@ttyAMA0 stop
+<span class="ln">2</span>sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyAMA0
+</code></pre></div><p>Folgende Ausgabe ist am Bildschirm zu sehen:</p>
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>stm32flash 0.5
 <span class="ln"> 2</span>
 <span class="ln"> 3</span>http://stm32flash.sourceforge.net/
@@ -409,6 +412,9 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
     <h2 class="mt-4">Empfohlene Artikel</h2>
     <ul>
       <li>
+        <a href="https://mstroh76.github.io/Blog/post/tools/" class="nav-link">Raspberry Pi Werkzeuge</a>
+      </li>
+      <li>
         <a href="https://mstroh76.github.io/Blog/post/pi400/" class="nav-link">Raspberry Pi 400 - Review</a>
       </li>
       <li>
@@ -420,6 +426,9 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
     </ul>
     <h2 class="mt-4">Neueste Artikel</h2>
     <ul class="flex-column">
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/tools/" class="nav-link">Raspberry Pi Werkzeuge</a>
+      </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/pi400/" class="nav-link">Raspberry Pi 400 - Review</a>
       </li>
@@ -433,6 +442,11 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
     <div>
       <h2 class="mt-4 taxonomy" id="categories-section">Kategorien</h2>
       <nav class="tags_nav">
+        <a href='https://mstroh76.github.io/Blog/categories/raspberry-pi/' class="post_tag button button_translucent">
+          RASPBERRY-PI
+          <span class="button_tally">2</span>
+        </a>
+        
         <a href='https://mstroh76.github.io/Blog/categories/web/' class="post_tag button button_translucent">
           WEB
           <span class="button_tally">2</span>
@@ -443,24 +457,19 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
           <span class="button_tally">1</span>
         </a>
         
-        <a href='https://mstroh76.github.io/Blog/categories/raspberry-pi/' class="post_tag button button_translucent">
-          RASPBERRY-PI
-          <span class="button_tally">1</span>
-        </a>
-        
         
       </nav>
     </div>
     <div>
       <h2 class="mt-4 taxonomy" id="tags-section">Tags</h2>
       <nav class="tags_nav">
-        <a href='https://mstroh76.github.io/Blog/tags/hugo/' class="post_tag button button_translucent">
-          HUGO
-          <span class="button_tally">2</span>
-        </a>
-        
         <a href='https://mstroh76.github.io/Blog/tags/raspberry-pi/' class="post_tag button button_translucent">
           RASPBERRY-PI
+          <span class="button_tally">3</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/hugo/' class="post_tag button button_translucent">
+          HUGO
           <span class="button_tally">2</span>
         </a>
         
@@ -476,6 +485,11 @@ Man darf nicht vergessen den Jumper vor dem Upload auf 1 zu setzen und danach wi
         
         <a href='https://mstroh76.github.io/Blog/tags/mikrocontroller/' class="post_tag button button_translucent">
           MIKROCONTROLLER
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/tools/' class="post_tag button button_translucent">
+          TOOLS
           <span class="button_tally">1</span>
         </a>
         
