@@ -19,7 +19,7 @@
 &lt;h2 id=&#34;beschreibung&#34;&gt;Beschreibung&lt;/h2&gt;
 &lt;p&gt;Auch wenn es inzwischen viele verschiedene Einplatinencomputer gibt, so ist der Raspberry Pi doch sehr speziell. Der SoC und die enthaltene Grafikkarte ist kaum wo anders in Einsatz.
 Daher gibt es speziell an die Raspberry Pi und der GPU angepasste Werkzeuge. Die folgende List ist sicher nicht komplett aber einige Werkzeuge sind mir unter gekommen, die ich besonders gerne einsetze.&lt;/p&gt;
-&lt;h2 id=&#34;werkzeuge&#34;&gt;Werkzeuge&lt;/h2&gt;
+&lt;h2 id=&#34;software&#34;&gt;Software&lt;/h2&gt;
 &lt;h3 id=&#34;screenshot---raspi2png&#34;&gt;Screenshot - raspi2png&lt;/h3&gt;
 &lt;p&gt;Mit &lt;a href=&#34;https://github.com/GrazerComputerClub/raspi2png&#34;&gt;raspi2png&lt;/a&gt; kann man Screenshots im PNG-Format erzeugen. Das besondere daran ist, dass es direkt mit der GPU der Raspberry Pi zusammenarbeitet.
 Dadurch kann es auch Screenshots erzeugen wo andere Programme wie z.B. &lt;a href=&#34;https://wiki.ubuntuusers.de/Scrot/&#34;&gt;scrot&lt;/a&gt; nicht funktionieren. Das ist bei allen Programm der Fall die direkt in der GPU arbeiten. Videos abspielen und Minecraft Pi sind solche Anwendungen bei denen nur raspi2png funktioniert.&lt;br&gt;
@@ -38,15 +38,30 @@ Ausgehend von dieser Version haben ich auch einige Änderungen eingebraucht, die
 &lt;p&gt;&lt;img src=&#34;../../images/htop_Pi1.png&#34; alt=&#34;htop Raspberry Pi 1&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;sd-karten-schreiben---raspberry-pi-imager-und-usb-imager&#34;&gt;SD Karten Schreiben - Raspberry Pi Imager und USB Imager&lt;/h3&gt;
 &lt;p&gt;Lange Zeit hatte es keine sinnvolles Werkzeug zum Beschreiben einer SD-Karte unter Linux gegeben. Das Programm wird benötigt um ein Raspberry Pi Image bzw. Betriebssystem Image auf die SD-Karte zu bringen. Anfänglich musste man dd verwenden, das für Anfänger einfach zu viele Gefahren birgt. Danach kamm das Programm etcher, dass den Vorgang wesentlich sicherer und einfacher machte. Das Programm selbst ist aber etwas zwielichtig. Es ist riesig und muss als eigenständiges Programm heruntergeladen und ausgeführt werden.&lt;br&gt;
-Nun gibt es endlich das Programm Raspberry Pi Imager und USB Imager, dass diesen Dienst verrichtet und nur minimale Anforderungen stellt. Ich würde Raspberry Pi Imager empfehlen. Einfach deb-Packet herunterladen und mit &lt;code&gt;sudo apt install ./imager_1.6.1_amd64.deb&lt;/code&gt; installieren.&lt;/p&gt;
+Nun gibt es endlich das Programm Raspberry Pi Imager und USB Imager, dass diesen Dienst verrichtet und nur minimale Anforderungen stellt. Ich würde Raspberry Pi Imager empfehlen. Es bietet zusätzlich die Möglichkeit weitere Einstellungen für das Betriebssystem vorzunehmen. Dazu gehört z.B. die Aktivierung des SSH-Dienstes, inklusive einem Passwort für den Benutzer Pi. Dann können die Ländereinstellungen inkl. Tastaturlayout definiert werden. Auch ein WLAN Netzwerk kann für den ersten Start bereits parametriert werden. Zum Einstellungsfenster kommt man allerdings erst wenn man Strg+Shift+X drückt!&lt;br&gt;
+Das Programm unterstützt auch komprimierte Images mit der Extention gz, zip und xz.&lt;br&gt;
+Zur Installation kann man einfach das deb-Packet herunterladen und mit &lt;code&gt;sudo apt install ./imager_1.6.1_amd64.deb&lt;/code&gt; installieren.&lt;/p&gt;
 &lt;p&gt;Raspberry Pi Imager - &lt;a href=&#34;https://www.raspberrypi.org/software/&#34;&gt;https://www.raspberrypi.org/software/&lt;/a&gt;&lt;br&gt;
 &lt;img src=&#34;../../images/Raspberry_Pi_Imager_v1.6.1.png&#34; alt=&#34;Raspberry Pi Imager Dialog&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/Raspberry_Pi_Imager_v1.6.1_Einstellungen.png&#34; alt=&#34;Raspberry Pi Imager Einstellungsfenter Strg+Shift+X&#34;&gt;&lt;/p&gt;
 &lt;p&gt;USB Imager - &lt;a href=&#34;https://gitlab.com/bztsrc/usbimager&#34;&gt;https://gitlab.com/bztsrc/usbimager&lt;/a&gt;&lt;br&gt;
 &lt;img src=&#34;../../images/USBImager_1.0.6.png&#34; alt=&#34;USB Imager Dialog&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;spi-lcd-tft-anzeige---fbcp-ili9341&#34;&gt;SPI LCD-TFT Anzeige - fbcp-ili9341&lt;/h3&gt;
 &lt;p&gt;Bei Kernel 4 konnte man noch einen SPI LCD-TFT Display über ein Kernel Modul ansprechen. Leider ist das mit Kernel 5 nun nicht mehr möglich. Zum Glück gibt es aber ein Programm mit dem verwirrenden Namen &lt;a href=&#34;https://github.com/juj/fbcp-ili9341&#34;&gt;fbcp-ili9341&lt;/a&gt;. fbcp steht dabei für Framebuffer copy und ili9341 für den gleichnamigen SPI Display Controller. Das Programm kann also den Inhalt der Grafikkarte (Framebuffer) über den SPI-Bus auf das LCD-TFT Display übertragen. Das ganze läuft nun etwas langsamer als früher im Userspace, kann aber überzeugen.&lt;br&gt;
-Auch hierzu gibt es auf dem Blog des Grazer Computer Clubs den Beitrag &lt;a href=&#34;https://blog.gc2.at/post/spi-tft-lcd-kernel5/&#34;&gt;SPI TFT LCD - Kernel 5&lt;/a&gt;. Im übrigen Unterstützt das Programm auch andere SPI Controller wie ST7735R und ST7789VW.&lt;/p&gt;
+Auch hierzu gibt es auf dem Blog des Grazer Computer Clubs den Beitrag &lt;a href=&#34;https://blog.gc2.at/post/spi-tft-lcd-kernel5/&#34;&gt;SPI TFT LCD - Kernel 5&lt;/a&gt;. Im übrigen Unterstützt das Programm auch andere SPI-Controller wie ST7735R und ST7789VW.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../images/fbcp-ili9341.jpg&#34; alt=&#34;fbcp-ili9341 sowie dispmanx_vnc im Einsatz&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;serieller-terminal-client---screen&#34;&gt;(Serieller) Terminal Client - screen&lt;/h3&gt;
+&lt;p&gt;screen ist eigentlich ein Programm das mehrere Terminals verwalten kann. Es ist kein reines Werkzeug für den Raspberry Pi sondern ist praktisch auf allen Linux Systemen verfügbar.&lt;br&gt;
+Nicht so bekannt ist allerdings die Möglichkeit screen auch für serielle Terminals zu verwenden. Dazu muss man einfach die serielle Schnittstelle bzw. das Linux-Device als Parameter angeben. Beim Raspberry Pi ist das typischerweise &lt;code&gt;/dev/ttyAMA0&lt;/code&gt; (sofern die serielle Schnittstelle aktiviert ist) und  &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; bei einem USB-Adapter.
+Optional kann man auch die Baudrate für die Verbindung mit angeben.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;screen /dev/ttyAMA0 115200&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Benötigt wird dies z.B. wenn man sich per serielle Schnittstelle auf einen Raspberry Pi Zero V1.3 verbinden möchte. Ihm fehlt es ja an einer LAN und WLAN Kommunikationsmöglichkeit.&lt;br&gt;
+Aber Achtung dieser Terminal ist nicht exakt gleich wie ein ssh-Terminal. Es werden z.B. keine Farben unterstützt.&lt;/p&gt;
+&lt;h2 id=&#34;hardware&#34;&gt;Hardware&lt;/h2&gt;
+&lt;h3 id=&#34;serielleruart-usb-adapter&#34;&gt;Serieller/UART USB-Adapter&lt;/h3&gt;
+&lt;p&gt;Wie man beim Software Werkzeug screen gesehen hat, ist eine serielle Verbindung zu manchen Geräten wie einem Raspberry Pi Zero V1.3 oder einem Microkontroller (z.B. ESP-01 oder Blue Pill) ganz nützlich.&lt;br&gt;
+Daher würde ich jeder Bastlerin und jedem Bastler empfehlen einen USB-TTL-Seriell Adapter bzw. &amp;quot;USB to TTL serial cable&amp;quot; in die Werkzeugkiste zu geben. Beispielweise einer mit dem Chipsatz CP2102. Optimalerweise arbeitet der USB-Adapter mit 3,3 V Signalspannung und kann direkt 3,3 V und 5 V Betriebsspannug bereitstellen. Wenn er dann auf Linux und Windows direkt unterstützt wird, ist alles perfekt.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/CP2102.jpg&#34; alt=&#34;USB TTL serieller Adapter mit Chipsatz CP2102&#34;&gt;&lt;/p&gt;
         
       </description>
     </item>

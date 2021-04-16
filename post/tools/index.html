@@ -173,7 +173,7 @@
 <h2 id="beschreibung">Beschreibung</h2>
 <p>Auch wenn es inzwischen viele verschiedene Einplatinencomputer gibt, so ist der Raspberry Pi doch sehr speziell. Der SoC und die enthaltene Grafikkarte ist kaum wo anders in Einsatz.
 Daher gibt es speziell an die Raspberry Pi und der GPU angepasste Werkzeuge. Die folgende List ist sicher nicht komplett aber einige Werkzeuge sind mir unter gekommen, die ich besonders gerne einsetze.</p>
-<h2 id="werkzeuge">Werkzeuge</h2>
+<h2 id="software">Software</h2>
 <h3 id="screenshot---raspi2png">Screenshot - raspi2png</h3>
 <p>Mit <a href="https://github.com/GrazerComputerClub/raspi2png">raspi2png</a> kann man Screenshots im PNG-Format erzeugen. Das besondere daran ist, dass es direkt mit der GPU der Raspberry Pi zusammenarbeitet.
 Dadurch kann es auch Screenshots erzeugen wo andere Programme wie z.B. <a href="https://wiki.ubuntuusers.de/Scrot/">scrot</a> nicht funktionieren. Das ist bei allen Programm der Fall die direkt in der GPU arbeiten. Videos abspielen und Minecraft Pi sind solche Anwendungen bei denen nur raspi2png funktioniert.<br>
@@ -192,15 +192,30 @@ Ausgehend von dieser Version haben ich auch einige Änderungen eingebraucht, die
 <p><img src="../../images/htop_Pi1.png" alt="htop Raspberry Pi 1"></p>
 <h3 id="sd-karten-schreiben---raspberry-pi-imager-und-usb-imager">SD Karten Schreiben - Raspberry Pi Imager und USB Imager</h3>
 <p>Lange Zeit hatte es keine sinnvolles Werkzeug zum Beschreiben einer SD-Karte unter Linux gegeben. Das Programm wird benötigt um ein Raspberry Pi Image bzw. Betriebssystem Image auf die SD-Karte zu bringen. Anfänglich musste man dd verwenden, das für Anfänger einfach zu viele Gefahren birgt. Danach kamm das Programm etcher, dass den Vorgang wesentlich sicherer und einfacher machte. Das Programm selbst ist aber etwas zwielichtig. Es ist riesig und muss als eigenständiges Programm heruntergeladen und ausgeführt werden.<br>
-Nun gibt es endlich das Programm Raspberry Pi Imager und USB Imager, dass diesen Dienst verrichtet und nur minimale Anforderungen stellt. Ich würde Raspberry Pi Imager empfehlen. Einfach deb-Packet herunterladen und mit <code>sudo apt install ./imager_1.6.1_amd64.deb</code> installieren.</p>
+Nun gibt es endlich das Programm Raspberry Pi Imager und USB Imager, dass diesen Dienst verrichtet und nur minimale Anforderungen stellt. Ich würde Raspberry Pi Imager empfehlen. Es bietet zusätzlich die Möglichkeit weitere Einstellungen für das Betriebssystem vorzunehmen. Dazu gehört z.B. die Aktivierung des SSH-Dienstes, inklusive einem Passwort für den Benutzer Pi. Dann können die Ländereinstellungen inkl. Tastaturlayout definiert werden. Auch ein WLAN Netzwerk kann für den ersten Start bereits parametriert werden. Zum Einstellungsfenster kommt man allerdings erst wenn man Strg+Shift+X drückt!<br>
+Das Programm unterstützt auch komprimierte Images mit der Extention gz, zip und xz.<br>
+Zur Installation kann man einfach das deb-Packet herunterladen und mit <code>sudo apt install ./imager_1.6.1_amd64.deb</code> installieren.</p>
 <p>Raspberry Pi Imager - <a href="https://www.raspberrypi.org/software/">https://www.raspberrypi.org/software/</a><br>
 <img src="../../images/Raspberry_Pi_Imager_v1.6.1.png" alt="Raspberry Pi Imager Dialog"></p>
+<p><img src="../../images/Raspberry_Pi_Imager_v1.6.1_Einstellungen.png" alt="Raspberry Pi Imager Einstellungsfenter Strg+Shift+X"></p>
 <p>USB Imager - <a href="https://gitlab.com/bztsrc/usbimager">https://gitlab.com/bztsrc/usbimager</a><br>
 <img src="../../images/USBImager_1.0.6.png" alt="USB Imager Dialog"></p>
 <h3 id="spi-lcd-tft-anzeige---fbcp-ili9341">SPI LCD-TFT Anzeige - fbcp-ili9341</h3>
 <p>Bei Kernel 4 konnte man noch einen SPI LCD-TFT Display über ein Kernel Modul ansprechen. Leider ist das mit Kernel 5 nun nicht mehr möglich. Zum Glück gibt es aber ein Programm mit dem verwirrenden Namen <a href="https://github.com/juj/fbcp-ili9341">fbcp-ili9341</a>. fbcp steht dabei für Framebuffer copy und ili9341 für den gleichnamigen SPI Display Controller. Das Programm kann also den Inhalt der Grafikkarte (Framebuffer) über den SPI-Bus auf das LCD-TFT Display übertragen. Das ganze läuft nun etwas langsamer als früher im Userspace, kann aber überzeugen.<br>
-Auch hierzu gibt es auf dem Blog des Grazer Computer Clubs den Beitrag <a href="https://blog.gc2.at/post/spi-tft-lcd-kernel5/">SPI TFT LCD - Kernel 5</a>. Im übrigen Unterstützt das Programm auch andere SPI Controller wie ST7735R und ST7789VW.</p>
+Auch hierzu gibt es auf dem Blog des Grazer Computer Clubs den Beitrag <a href="https://blog.gc2.at/post/spi-tft-lcd-kernel5/">SPI TFT LCD - Kernel 5</a>. Im übrigen Unterstützt das Programm auch andere SPI-Controller wie ST7735R und ST7789VW.</p>
 <p><img src="../../images/fbcp-ili9341.jpg" alt="fbcp-ili9341 sowie dispmanx_vnc im Einsatz"></p>
+<h3 id="serieller-terminal-client---screen">(Serieller) Terminal Client - screen</h3>
+<p>screen ist eigentlich ein Programm das mehrere Terminals verwalten kann. Es ist kein reines Werkzeug für den Raspberry Pi sondern ist praktisch auf allen Linux Systemen verfügbar.<br>
+Nicht so bekannt ist allerdings die Möglichkeit screen auch für serielle Terminals zu verwenden. Dazu muss man einfach die serielle Schnittstelle bzw. das Linux-Device als Parameter angeben. Beim Raspberry Pi ist das typischerweise <code>/dev/ttyAMA0</code> (sofern die serielle Schnittstelle aktiviert ist) und  <code>/dev/ttyUSB0</code> bei einem USB-Adapter.
+Optional kann man auch die Baudrate für die Verbindung mit angeben.</p>
+<p><code>screen /dev/ttyAMA0 115200</code></p>
+<p>Benötigt wird dies z.B. wenn man sich per serielle Schnittstelle auf einen Raspberry Pi Zero V1.3 verbinden möchte. Ihm fehlt es ja an einer LAN und WLAN Kommunikationsmöglichkeit.<br>
+Aber Achtung dieser Terminal ist nicht exakt gleich wie ein ssh-Terminal. Es werden z.B. keine Farben unterstützt.</p>
+<h2 id="hardware">Hardware</h2>
+<h3 id="serielleruart-usb-adapter">Serieller/UART USB-Adapter</h3>
+<p>Wie man beim Software Werkzeug screen gesehen hat, ist eine serielle Verbindung zu manchen Geräten wie einem Raspberry Pi Zero V1.3 oder einem Microkontroller (z.B. ESP-01 oder Blue Pill) ganz nützlich.<br>
+Daher würde ich jeder Bastlerin und jedem Bastler empfehlen einen USB-TTL-Seriell Adapter bzw. &quot;USB to TTL serial cable&quot; in die Werkzeugkiste zu geben. Beispielweise einer mit dem Chipsatz CP2102. Optimalerweise arbeitet der USB-Adapter mit 3,3 V Signalspannung und kann direkt 3,3 V und 5 V Betriebsspannug bereitstellen. Wenn er dann auf Linux und Windows direkt unterstützt wird, ist alles perfekt.</p>
+<p><img src="../../images/CP2102.jpg" alt="USB TTL serieller Adapter mit Chipsatz CP2102"></p>
     
       
     
