@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hardware on Blog</title>
+    <link>https://mstroh76.github.io/Blog/categories/hardware/</link>
+    <description>Recent content in Hardware on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2021, Martin Strohmayer</copyright>
+    <lastBuildDate>Sun, 09 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://mstroh76.github.io/Blog/categories/hardware/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenWRT Failsave / Widerherstellung</title>
+      <link>https://mstroh76.github.io/Blog/post/openwrt/</link>
+      <pubDate>Sun, 09 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://mstroh76.github.io/Blog/post/openwrt/</guid>
+      <description>
+        
+          &lt;p&gt;Wenn man sich auf einem OpenWrt Router sich selbst ausgesperrt hat, kann man mit dem Failsave-Modus Korrekturen vornehmen.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/OpenWRT_Wrong_Firewall_Setting.png&#34; alt=&#34;OpenWRT falsche Einstellung&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Eine kleine Unachtsamkeit bei den Einstellungen und schon kann man sich selbst aus dem Router aussperren. In dem Fall muss man in den Failsave-Modus des Routers gehen und die Einstellung zurücksetzen.&lt;/p&gt;
+&lt;h2 id=&#34;failsave-modus&#34;&gt;Failsave-Modus&lt;/h2&gt;
+&lt;p&gt;Nach dem Einschalten blinkt die Power LED langsam (ca. 2 Hz). In diesem Moment muss man eine Taste am Router gedrückt halten.
+Wenn der Failsave-Modus aktiviert wurde, blinkt die LED sehr schnell (10 Hz). Beim normalen Hochfahren blinkt sie etwas schneller als zuvor und wechselt später auf grün bzw. durchgängiges leuchten.&lt;/p&gt;
+&lt;p&gt;Der Router hat nun die fixe IP-Adresse 192.168.1.1 und der DHC-Server ist ausgeschaltet.  Man kann sich nur mit einer fixen IP-Adresse per LAN mit ihm verbinden.&lt;br&gt;
+In meinen Fall hab ich mir für einen USB-Ethernet Adapter entschieden um möglichst nichts an den bestehenden Einstellungen verändern zu müssen. Diesen Adapter habe die fixe IPv4 Adresse 192.168.1.10 zugewiesen.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/OpenWRT_USB-Ethernet.png&#34; alt=&#34;Netzwerkeinstellungen IPv4 192.168.0.1/255.255.255.0&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;fehler-korrigieren&#34;&gt;Fehler korrigieren&lt;/h2&gt;
+&lt;p&gt;Nun kann man sich per SSH-Client als Benutzer root ohne Passwort verbinden. Dann muss man das Dateisystem einbinden damit man Änderungen durchführen kann.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ssh root@192.168.1.1
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;mount_root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun kann man auf Konfigurationsdaten in /etc/config zugreifen.
+Wir müssen in diesem Fall die Firewall Einstellungen korrigieren. Dazu öffen wir die Datei &amp;quot;etc/config/firewall&amp;quot; mit vi.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;vi /etc/config/firewall
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;../../images/OpenWRT_Firewall.png&#34; alt=&#34;Firewall Einstellungen korrigieren&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Nach dem Speichern  bzw. ausführen der Korrekturen kann man den Router neu starten.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;reboot -f
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun sollte der Router wider erreichbar sein.&lt;/p&gt;
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

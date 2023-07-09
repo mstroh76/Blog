@@ -1,8 +1,8 @@
 
 <!DOCTYPE html>
-<html lang="de" data-figures="">
+<html lang="de" data-figures="" class="page">
   <head>
-<title>Series | Blog</title>
+<title>Mit PiBAN Festplatten löschen? | Blog</title>
 <meta charset="utf-8">
 <meta name="generator" content="Hugo 0.68.3" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -14,21 +14,18 @@
   gtag('js', new Date());
   gtag('config', 'XXXXXXXXXX');
 </script>
+  
 <meta property="og:locale" content="de" />
 
-<meta property="og:locale:alternate" content="en" />
-
-<meta property="og:locale:alternate" content="pt" />
-
 <meta property="og:type" content="article">
-<meta name="description" content="">
+<meta name="description" content="Hin und wieder möchte man Festplatten sicher löschen. Mit dem Projekt iBAN und einer Raspberry Pi könnte es gelingen - oder etwa nicht?">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@m_stroh">
-<meta name="twitter:title" content="Series" />
-<meta property="og:url" content="https://mstroh76.github.io/Blog/series/" />
-<meta property="og:title" content="Series" />
-<meta property="og:description" content="" />
-<meta property="og:image" content="https://mstroh76.github.io/Blog/images/thumbnail.png" />
+<meta name="twitter:title" content="Mit PiBAN Festplatten löschen?" />
+<meta property="og:url" content="https://mstroh76.github.io/Blog/post/piban/" />
+<meta property="og:title" content="Mit PiBAN Festplatten löschen?" />
+<meta property="og:description" content="Hin und wieder möchte man Festplatten sicher löschen. Mit dem Projekt iBAN und einer Raspberry Pi könnte es gelingen - oder etwa nicht?" />
+<meta property="og:image" content="https://mstroh76.github.io/Blog/images/PiBAN.jpg" />
 <link rel="apple-touch-icon" sizes="180x180" href='https://mstroh76.github.io/Blog/icons/apple-touch-icon.png'>
 <link rel="icon" type="image/png" sizes="32x32" href='https://mstroh76.github.io/Blog/icons/favicon-32x32.png'>
 <link rel="manifest" href='https://mstroh76.github.io/Blog/icons/site.webmanifest'>
@@ -36,8 +33,7 @@
 <meta name="msapplication-TileColor" content="#002538">
 <meta name="theme-color" content="#002538">
 
-<link rel="canonical" href="https://mstroh76.github.io/Blog/series/">
-<link rel="alternate" type="application/rss+xml" href="https://mstroh76.github.io/Blog/series/index.xml" title="Blog" />
+<link rel="canonical" href="https://mstroh76.github.io/Blog/post/piban/">
 
     
 
@@ -132,14 +128,122 @@
 </header>
 
     <main>
-
 <div class="grid-inverse wrap content">
-  <ul class="posts" id="posts">
-    <li>
+  <article class="post_content">
+    <h1 class="post_title">Mit PiBAN Festplatten löschen?</h1><div class="post_meta">
+  
+    <svg class="icon">
+  <use xlink:href="#calendar"></use>
+</svg>
+    <span class="post_date">
+      Jun 30, 2021</span>
+      <a href='https://mstroh76.github.io/Blog/tags/raspberry-pi' class="post_tag button button_translucent">Raspberry Pi
+      </a>
+</div>
 
+    
+  <div class="post_share">
+    Teilen:
+    <a href="https://twitter.com/intent/tweet?text=Mit%20PiBAN%20Festplatten%20l%c3%b6schen%3f&url=https%3a%2f%2fmstroh76.github.io%2fBlog%2fpost%2fpiban%2f&tw_p=tweetbutton" class="twitter" title="Teilen Twitter" target="_blank" rel="nofollow">
+      <svg class="icon">
+  <use xlink:href="#twitter"></use>
+</svg>
+    </a>
+    <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmstroh76.github.io%2fBlog%2fpost%2fpiban%2f&t=Mit%20PiBAN%20Festplatten%20l%c3%b6schen%3f" class="facebook" title="Teilen Facebook" target="_blank" rel="nofollow">
+      <svg class="icon">
+  <use xlink:href="#facebook"></use>
+</svg>
+    </a>
+    <a href="#linkedinshare" id = "linkedinshare" class="linkedin" title="Teilen LinkedIn" rel="nofollow">
+      <svg class="icon">
+  <use xlink:href="#linkedin"></use>
+</svg>
+    </a>
+    <a href="https://mstroh76.github.io/Blog/post/piban/" title="Copy Link" class="link link_yank">
+      <svg class="icon">
+  <use xlink:href="#copy"></use>
+</svg>
+    </a>
+  </div>
 
-    </li>
-  </ul>
+    
+    <p>Hin und wieder möchte man Festplatten sicher löschen. Mit dem Projekt iBAN und einer Raspberry Pi könnte es gelingen - oder etwa nicht?</p>
+<h2 id="beschreibung">Beschreibung</h2>
+<p>Öftmals liegt eine alte SATA-Festplatte herum und man würde sie ja gerne verkaufen oder verschenken. Aber es bleibt immer die Unsicherheit wegen der alten Daten. Kann man die vielleicht rekonstruieren? Dann vernichtet man die Platte doch lieber. Vielleicht wendet man sich sogar an eine offizielles Vernichtungsfirma. Dort kann man die Platte ja sogar mehrmals schreddern und den Rest dann gleich mitnehmen - Sicher ist Sicher (aber bitte bezahlen nicht vergessen). Nachzulesen auf <a href="https://de.wikipedia.org/wiki/Schredder-Aff%C3%A4re">https://de.wikipedia.org/wiki/Schredder-Aff%C3%A4re</a>  .<br>
+Wie gesagt, wenn man nicht ganz so hohe Standards hat, könnte ein sicheres Löschen auch ausreichen und die Hardware könnte weiterverwendet werden. Wichtig zu sagen ist, dass sich das Verfahren nur auf HDD anwenden lässt, nicht auf die modernen SSD-Festplatten!</p>
+<p>PiBAN ist eine Projekt das eine paar Scripts enthält. Wenn man diese Scripts auf einem Raspberry Pi mit Raspberry Pi OS installiert, hat man eine automatische Löschstation.
+Der Source liegt auf Github als Fork bei GC2 unter <a href="https://github.com/GrazerComputerClub/PiBAN">https://github.com/GrazerComputerClub/PiBAN</a> .</p>
+<p>Ehrlich gesagt finde ich das Projekt zu gefährlich für eine dezidierte Station. Steckt man da mal eine falsche Festplatte an, weil man das Projekt vielleicht vergessen hat oder was auch immer, würde die Platte schon gelöscht werden.
+Ich habe deshalb davon abgesehen das Projekt so um zu setzen.</p>
+<p>Die Installation kann man im Script 'install.sh' sehen. Es werden die Tools mit <code>apt install secure-delete nwipe</code> installiert. Das Script 'update.sh' richtet die automatischen USB Funktionen ein, damit bei Anschluss alles sofort gestartet wird.<br>
+Der eigentliche Schreddervorgang wird mit dem Script 'nuke.sh' gestartet. Dort ist wiederum nur die Zeile <code>shred -v --iterations=1 &quot;$1&quot;</code> die essentielle Funktion.
+Rund herum gibt es auch alternative Programmaufrufe zum sicheren Löschen mit nwipe. Wie dem Kommentar aber zu entnehmen ist, sind die sehr bis 'unmöglich' langsam.</p>
+<p>Das Programm &quot;shred&quot; scheint hier ein Kompromiss zwischen Sicherheit und Geschwindigkeit zu sein. Näheres zum Programm findet man auf <a href="https://wiki.ubuntuusers.de/shred/">https://wiki.ubuntuusers.de/shred/</a> .</p>
+<h2 id="eigene-löschstation-ohne-piban">Eigene Löschstation ohne PiBAN</h2>
+<p>Urspünglich wollte ich eine alte Raspberry Pi 1 für so eine Löschstation vorbereiten und zur Sicherheit den Vorgang nur über eine Taste und Display (4 Stellen Siebensegment) starten.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>sudo apt -y install secure-delete wiringpi pv
+</code></pre></div><p>/usr/local/bin/usbmount.sh:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ln"> 1</span><span class="cp">#!/usr/bin/env bash
+</span><span class="ln"> 2</span><span class="cp"></span><span class="nb">echo</span> <span class="s2">&#34;Detected new device: </span><span class="nv">$1</span><span class="s2">&#34;</span> &gt;&gt;/var/log/PiBAN.log
+<span class="ln"> 3</span><span class="nv">devname</span><span class="o">=</span><span class="k">$(</span>basename <span class="nv">$1</span><span class="k">)</span>
+<span class="ln"> 4</span><span class="nv">logname</span><span class="o">=</span>/tmp/<span class="nv">$devname</span>.log
+<span class="ln"> 5</span><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">ACTION</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;add&#34;</span> <span class="o">]</span>
+<span class="ln"> 6</span><span class="k">then</span>
+<span class="ln"> 7</span>    <span class="nb">echo</span> <span class="nv">$1</span> &gt; /dev/shm/hdd
+<span class="ln"> 8</span>    2display Hdd
+<span class="ln"> 9</span><span class="k">fi</span>
+<span class="ln">10</span>
+<span class="ln">11</span><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">ACTION</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;remove&#34;</span> <span class="o">]</span>
+<span class="ln">12</span><span class="k">then</span>
+<span class="ln">13</span>	/bin/rm /dev/shm/hdd
+<span class="ln">14</span>	2display noHd
+<span class="ln">15</span><span class="k">fi</span>
+</code></pre></div><p>/usr/local/bin/shred.sh (gestartet aus rc.local oder systemd):</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span># 1: status led 
+<span class="ln"> 2</span># 2: shred HDD if connected
+<span class="ln"> 3</span>gpio -g mode 2 in
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>echo shredstation started ... 
+<span class="ln"> 6</span>2display idle
+<span class="ln"> 7</span>while true; do
+<span class="ln"> 8</span>	GPIO=`gpio -g read 2`
+<span class="ln"> 9</span>	if [ $GPIO = 0 ]; then
+<span class="ln">10</span>		HDD=`cat /dev/shm/hdd` 
+<span class="ln">11</span>		echo found $HDD
+<span class="ln">12</span>		if [ ! -z &#34;$HDD&#34; ] ; then
+<span class="ln">13</span>			2display shrd
+<span class="ln">14</span>			shred -v -z -n 1 $HDD &gt; /var/log/shred.log 2&gt;&amp;1
+<span class="ln">15</span>			2display done
+<span class="ln">16</span>		fi
+<span class="ln">17</span>	fi
+<span class="ln">18</span>	sleep 1
+<span class="ln">19</span>done
+</code></pre></div><p>/etc/udev/rules.d/usbmount.rules:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>ACTION==&#34;add&#34;, KERNEL==&#34;sd*[!0-9]&#34;, SUBSYSTEM==&#34;block&#34;, RUN+=&#34;/usr/local/bin/usbmount.sh %N&#34;
+<span class="ln">2</span>ACTION==&#34;remove&#34;, KERNEL==&#34;sd*[!0-9]&#34;, SUBSYSTEM==&#34;block&#34;, RUN+=&#34;/usr/local/bin/usbmount.sh %N&#34;
+</code></pre></div><p>Scripts aktivieren:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>udevadm control --reload-rules &amp;&amp; udevadm trigger
+<span class="ln">2</span>sudo udevadm control --reload-rules
+</code></pre></div><p>Leider ist es mir nicht gelungen den Prozentforschritt am Display anzuzeigen. Das Tool pv war nicht in der Lage den Output von shred korrekt auszuwerten <code>sudo shred -n 1 -v /dev/sda | pv -n | 2display</code> hat leider nicht funktioniert.</p>
+<h2 id="schreddern-und-analyse">Schreddern und Analyse</h2>
+<p>Prinzipiell eine gute Idee aber dann habe ich Performance Tests gemacht und analysiert wie lange so eine Löschung nun wirklich dauert. Denn eins habe ich nicht bedacht, die Löschung hängt von der USB Geschwindigkeit ab. Die ist bekanntlich bei allen Raspberry Pis bis 3+ auf USB 2.0 mit max. 30 MB/s begrenzt. Nimmt man nun den Raspberry Pi 4 mit der USB 3.0 Schnittstelle, so erreicht er bis zu 100 MB/s also ca. 3-4 mal mehr.<br>
+Als Festplatte verwendete ich eine 3 TB SATA-Platte mit einer USB 3.0 Docking Station mit externer Stromversorgung.</p>
+<p>Schreddern, ein Durchgang:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>sudo shred -n 1 -z -v /dev/sda 
+</code></pre></div><p>Nur mit Nullen beschreiben:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>shred -n 0 -z -v /dev/sda
+</code></pre></div><p>Schreddern und dann mit Nullen beschreiben:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>sudo shred -n 1 -z -v /dev/sda 
+</code></pre></div><p>Das Schreddern dauerte mit dem Pi 1 (800 MHz) ca. 49 Stunden, also etwas mehr als 2 Tage. Mit dem Pi 4 dauerte es hingegen nur 11 Stunden, also rund einen halben Tag. Damit erreichte der Pi 1 ca. 17 MB/s und der Pi 4 ca. 78 MB/s.<br>
+Das Nullsetzen der Platte dauerte mit dem Pi 1 ca. 44 Stunden und beim Pi 4 ca. 9 Stunden. Damit erreichte der Pi 1 ca. 19 MB/s und der Pi 4 ca. 95 MB/s.<br>
+Zusammen würde als der Vorgang mit dem Pi 1 93 Stunden dauern, das sind dann fast 4 Tage!<br>
+Beim Pi 4 wäre die 3 TB Festplatte nach 20 Stunden gelöscht.</p>
+<p><strong>Alles in allem macht eine Station für mich wenig Sinn, wenn nur einen 'edler' Pi 4 diese Aufgabe in akzeptabler Zeit erledigen kann. Damit macht das ganze PiBAN Projekt wenig Sinn und reduziert sich auf das Linux-Tool &quot;shred&quot;.</strong><br>
+Also stecke ich die Platte einfach an meinen Pi 4 an und starten die Löschung manuell. Für die wenige male die ich so eine Aufgabe benötige. Nachdem das alles schon so lange gedauert hat, habe ich mir den Test mit &quot;nwipe&quot; im übrigen erspart.</p>
+    
+      
+    
+  </article>
 <aside class="sidebar">
   <section class="sidebar_inner">
     
@@ -152,9 +256,6 @@
     <ul>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/openwrt/" class="nav-link">OpenWRT Failsave / Widerherstellung</a>
-      </li>
-      <li>
-        <a href="https://mstroh76.github.io/Blog/post/piban/" class="nav-link">Mit PiBAN Festplatten löschen?</a>
       </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/ansible/" class="nav-link">Raspberry Pis verwalten mit Ansible</a>
@@ -179,9 +280,6 @@
     <ul class="flex-column">
       <li>
         <a href="https://mstroh76.github.io/Blog/post/openwrt/" class="nav-link">OpenWRT Failsave / Widerherstellung</a>
-      </li>
-      <li>
-        <a href="https://mstroh76.github.io/Blog/post/piban/" class="nav-link">Mit PiBAN Festplatten löschen?</a>
       </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/ansible/" class="nav-link">Raspberry Pis verwalten mit Ansible</a>
@@ -273,8 +371,6 @@
 </aside>
 
 </div>
-
-
     </main><svg width="0" height="0" class="hidden">
   <symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="facebook">
     <path d="M437 0H75C33.648 0 0 33.648 0 75v362c0 41.352 33.648 75 75 75h151V331h-60v-90h60v-61c0-49.629 40.371-90 90-90h91v90h-91v61h91l-15 90h-76v181h121c41.352 0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zm0 0"></path>

@@ -191,13 +191,13 @@ Auch hierzu gibt es auf dem Blog des Grazer Computer Clubs den Beitrag <a href="
 Ausgehend von dieser Version haben ich auch einige Änderungen eingebraucht, die vorallem die Farben für die Anzeige der CPU-Temperatur und CPU-Frequenz anpassen soll. Inwieweit diese Änderungen auch in einer Version 3 enthalten sind, bzw. übernehmbar wären, ist mir nicht bekannt. Aktuell wird bei Raspberry Pi OS aber die alte Version 2 eingesetzt und so kann ein Update auf die Version vom Grazer Computer Club einen Mehrwert bringen. Sie ist unter <a href="https://github.com/GrazerComputerClub/htop">https://github.com/GrazerComputerClub/htop</a> verfügbar. Im übrigen kann man die neuen Anzeigen mit der Taste F2 hinzufügen!</p>
 <p><img src="../../images/htop_Pi1.png" alt="htop Raspberry Pi 1"></p>
 <h3 id="sd-karten-schreiben---raspberry-pi-imager-und-usb-imager">SD Karten Schreiben - Raspberry Pi Imager und USB Imager</h3>
-<p>Lange Zeit hatte es keine sinnvolles Werkzeug zum Beschreiben einer SD-Karte unter Linux gegeben. Das Programm wird benötigt um ein Raspberry Pi Image bzw. Betriebssystem Image auf die SD-Karte zu bringen. Anfänglich musste man dd verwenden, das für Anfänger einfach zu viele Gefahren birgt. Danach kamm das Programm etcher, dass den Vorgang wesentlich sicherer und einfacher machte. Das Programm selbst ist aber etwas zwielichtig. Es ist riesig und muss als eigenständiges Programm heruntergeladen und ausgeführt werden.<br>
-Nun gibt es endlich das Programm Raspberry Pi Imager und USB Imager, dass diesen Dienst verrichtet und nur minimale Anforderungen stellt. Ich würde Raspberry Pi Imager empfehlen. Es bietet zusätzlich die Möglichkeit weitere Einstellungen für das Betriebssystem vorzunehmen. Dazu gehört z.B. die Aktivierung des SSH-Dienstes, inklusive einem Passwort für den Benutzer Pi. Dann können die Ländereinstellungen inkl. Tastaturlayout definiert werden. Auch ein WLAN Netzwerk kann für den ersten Start bereits parametriert werden. Zum Einstellungsfenster kommt man allerdings erst wenn man Strg+Shift+X drückt!<br>
-Das Programm unterstützt auch komprimierte Images mit der Extention gz, zip und xz.<br>
-Zur Installation kann man einfach das deb-Packet herunterladen und mit <code>sudo apt install ./imager_1.6.1_amd64.deb</code> installieren.</p>
+<p>Lange Zeit hatte es keine sinnvolles Werkzeug zum Beschreiben einer SD-Karte unter Linux gegeben. Das Programm wird benötigt um ein Raspberry Pi Image bzw. Betriebssystem Image auf die SD-Karte zu bringen. Anfänglich musste man dd verwenden, das für Anfänger einfach zu viele Gefahren birgt. Danach kamm das Programm etcher, dass den Vorgang wesentlich sicherer und einfacher machte. Das Programm selbst ist aber etwas zwielichtig. Es ist riesig (&gt; 100 MB) und muss als eigenständiges Programm heruntergeladen und ausgeführt werden.<br>
+Nun gibt es endlich das Programm Raspberry Pi Imager und USB Imager, dass diesen Dienst verrichtet und nur minimale Anforderungen stellt. Ich würde Raspberry Pi Imager empfehlen. Es bietet zusätzlich die Möglichkeit weitere Einstellungen für das Betriebssystem vorzunehmen. Dazu gehört z.B. die Aktivierung des SSH-Dienstes, inklusive einem Passwort für den Benutzer Pi. Dann können die Ländereinstellungen inkl. Tastaturlayout definiert werden. Auch ein WLAN Netzwerk kann für den ersten Start bereits parametriert werden. Früher musste man um zum Einstellungsfenster zu kommen erst Strg+Shift+X drücken. Ab der Version 1.7 gibt es eine leicht ersichliche Schaltfläche mit einem Zahnrad.<br>
+Das Programm unterstützt auch komprimierte Images mit der Extention gz, zip, xz und zst.<br>
+Zur Installation kann man einfach das deb-Paket herunterladen und mit <code>sudo apt install ./imager_1.7.1_amd64.deb</code> installieren.</p>
 <p>Raspberry Pi Imager - <a href="https://www.raspberrypi.org/software/">https://www.raspberrypi.org/software/</a><br>
-<img src="../../images/Raspberry_Pi_Imager_v1.6.1.png" alt="Raspberry Pi Imager Dialog"></p>
-<p><img src="../../images/Raspberry_Pi_Imager_v1.6.1_Einstellungen.png" alt="Raspberry Pi Imager Einstellungsfenter Strg+Shift+X"></p>
+<img src="../../images/Raspberry_Pi_Imager_v1.7.1.png" alt="Raspberry Pi Imager Dialog"></p>
+<p><img src="../../images/Raspberry_Pi_Imager_v1.7.1_Einstellungen.png" alt="Raspberry Pi Imager Einstellungsfenter Strg+Shift+X"></p>
 <p>USB Imager - <a href="https://gitlab.com/bztsrc/usbimager">https://gitlab.com/bztsrc/usbimager</a><br>
 <img src="../../images/USBImager_1.0.6.png" alt="USB Imager Dialog"></p>
 <h3 id="spi-lcd-tft-anzeige---fbcp-ili9341">SPI LCD-TFT Anzeige - fbcp-ili9341</h3>
@@ -231,6 +231,15 @@ Daher würde ich jeder Bastlerin und jedem Bastler empfehlen einen USB-TTL-Serie
     <h2 class="mt-4">Empfohlene Artikel</h2>
     <ul>
       <li>
+        <a href="https://mstroh76.github.io/Blog/post/openwrt/" class="nav-link">OpenWRT Failsave / Widerherstellung</a>
+      </li>
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/piban/" class="nav-link">Mit PiBAN Festplatten löschen?</a>
+      </li>
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/ansible/" class="nav-link">Raspberry Pis verwalten mit Ansible</a>
+      </li>
+      <li>
         <a href="https://mstroh76.github.io/Blog/post/pi400/" class="nav-link">Raspberry Pi 400 - Review</a>
       </li>
       <li>
@@ -245,6 +254,15 @@ Daher würde ich jeder Bastlerin und jedem Bastler empfehlen einen USB-TTL-Serie
     </ul>
     <h2 class="mt-4">Neueste Artikel</h2>
     <ul class="flex-column">
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/openwrt/" class="nav-link">OpenWRT Failsave / Widerherstellung</a>
+      </li>
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/piban/" class="nav-link">Mit PiBAN Festplatten löschen?</a>
+      </li>
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/ansible/" class="nav-link">Raspberry Pis verwalten mit Ansible</a>
+      </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/pi400/" class="nav-link">Raspberry Pi 400 - Review</a>
       </li>
@@ -263,7 +281,7 @@ Daher würde ich jeder Bastlerin und jedem Bastler empfehlen einen USB-TTL-Serie
       <nav class="tags_nav">
         <a href='https://mstroh76.github.io/Blog/categories/raspberry-pi/' class="post_tag button button_translucent">
           RASPBERRY-PI
-          <span class="button_tally">2</span>
+          <span class="button_tally">4</span>
         </a>
         
         <a href='https://mstroh76.github.io/Blog/categories/web/' class="post_tag button button_translucent">
@@ -276,6 +294,11 @@ Daher würde ich jeder Bastlerin und jedem Bastler empfehlen einen USB-TTL-Serie
           <span class="button_tally">1</span>
         </a>
         
+        <a href='https://mstroh76.github.io/Blog/categories/hardware/' class="post_tag button button_translucent">
+          HARDWARE
+          <span class="button_tally">1</span>
+        </a>
+        
         
       </nav>
     </div>
@@ -284,7 +307,7 @@ Daher würde ich jeder Bastlerin und jedem Bastler empfehlen einen USB-TTL-Serie
       <nav class="tags_nav">
         <a href='https://mstroh76.github.io/Blog/tags/raspberry-pi/' class="post_tag button button_translucent">
           RASPBERRY-PI
-          <span class="button_tally">3</span>
+          <span class="button_tally">5</span>
         </a>
         
         <a href='https://mstroh76.github.io/Blog/tags/hugo/' class="post_tag button button_translucent">
@@ -304,6 +327,11 @@ Daher würde ich jeder Bastlerin und jedem Bastler empfehlen einen USB-TTL-Serie
         
         <a href='https://mstroh76.github.io/Blog/tags/mikrocontroller/' class="post_tag button button_translucent">
           MIKROCONTROLLER
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/openwrt/' class="post_tag button button_translucent">
+          OPENWRT
           <span class="button_tally">1</span>
         </a>
         
