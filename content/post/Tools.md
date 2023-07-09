@@ -54,16 +54,16 @@ Ausgehend von dieser Version haben ich auch einige Änderungen eingebraucht, die
 
 ### SD Karten Schreiben - Raspberry Pi Imager und USB Imager
 
-Lange Zeit hatte es keine sinnvolles Werkzeug zum Beschreiben einer SD-Karte unter Linux gegeben. Das Programm wird benötigt um ein Raspberry Pi Image bzw. Betriebssystem Image auf die SD-Karte zu bringen. Anfänglich musste man dd verwenden, das für Anfänger einfach zu viele Gefahren birgt. Danach kamm das Programm etcher, dass den Vorgang wesentlich sicherer und einfacher machte. Das Programm selbst ist aber etwas zwielichtig. Es ist riesig und muss als eigenständiges Programm heruntergeladen und ausgeführt werden.  
-Nun gibt es endlich das Programm Raspberry Pi Imager und USB Imager, dass diesen Dienst verrichtet und nur minimale Anforderungen stellt. Ich würde Raspberry Pi Imager empfehlen. Es bietet zusätzlich die Möglichkeit weitere Einstellungen für das Betriebssystem vorzunehmen. Dazu gehört z.B. die Aktivierung des SSH-Dienstes, inklusive einem Passwort für den Benutzer Pi. Dann können die Ländereinstellungen inkl. Tastaturlayout definiert werden. Auch ein WLAN Netzwerk kann für den ersten Start bereits parametriert werden. Zum Einstellungsfenster kommt man allerdings erst wenn man Strg+Shift+X drückt!  
-Das Programm unterstützt auch komprimierte Images mit der Extention gz, zip und xz.  
-Zur Installation kann man einfach das deb-Packet herunterladen und mit ``sudo apt install ./imager_1.6.1_amd64.deb`` installieren.
+Lange Zeit hatte es keine sinnvolles Werkzeug zum Beschreiben einer SD-Karte unter Linux gegeben. Das Programm wird benötigt um ein Raspberry Pi Image bzw. Betriebssystem Image auf die SD-Karte zu bringen. Anfänglich musste man dd verwenden, das für Anfänger einfach zu viele Gefahren birgt. Danach kamm das Programm etcher, dass den Vorgang wesentlich sicherer und einfacher machte. Das Programm selbst ist aber etwas zwielichtig. Es ist riesig (> 100 MB) und muss als eigenständiges Programm heruntergeladen und ausgeführt werden.  
+Nun gibt es endlich das Programm Raspberry Pi Imager und USB Imager, dass diesen Dienst verrichtet und nur minimale Anforderungen stellt. Ich würde Raspberry Pi Imager empfehlen. Es bietet zusätzlich die Möglichkeit weitere Einstellungen für das Betriebssystem vorzunehmen. Dazu gehört z.B. die Aktivierung des SSH-Dienstes, inklusive einem Passwort für den Benutzer Pi. Dann können die Ländereinstellungen inkl. Tastaturlayout definiert werden. Auch ein WLAN Netzwerk kann für den ersten Start bereits parametriert werden. Früher musste man um zum Einstellungsfenster zu kommen erst Strg+Shift+X drücken. Ab der Version 1.7 gibt es eine leicht ersichliche Schaltfläche mit einem Zahnrad.  
+Das Programm unterstützt auch komprimierte Images mit der Extention gz, zip, xz und zst.  
+Zur Installation kann man einfach das deb-Paket herunterladen und mit ``sudo apt install ./imager_1.7.1_amd64.deb`` installieren.
 
   
 Raspberry Pi Imager - https://www.raspberrypi.org/software/  
-![Raspberry Pi Imager Dialog](../../images/Raspberry_Pi_Imager_v1.6.1.png)
+![Raspberry Pi Imager Dialog](../../images/Raspberry_Pi_Imager_v1.7.1.png)
 
-![Raspberry Pi Imager Einstellungsfenter Strg+Shift+X](../../images/Raspberry_Pi_Imager_v1.6.1_Einstellungen.png)
+![Raspberry Pi Imager Einstellungsfenter Strg+Shift+X](../../images/Raspberry_Pi_Imager_v1.7.1_Einstellungen.png)
 
 USB Imager - https://gitlab.com/bztsrc/usbimager  
 ![USB Imager Dialog](../../images/USBImager_1.0.6.png)
