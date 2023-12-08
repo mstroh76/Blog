@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Video on Blog</title>
+    <link>https://mstroh76.github.io/Blog/tags/video/</link>
+    <description>Recent content in Video on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2021, Martin Strohmayer</copyright>
+    <lastBuildDate>Mon, 02 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://mstroh76.github.io/Blog/tags/video/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>H264 CPU Hardware Encoding mit Linux</title>
+      <link>https://mstroh76.github.io/Blog/post/ffmpeg_h264/</link>
+      <pubDate>Mon, 02 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://mstroh76.github.io/Blog/post/ffmpeg_h264/</guid>
+      <description>
+        
+          &lt;p&gt;Inzwischen unterstützen verschiedene CPUs die Kodierung von Videos mittels Hardware Encoder. Wie geht das unter Linux und wie schnell läuft es eigentlich?&lt;/p&gt;
+&lt;p&gt;Inzwischen unterschützen verschiedene CPUs die Kodierung von Videos mittels Hardware Endoder. Ich interessiere mich vor allem für den H264 Encoder um Videos bis Full-HD von MPEG nach H264 zu konvertieren. Welche Geschwindikeit ist von CPU vs CPU Encoder (HW) zu erwarten.&lt;/p&gt;
+&lt;h1 id=&#34;intel-cpu&#34;&gt;Intel CPU&lt;/h1&gt;
+&lt;p&gt;Intel Prozessoren unterstützen schon sehr lange die Hardware-Encoderung von Videos. Der Name dieser Erweiterung ist Intel &amp;quot;Quick Sync Video&amp;quot; und ist Teil der Intel GPU im Prozessor.
+F Prozessoren bzw. Prozessoren ohne Grafikeinheit haben diese Erweiterung nicht!&lt;br&gt;
+Als Konvertierungsprogramm kommt unter Linux ffmpeg zum Einsatz. Auf der Projektseite gibt es eine umfangreiche Tabelle mit unterstützten Features aller Intel Prozessorgenerationen.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://trac.ffmpeg.org/wiki/Hardware/QuickSync&#34;&gt;https://trac.ffmpeg.org/wiki/Hardware/QuickSync&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Der H264 Encoder wird bereits ab Sandy Bridge Prozessoren (also 2.Generation) unterstützt.
+Ich habe einen Laptop mit einem U4600 Haswell Prozessor (4. Generation). Dann hab ich noch einen ThinClient mit einem N3700 Braswell Prozessor. Beide sollten die Aufgabe beweltigen können.
+Der U4600 Prozessor läuft mit Linux Mint 20.3 Una. Der N3700 Prozessor mit Debian 12 Bookworm.&lt;/p&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+&lt;p&gt;Zusätzlich zum ffmpeg Programm wird noch der VAAPI Treiber benötigt.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo apt install vainfo ffmpeg va-driver-all
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nach der Installation kann man sich die VAAPI Iformationen mit vainfo ansehen.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;vainfo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;U4600(Haswell/Gen7.5) - Linux Mint 20.3 Una:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;libva info: VA-API version 1.7.0
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;libva info: Found init function __vaDriverInit_1_7
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;libva error: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so init failed
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;libva info: va_openDriver() returns 1
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/i965_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;libva info: Found init function __vaDriverInit_1_6
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;libva info: va_openDriver() returns 0
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;vainfo: VA-API version: 1.7 (libva 2.6.0)
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;vainfo: Driver version: Intel i965 driver for Intel(R) Haswell Mobile - 2.4.0
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;vainfo: Supported profile and entrypoints
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;      VAProfileH264High               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;      VAProfileH264High               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;      VAProfileH264MultiviewHigh      :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;24&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;25&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;26&lt;/span&gt;      VAProfileVC1Simple              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;27&lt;/span&gt;      VAProfileVC1Main                :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;28&lt;/span&gt;      VAProfileVC1Advanced            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;29&lt;/span&gt;      VAProfileNone                   :	VAEntrypointVideoProc
+&lt;span class=&#34;ln&#34;&gt;30&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointVLD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;N3700(Braswell/Gen8) - Debian 12 Bookworm:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;libva info: VA-API version 1.17.0
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;libva info: Found init function __vaDriverInit_1_17
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;libva error: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so init failed
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;libva info: va_openDriver() returns 1
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/i965_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;libva info: Found init function __vaDriverInit_1_8
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;libva info: va_openDriver() returns 0
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;vainfo: VA-API version: 1.17 (libva 2.12.0)
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;vainfo: Driver version: Intel i965 driver for Intel(R) CherryView - 2.4.1
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;vainfo: Supported profile and entrypoints
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;      VAProfileH264High               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;      VAProfileH264High               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;24&lt;/span&gt;      VAProfileVC1Simple              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;25&lt;/span&gt;      VAProfileVC1Main                :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;26&lt;/span&gt;      VAProfileVC1Advanced            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;27&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;28&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointEncPicture
+&lt;span class=&#34;ln&#34;&gt;29&lt;/span&gt;      VAProfileVP8Version0_3          :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;30&lt;/span&gt;      VAProfileHEVCMain               :	VAEntrypointVLD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Leider meldet der N3700 eine Fehler beim Aufruf mit ffmpeg.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt; ffmpeg: i965_encoder.c:1692: intel_enc_hw_context_init: Assertion `encoder_context-&amp;gt;mfc_context&amp;#39; failed.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dann habe ich die non-free Pakete in /etc/apt/sources.list hinzugefügt.
+Nach einem &amp;quot;apt update&amp;quot;, kann man die VAAPI non-free Treiber hinzugfügen.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo apt update
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;sudo apt install intel-media-va-driver-non-free i965-va-driver-shaders
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;vainfo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;libva info: VA-API version 1.17.0
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;libva info: Found init function __vaDriverInit_1_17
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;libva error: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so init failed
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;libva info: va_openDriver() returns 1
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/i965_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;libva info: Found init function __vaDriverInit_1_8
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;libva info: va_openDriver() returns 0
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;vainfo: VA-API version: 1.17 (libva 2.12.0)
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;vainfo: Driver version: Intel i965 driver for Intel(R) CherryView - 2.4.1
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;vainfo: Supported profile and entrypoints
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;      VAProfileH264High               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;      VAProfileH264High               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;      VAProfilSH264MultiviewHigh      :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;24&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;25&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;26&lt;/span&gt;      VAProfileVC1Simple              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;27&lt;/span&gt;      VAProfileVC1Main                :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;28&lt;/span&gt;      VAProfileVC1Advanced            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;29&lt;/span&gt;      VAProfileNone                   :	VAEntrypointVideoProc
+&lt;span class=&#34;ln&#34;&gt;30&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;31&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointEncPicture
+&lt;span class=&#34;ln&#34;&gt;32&lt;/span&gt;      VAProfileVP8Version0_3          :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;33&lt;/span&gt;      VAProfileVP8Version0_3          :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;34&lt;/span&gt;      VAProfileHEVCMain               :	VAEntrypointVLD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Danch sind die Einträge &amp;quot;VAProfileH264MultiviewHigh: VAEntrypointEncSlice&amp;quot; und &amp;quot;VAProfileH264StereoHigh : VAEntrypointEncSlice&amp;quot; hinzugekommen.&lt;/p&gt;
+&lt;h2 id=&#34;konvertierung&#34;&gt;Konvertierung&lt;/h2&gt;
+&lt;p&gt;Beim Aufruf der Konvertierung  mit ffmpeg, muss nun der richtige Hardwareencoder angegeben werden. Das erfolgt mit dem Parameter -c:v gefolgt von Namen des Encoders.
+Bei Intel ist es &lt;strong&gt;h264_vaapi&lt;/strong&gt;. Beim Rapsberry Pi 4 ist es &lt;strong&gt;h264_v4l2m2m&lt;/strong&gt;.&lt;br&gt;
+Bei Intel muss man auch den Pfad zum VAAPI-Device angeben (/dev/dri/renderD128).
+Der Input Video im Beispiel ist eine MPEG2-AVI Datei aus einer Fernsehaufzeichnung, sie muss ebenfalls angegeben werden. Das Ziel ist eine mp4-Datei.&lt;br&gt;
+Wenn keine Qualitätseintstellungen angegeben werden, wird die Defaulteinstellung genommen. Je nach Encoder sollte man aber eine Datenrate oder Qualität dafür definieren.&lt;/p&gt;
+&lt;p&gt;Intel (Default Q20):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;time ffmpeg -hwaccel vaapi -hwaccel_output_format vaapi -hwaccel_device /dev/dri/renderD128 -i input.avi -c:v h264_vaapi output.mp4
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;time ffmpeg -hwaccel vaapi -hwaccel_output_format vaapi -vaapi_device /dev/dri/renderD128 -i input.avi -codec:v h264_vaapi output.mp4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Raspberry Pi (Average bitrate):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;time sudo ffmpeg -i input.avi -c:v h264_v4l2m2m -b:v 2048k output.mp4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;ergebnis&#34;&gt;Ergebnis&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Prozessor&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Speed&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Dauer&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Dateigröße (kiB)&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Datenrate/Qualität&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Intel U4600&lt;/td&gt;
+&lt;td&gt;x2,4&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Intel U4600 HW&lt;/td&gt;
+&lt;td&gt;x15&lt;/td&gt;
+&lt;td&gt;3m7s&lt;/td&gt;
+&lt;td&gt;760.882 kiB&lt;/td&gt;
+&lt;td&gt;Default: Q20&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Intel N3700&lt;/td&gt;
+&lt;td&gt;x1,3&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Intel N3700 HW&lt;/td&gt;
+&lt;td&gt;x2,6&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Pi 4&lt;/td&gt;
+&lt;td&gt;x1,2&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Pi 4 HW&lt;/td&gt;
+&lt;td&gt;x7,3&lt;/td&gt;
+&lt;td&gt;6m25s&lt;/td&gt;
+&lt;td&gt;104.191 kiB&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Pi 4 HW&lt;/td&gt;
+&lt;td&gt;x7,3&lt;/td&gt;
+&lt;td&gt;6m32s&lt;/td&gt;
+&lt;td&gt;639.202 kiB&lt;/td&gt;
+&lt;td&gt;-b:v 2048k&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Der Geschwindigkeits zwischen  Software und Hardwareencoder ist enorm. Bei Intel von 2,4-fache auf &lt;strong&gt;15-fache&lt;/strong&gt;. Damit wird das 45 Minuten Video in nur 3 Minuten konvertiert.
+Am langsamen N3700 Prozessor ist die Leistung des Hardwareencoders sehr gering und es wird nur eine Verdopplung geschafft. Besser als nichts, aber im Vergleich zu richtigen Mobil Prozessor viel zu langsam.&lt;br&gt;
+Überraschend schnell ist auch der Raspberry Pi 4 der in weniger als 7 Minuten das Video konvertiert. Er ist zwar langsamer als Intel U4600 aber weit schneller als der vergleichbare Intel N3700 Prozessor.&lt;/p&gt;
+&lt;p&gt;Nach dem CPU-Vergleich habe ich mir aber auch eine nVidia GPU unter Windows mit der Software Handbrake angesehen. Die konnte das Video noch schneller konvertieren als der Intel Prozessor!
+Wobei das Programm die Hardwarekodierung mit meiner Desktop Skylake Intel CPU nicht beherrschte.&lt;/p&gt;
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

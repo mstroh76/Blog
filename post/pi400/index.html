@@ -4,7 +4,7 @@
   <head>
 <title>Raspberry Pi 400 - Review | Blog</title>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.92.2" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <script async src="https://www.googletagmanager.com/gtag/js?id=XXXXXXXXXX"></script>
@@ -40,8 +40,8 @@
     
     
     <link rel="preload" href="https://mstroh76.github.io/Blog/css/styles.37cea41fe2c1b43e2a17095e01eb999e8701c9f0ba06d4df0a9db514a215e26dfbdb8a606a36c9d3b54bb1c09fd4a9ce41ee8f6788a8c6b17067830f34396135.css" integrity = "sha512-N86kH&#43;LBtD4qFwleAeuZnocByfC6BtTfCp21FKIV4m3724pgajbJ07VLscCf1KnOQe6PZ4ioxrFwZ4MPNDlhNQ==" as="style" crossorigin="anonymous">
-    <link rel="preload" href="https://mstroh76.github.io/Blog/js/bundle.min.541d24e20123eb62c95c9d42fe5345fd3269dad029c746689f1f9c0014170baaeff357d09c847e5a975fcdc8ce2c7a3f0ce035e38fd3e4d960fd86343654065e.js" as="script" integrity=
-    "sha512-VB0k4gEj62LJXJ1C/lNF/TJp2tApx0Zonx&#43;cABQXC6rv81fQnIR&#43;WpdfzcjOLHo/DOA144/T5Nlg/YY0NlQGXg==" crossorigin="anonymous">
+    <link rel="preload" href="https://mstroh76.github.io/Blog/js/bundle.min.09c46cbb85256d417bf4eaeacfac3a93becc289c1da73104e027ed778b1b1fb55e5f055957fe9bc2174e9d79da1c8374b5db91ce039116f2c10e1f9f855a980f.js" as="script" integrity=
+    "sha512-CcRsu4UlbUF79Orqz6w6k77MKJwdpzEE4Cftd4sbH7VeXwVZV/6bwhdOnXnaHIN0tduRzgORFvLBDh&#43;fhVqYDw==" crossorigin="anonymous">
 
     
     <link rel="stylesheet" type="text/css" href="https://mstroh76.github.io/Blog/css/styles.37cea41fe2c1b43e2a17095e01eb999e8701c9f0ba06d4df0a9db514a215e26dfbdb8a606a36c9d3b54bb1c09fd4a9ce41ee8f6788a8c6b17067830f34396135.css" integrity="sha512-N86kH&#43;LBtD4qFwleAeuZnocByfC6BtTfCp21FKIV4m3724pgajbJ07VLscCf1KnOQe6PZ4ioxrFwZ4MPNDlhNQ==" crossorigin="anonymous">
@@ -284,7 +284,7 @@ Schaut man sich aber die Werte der Samsung 840 Pro SSD am USB an, so spielt dies
 <p><strong>Pi 4 overclocked:</strong></p>
 <p>Den Raspberry Pi 4 kann man durch eine Spannungserhöhung mit Faktor 3 (0,075 V) auch stabil auf 1,8 GHz betrieben. Dann läuft er mit <strong>0.9563 V</strong> und damit etwas höher (~0,04 V) als die CPU vom Pi 400.</p>
 <p>config.txt:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>#uncomment to overlock the arm. 1800 MHz is the default.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>#uncomment to overlock the arm. 1800 MHz is the default.
 <span class="ln">2</span>over_voltage=3
 <span class="ln">3</span>arm_freq=1800
 </code></pre></div><p>Mehr zum Thema Übertakten des Raspberry Pi 4 kannst du bei <a href="https://magpi.raspberrypi.org/articles/how-to-overclock-raspberry-pi-4">How to overclock Raspberry Pi 4</a> finden.</p>
@@ -294,7 +294,7 @@ Schaut man sich aber die Werte der Samsung 840 Pro SSD am USB an, so spielt dies
 <h3 id="wiringpi-library">WiringPi Library</h3>
 <p>Die WiringPi Library ist eine weit verbreitete C-Bibliothek für die GPIOs des Raspberry Pis. Sie wurde Ursprünglich von Gordon Henderson programmiert. Er Unterstützt das Projekt inzwischen nicht mehr. Dadurch unterstützt die Library den Raspberry Pi 4 und Pi 400 in der vorinstallieren Version nicht! Bei Veröffentlichung des Pi 4 Computers hat er noch eine allerletzte Version 2.52 auf seiner <a href="http://wiringpi.com/wiringpi-updated-to-2-52-for-the-raspberry-pi-4b/">Webseite</a> veröffentlicht. Unverständlicherweise ist aber bei Raspberry Pi OS nur die Version 2.50 verfügbar.
 Aber auch wenn man die Version 2.52 nachinstalliert, so gibt es keine Erkennung für den Pi 400.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>gpio version: 2.50
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>gpio version: 2.50
 <span class="ln"> 2</span>Copyright (c) 2012-2018 Gordon Henderson
 <span class="ln"> 3</span>This is free software with ABSOLUTELY NO WARRANTY.
 <span class="ln"> 4</span>For details type: gpio -warranty
@@ -305,7 +305,7 @@ Aber auch wenn man die Version 2.52 nachinstalliert, so gibt es keine Erkennung 
 <span class="ln"> 9</span>  *--&gt; Raspberry Pi 400 Rev 1.0
 <span class="ln">10</span>  * This Raspberry Pi supports user-level GPIO access.
 </code></pre></div><p>Zum Glück gibt es aber inzwischen ein Git-Hub <a href="https://github.com/WiringPi/WiringPi">WiringPi</a> Projekt, das die Library weiter wartet. Hier ist die Version 2.60 verfügbar, die keine Probleme mit der neuen Hardware hat!</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>gpio version: 2.60
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>gpio version: 2.60
 <span class="ln"> 2</span>Copyright (c) 2012-2018 Gordon Henderson
 <span class="ln"> 3</span>This is free software with ABSOLUTELY NO WARRANTY.
 <span class="ln"> 4</span>For details type: gpio -warranty
@@ -377,6 +377,12 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
     <h2 class="mt-4">Empfohlene Artikel</h2>
     <ul>
       <li>
+        <a href="https://mstroh76.github.io/Blog/post/wled/" class="nav-link">WLED LED-Streifen mit ESP8266</a>
+      </li>
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/ffmpeg_h264/" class="nav-link">H264 CPU Hardware Encoding mit Linux</a>
+      </li>
+      <li>
         <a href="https://mstroh76.github.io/Blog/post/openwrt/" class="nav-link">OpenWRT Failsave / Widerherstellung</a>
       </li>
       <li>
@@ -393,14 +399,17 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
       </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/hugo-blog/" class="nav-link">Hugo Blog</a>
-      </li>
-      <li>
-        <a href="https://mstroh76.github.io/Blog/post/markdown-syntax/" class="nav-link">Markdown Syntax Guide</a>
       </li>
     </ul>
     <h2 class="mt-4">Neueste Artikel</h2>
     <ul class="flex-column">
       <li>
+        <a href="https://mstroh76.github.io/Blog/post/wled/" class="nav-link">WLED LED-Streifen mit ESP8266</a>
+      </li>
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/ffmpeg_h264/" class="nav-link">H264 CPU Hardware Encoding mit Linux</a>
+      </li>
+      <li>
         <a href="https://mstroh76.github.io/Blog/post/openwrt/" class="nav-link">OpenWRT Failsave / Widerherstellung</a>
       </li>
       <li>
@@ -417,9 +426,6 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
       </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/hugo-blog/" class="nav-link">Hugo Blog</a>
-      </li>
-      <li>
-        <a href="https://mstroh76.github.io/Blog/post/markdown-syntax/" class="nav-link">Markdown Syntax Guide</a>
       </li>
     </ul>
     <div>
@@ -427,17 +433,17 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
       <nav class="tags_nav">
         <a href='https://mstroh76.github.io/Blog/categories/raspberry-pi/' class="post_tag button button_translucent">
           RASPBERRY-PI
-          <span class="button_tally">4</span>
+          <span class="button_tally">5</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/categories/elektronik/' class="post_tag button button_translucent">
+          ELEKTRONIK
+          <span class="button_tally">2</span>
         </a>
         
         <a href='https://mstroh76.github.io/Blog/categories/web/' class="post_tag button button_translucent">
           WEB
           <span class="button_tally">2</span>
-        </a>
-        
-        <a href='https://mstroh76.github.io/Blog/categories/elektronik/' class="post_tag button button_translucent">
-          ELEKTRONIK
-          <span class="button_tally">1</span>
         </a>
         
         <a href='https://mstroh76.github.io/Blog/categories/hardware/' class="post_tag button button_translucent">
@@ -453,11 +459,16 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
       <nav class="tags_nav">
         <a href='https://mstroh76.github.io/Blog/tags/raspberry-pi/' class="post_tag button button_translucent">
           RASPBERRY-PI
-          <span class="button_tally">5</span>
+          <span class="button_tally">6</span>
         </a>
         
         <a href='https://mstroh76.github.io/Blog/tags/hugo/' class="post_tag button button_translucent">
           HUGO
+          <span class="button_tally">2</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/mikrocontroller/' class="post_tag button button_translucent">
+          MIKROCONTROLLER
           <span class="button_tally">2</span>
         </a>
         
@@ -466,13 +477,13 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
           <span class="button_tally">1</span>
         </a>
         
-        <a href='https://mstroh76.github.io/Blog/tags/markdown/' class="post_tag button button_translucent">
-          MARKDOWN
+        <a href='https://mstroh76.github.io/Blog/tags/esp8266/' class="post_tag button button_translucent">
+          ESP8266
           <span class="button_tally">1</span>
         </a>
         
-        <a href='https://mstroh76.github.io/Blog/tags/mikrocontroller/' class="post_tag button button_translucent">
-          MIKROCONTROLLER
+        <a href='https://mstroh76.github.io/Blog/tags/markdown/' class="post_tag button button_translucent">
+          MARKDOWN
           <span class="button_tally">1</span>
         </a>
         
@@ -483,6 +494,11 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
         
         <a href='https://mstroh76.github.io/Blog/tags/tools/' class="post_tag button button_translucent">
           TOOLS
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/video/' class="post_tag button button_translucent">
+          VIDEO
           <span class="button_tally">1</span>
         </a>
         
@@ -567,7 +583,7 @@ Im übrigen gibt es keinen Display- und Kameraanschluss wie beim Pi 4.</p>
   </div>
 </footer>
 
-    <script type="text/javascript" src="https://mstroh76.github.io/Blog/js/bundle.min.541d24e20123eb62c95c9d42fe5345fd3269dad029c746689f1f9c0014170baaeff357d09c847e5a975fcdc8ce2c7a3f0ce035e38fd3e4d960fd86343654065e.js" integrity="sha512-VB0k4gEj62LJXJ1C/lNF/TJp2tApx0Zonx&#43;cABQXC6rv81fQnIR&#43;WpdfzcjOLHo/DOA144/T5Nlg/YY0NlQGXg==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://mstroh76.github.io/Blog/js/bundle.min.09c46cbb85256d417bf4eaeacfac3a93becc289c1da73104e027ed778b1b1fb55e5f055957fe9bc2174e9d79da1c8374b5db91ce039116f2c10e1f9f855a980f.js" integrity="sha512-CcRsu4UlbUF79Orqz6w6k77MKJwdpzEE4Cftd4sbH7VeXwVZV/6bwhdOnXnaHIN0tduRzgORFvLBDh&#43;fhVqYDw==" crossorigin="anonymous"></script>
     
   </body>
 </html>

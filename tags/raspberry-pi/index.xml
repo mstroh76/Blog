@@ -6,7 +6,217 @@
     <description>Recent content in Raspberry Pi on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2021, Martin Strohmayer</copyright>
-    <lastBuildDate>Wed, 30 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mstroh76.github.io/Blog/tags/raspberry-pi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://mstroh76.github.io/Blog/tags/raspberry-pi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>H264 CPU Hardware Encoding mit Linux</title>
+      <link>https://mstroh76.github.io/Blog/post/ffmpeg_h264/</link>
+      <pubDate>Mon, 02 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://mstroh76.github.io/Blog/post/ffmpeg_h264/</guid>
+      <description>
+        
+          &lt;p&gt;Inzwischen unterstützen verschiedene CPUs die Kodierung von Videos mittels Hardware Encoder. Wie geht das unter Linux und wie schnell läuft es eigentlich?&lt;/p&gt;
+&lt;p&gt;Inzwischen unterschützen verschiedene CPUs die Kodierung von Videos mittels Hardware Endoder. Ich interessiere mich vor allem für den H264 Encoder um Videos bis Full-HD von MPEG nach H264 zu konvertieren. Welche Geschwindikeit ist von CPU vs CPU Encoder (HW) zu erwarten.&lt;/p&gt;
+&lt;h1 id=&#34;intel-cpu&#34;&gt;Intel CPU&lt;/h1&gt;
+&lt;p&gt;Intel Prozessoren unterstützen schon sehr lange die Hardware-Encoderung von Videos. Der Name dieser Erweiterung ist Intel &amp;quot;Quick Sync Video&amp;quot; und ist Teil der Intel GPU im Prozessor.
+F Prozessoren bzw. Prozessoren ohne Grafikeinheit haben diese Erweiterung nicht!&lt;br&gt;
+Als Konvertierungsprogramm kommt unter Linux ffmpeg zum Einsatz. Auf der Projektseite gibt es eine umfangreiche Tabelle mit unterstützten Features aller Intel Prozessorgenerationen.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://trac.ffmpeg.org/wiki/Hardware/QuickSync&#34;&gt;https://trac.ffmpeg.org/wiki/Hardware/QuickSync&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Der H264 Encoder wird bereits ab Sandy Bridge Prozessoren (also 2.Generation) unterstützt.
+Ich habe einen Laptop mit einem U4600 Haswell Prozessor (4. Generation). Dann hab ich noch einen ThinClient mit einem N3700 Braswell Prozessor. Beide sollten die Aufgabe beweltigen können.
+Der U4600 Prozessor läuft mit Linux Mint 20.3 Una. Der N3700 Prozessor mit Debian 12 Bookworm.&lt;/p&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+&lt;p&gt;Zusätzlich zum ffmpeg Programm wird noch der VAAPI Treiber benötigt.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo apt install vainfo ffmpeg va-driver-all
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nach der Installation kann man sich die VAAPI Iformationen mit vainfo ansehen.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;vainfo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;U4600(Haswell/Gen7.5) - Linux Mint 20.3 Una:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;libva info: VA-API version 1.7.0
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;libva info: Found init function __vaDriverInit_1_7
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;libva error: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so init failed
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;libva info: va_openDriver() returns 1
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/i965_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;libva info: Found init function __vaDriverInit_1_6
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;libva info: va_openDriver() returns 0
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;vainfo: VA-API version: 1.7 (libva 2.6.0)
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;vainfo: Driver version: Intel i965 driver for Intel(R) Haswell Mobile - 2.4.0
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;vainfo: Supported profile and entrypoints
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;      VAProfileH264High               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;      VAProfileH264High               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;      VAProfileH264MultiviewHigh      :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;24&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;25&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;26&lt;/span&gt;      VAProfileVC1Simple              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;27&lt;/span&gt;      VAProfileVC1Main                :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;28&lt;/span&gt;      VAProfileVC1Advanced            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;29&lt;/span&gt;      VAProfileNone                   :	VAEntrypointVideoProc
+&lt;span class=&#34;ln&#34;&gt;30&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointVLD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;N3700(Braswell/Gen8) - Debian 12 Bookworm:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;libva info: VA-API version 1.17.0
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;libva info: Found init function __vaDriverInit_1_17
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;libva error: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so init failed
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;libva info: va_openDriver() returns 1
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/i965_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;libva info: Found init function __vaDriverInit_1_8
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;libva info: va_openDriver() returns 0
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;vainfo: VA-API version: 1.17 (libva 2.12.0)
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;vainfo: Driver version: Intel i965 driver for Intel(R) CherryView - 2.4.1
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;vainfo: Supported profile and entrypoints
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;      VAProfileH264High               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;      VAProfileH264High               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;24&lt;/span&gt;      VAProfileVC1Simple              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;25&lt;/span&gt;      VAProfileVC1Main                :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;26&lt;/span&gt;      VAProfileVC1Advanced            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;27&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;28&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointEncPicture
+&lt;span class=&#34;ln&#34;&gt;29&lt;/span&gt;      VAProfileVP8Version0_3          :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;30&lt;/span&gt;      VAProfileHEVCMain               :	VAEntrypointVLD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Leider meldet der N3700 eine Fehler beim Aufruf mit ffmpeg.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt; ffmpeg: i965_encoder.c:1692: intel_enc_hw_context_init: Assertion `encoder_context-&amp;gt;mfc_context&amp;#39; failed.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dann habe ich die non-free Pakete in /etc/apt/sources.list hinzugefügt.
+Nach einem &amp;quot;apt update&amp;quot;, kann man die VAAPI non-free Treiber hinzugfügen.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo apt update
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;sudo apt install intel-media-va-driver-non-free i965-va-driver-shaders
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;vainfo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;libva info: VA-API version 1.17.0
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;libva info: Found init function __vaDriverInit_1_17
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;libva error: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so init failed
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;libva info: va_openDriver() returns 1
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/i965_drv_video.so
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;libva info: Found init function __vaDriverInit_1_8
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;libva info: va_openDriver() returns 0
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;vainfo: VA-API version: 1.17 (libva 2.12.0)
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;vainfo: Driver version: Intel i965 driver for Intel(R) CherryView - 2.4.1
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;vainfo: Supported profile and entrypoints
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;      VAProfileMPEG2Main              :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;      VAProfileH264Main               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;      VAProfileH264High               :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;      VAProfileH264High               :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;      VAProfilSH264MultiviewHigh      :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;24&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;25&lt;/span&gt;      VAProfileH264StereoHigh         :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;26&lt;/span&gt;      VAProfileVC1Simple              :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;27&lt;/span&gt;      VAProfileVC1Main                :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;28&lt;/span&gt;      VAProfileVC1Advanced            :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;29&lt;/span&gt;      VAProfileNone                   :	VAEntrypointVideoProc
+&lt;span class=&#34;ln&#34;&gt;30&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;31&lt;/span&gt;      VAProfileJPEGBaseline           :	VAEntrypointEncPicture
+&lt;span class=&#34;ln&#34;&gt;32&lt;/span&gt;      VAProfileVP8Version0_3          :	VAEntrypointVLD
+&lt;span class=&#34;ln&#34;&gt;33&lt;/span&gt;      VAProfileVP8Version0_3          :	VAEntrypointEncSlice
+&lt;span class=&#34;ln&#34;&gt;34&lt;/span&gt;      VAProfileHEVCMain               :	VAEntrypointVLD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Danch sind die Einträge &amp;quot;VAProfileH264MultiviewHigh: VAEntrypointEncSlice&amp;quot; und &amp;quot;VAProfileH264StereoHigh : VAEntrypointEncSlice&amp;quot; hinzugekommen.&lt;/p&gt;
+&lt;h2 id=&#34;konvertierung&#34;&gt;Konvertierung&lt;/h2&gt;
+&lt;p&gt;Beim Aufruf der Konvertierung  mit ffmpeg, muss nun der richtige Hardwareencoder angegeben werden. Das erfolgt mit dem Parameter -c:v gefolgt von Namen des Encoders.
+Bei Intel ist es &lt;strong&gt;h264_vaapi&lt;/strong&gt;. Beim Rapsberry Pi 4 ist es &lt;strong&gt;h264_v4l2m2m&lt;/strong&gt;.&lt;br&gt;
+Bei Intel muss man auch den Pfad zum VAAPI-Device angeben (/dev/dri/renderD128).
+Der Input Video im Beispiel ist eine MPEG2-AVI Datei aus einer Fernsehaufzeichnung, sie muss ebenfalls angegeben werden. Das Ziel ist eine mp4-Datei.&lt;br&gt;
+Wenn keine Qualitätseintstellungen angegeben werden, wird die Defaulteinstellung genommen. Je nach Encoder sollte man aber eine Datenrate oder Qualität dafür definieren.&lt;/p&gt;
+&lt;p&gt;Intel (Default Q20):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;time ffmpeg -hwaccel vaapi -hwaccel_output_format vaapi -hwaccel_device /dev/dri/renderD128 -i input.avi -c:v h264_vaapi output.mp4
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;time ffmpeg -hwaccel vaapi -hwaccel_output_format vaapi -vaapi_device /dev/dri/renderD128 -i input.avi -codec:v h264_vaapi output.mp4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Raspberry Pi (Average bitrate):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;time sudo ffmpeg -i input.avi -c:v h264_v4l2m2m -b:v 2048k output.mp4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;ergebnis&#34;&gt;Ergebnis&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Prozessor&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Speed&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Dauer&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Dateigröße (kiB)&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Datenrate/Qualität&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Intel U4600&lt;/td&gt;
+&lt;td&gt;x2,4&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Intel U4600 HW&lt;/td&gt;
+&lt;td&gt;x15&lt;/td&gt;
+&lt;td&gt;3m7s&lt;/td&gt;
+&lt;td&gt;760.882 kiB&lt;/td&gt;
+&lt;td&gt;Default: Q20&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Intel N3700&lt;/td&gt;
+&lt;td&gt;x1,3&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Intel N3700 HW&lt;/td&gt;
+&lt;td&gt;x2,6&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Pi 4&lt;/td&gt;
+&lt;td&gt;x1,2&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Pi 4 HW&lt;/td&gt;
+&lt;td&gt;x7,3&lt;/td&gt;
+&lt;td&gt;6m25s&lt;/td&gt;
+&lt;td&gt;104.191 kiB&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Pi 4 HW&lt;/td&gt;
+&lt;td&gt;x7,3&lt;/td&gt;
+&lt;td&gt;6m32s&lt;/td&gt;
+&lt;td&gt;639.202 kiB&lt;/td&gt;
+&lt;td&gt;-b:v 2048k&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Der Geschwindigkeits zwischen  Software und Hardwareencoder ist enorm. Bei Intel von 2,4-fache auf &lt;strong&gt;15-fache&lt;/strong&gt;. Damit wird das 45 Minuten Video in nur 3 Minuten konvertiert.
+Am langsamen N3700 Prozessor ist die Leistung des Hardwareencoders sehr gering und es wird nur eine Verdopplung geschafft. Besser als nichts, aber im Vergleich zu richtigen Mobil Prozessor viel zu langsam.&lt;br&gt;
+Überraschend schnell ist auch der Raspberry Pi 4 der in weniger als 7 Minuten das Video konvertiert. Er ist zwar langsamer als Intel U4600 aber weit schneller als der vergleichbare Intel N3700 Prozessor.&lt;/p&gt;
+&lt;p&gt;Nach dem CPU-Vergleich habe ich mir aber auch eine nVidia GPU unter Windows mit der Software Handbrake angesehen. Die konnte das Video noch schneller konvertieren als der Intel Prozessor!
+Wobei das Programm die Hardwarekodierung mit meiner Desktop Skylake Intel CPU nicht beherrschte.&lt;/p&gt;
+        
+      </description>
+    </item>
+    
     <item>
       <title>Mit PiBAN Festplatten löschen?</title>
       <link>https://mstroh76.github.io/Blog/post/piban/</link>
@@ -29,9 +239,9 @@ Rund herum gibt es auch alternative Programmaufrufe zum sicheren Löschen mit nw
 &lt;p&gt;Das Programm &amp;quot;shred&amp;quot; scheint hier ein Kompromiss zwischen Sicherheit und Geschwindigkeit zu sein. Näheres zum Programm findet man auf &lt;a href=&#34;https://wiki.ubuntuusers.de/shred/&#34;&gt;https://wiki.ubuntuusers.de/shred/&lt;/a&gt; .&lt;/p&gt;
 &lt;h2 id=&#34;eigene-löschstation-ohne-piban&#34;&gt;Eigene Löschstation ohne PiBAN&lt;/h2&gt;
 &lt;p&gt;Urspünglich wollte ich eine alte Raspberry Pi 1 für so eine Löschstation vorbereiten und zur Sicherheit den Vorgang nur über eine Taste und Display (4 Stellen Siebensegment) starten.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo apt -y install secure-delete wiringpi pv
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo apt -y install secure-delete wiringpi pv
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;/usr/local/bin/usbmount.sh:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;#!/usr/bin/env bash
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;#!/usr/bin/env bash
 &lt;/span&gt;&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Detected new device: &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt;/var/log/PiBAN.log
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;devname&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;basename &lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;logname&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/tmp/&lt;span class=&#34;nv&#34;&gt;$devname&lt;/span&gt;.log
@@ -47,7 +257,7 @@ Rund herum gibt es auch alternative Programmaufrufe zum sicheren Löschen mit nw
 &lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;	2display noHd
 &lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;/usr/local/bin/shred.sh (gestartet aus rc.local oder systemd):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;# 1: status led 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;# 1: status led 
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;# 2: shred HDD if connected
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;gpio -g mode 2 in
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;
@@ -67,21 +277,21 @@ Rund herum gibt es auch alternative Programmaufrufe zum sicheren Löschen mit nw
 &lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;	sleep 1
 &lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;done
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;/etc/udev/rules.d/usbmount.rules:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ACTION==&amp;#34;add&amp;#34;, KERNEL==&amp;#34;sd*[!0-9]&amp;#34;, SUBSYSTEM==&amp;#34;block&amp;#34;, RUN+=&amp;#34;/usr/local/bin/usbmount.sh %N&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ACTION==&amp;#34;add&amp;#34;, KERNEL==&amp;#34;sd*[!0-9]&amp;#34;, SUBSYSTEM==&amp;#34;block&amp;#34;, RUN+=&amp;#34;/usr/local/bin/usbmount.sh %N&amp;#34;
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;ACTION==&amp;#34;remove&amp;#34;, KERNEL==&amp;#34;sd*[!0-9]&amp;#34;, SUBSYSTEM==&amp;#34;block&amp;#34;, RUN+=&amp;#34;/usr/local/bin/usbmount.sh %N&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Scripts aktivieren:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;udevadm control --reload-rules &amp;amp;&amp;amp; udevadm trigger
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;udevadm control --reload-rules &amp;amp;&amp;amp; udevadm trigger
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;sudo udevadm control --reload-rules
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Leider ist es mir nicht gelungen den Prozentforschritt am Display anzuzeigen. Das Tool pv war nicht in der Lage den Output von shred korrekt auszuwerten &lt;code&gt;sudo shred -n 1 -v /dev/sda | pv -n | 2display&lt;/code&gt; hat leider nicht funktioniert.&lt;/p&gt;
 &lt;h2 id=&#34;schreddern-und-analyse&#34;&gt;Schreddern und Analyse&lt;/h2&gt;
 &lt;p&gt;Prinzipiell eine gute Idee aber dann habe ich Performance Tests gemacht und analysiert wie lange so eine Löschung nun wirklich dauert. Denn eins habe ich nicht bedacht, die Löschung hängt von der USB Geschwindigkeit ab. Die ist bekanntlich bei allen Raspberry Pis bis 3+ auf USB 2.0 mit max. 30 MB/s begrenzt. Nimmt man nun den Raspberry Pi 4 mit der USB 3.0 Schnittstelle, so erreicht er bis zu 100 MB/s also ca. 3-4 mal mehr.&lt;br&gt;
 Als Festplatte verwendete ich eine 3 TB SATA-Platte mit einer USB 3.0 Docking Station mit externer Stromversorgung.&lt;/p&gt;
 &lt;p&gt;Schreddern, ein Durchgang:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo shred -n 1 -z -v /dev/sda 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo shred -n 1 -z -v /dev/sda 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nur mit Nullen beschreiben:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;shred -n 0 -z -v /dev/sda
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;shred -n 0 -z -v /dev/sda
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Schreddern und dann mit Nullen beschreiben:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo shred -n 1 -z -v /dev/sda 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo shred -n 1 -z -v /dev/sda 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Das Schreddern dauerte mit dem Pi 1 (800 MHz) ca. 49 Stunden, also etwas mehr als 2 Tage. Mit dem Pi 4 dauerte es hingegen nur 11 Stunden, also rund einen halben Tag. Damit erreichte der Pi 1 ca. 17 MB/s und der Pi 4 ca. 78 MB/s.&lt;br&gt;
 Das Nullsetzen der Platte dauerte mit dem Pi 1 ca. 44 Stunden und beim Pi 4 ca. 9 Stunden. Damit erreichte der Pi 1 ca. 19 MB/s und der Pi 4 ca. 95 MB/s.&lt;br&gt;
 Zusammen würde als der Vorgang mit dem Pi 1 93 Stunden dauern, das sind dann fast 4 Tage!&lt;br&gt;
@@ -105,17 +315,17 @@ Also stecke ich die Platte einfach an meinen Pi 4 an und starten die Löschung m
 &lt;p&gt;Inzwischen haben immer mehr Leute mehrere Raspberry Pis in ihrem Netzwerk laufen. Eine für die Homeautomation, eine als NAS-Server und vielleicht noch eine mit Kameraaufgaben wie Überwachung oder für die Vögelbeobachtung. Hin und wieder möchte man die Rapsberry Pis dann aber auch aktualisieren oder andere Aktien auf allen durchführen. Einzel kann das dann zur mühevollen Aufgabe werden. Ansible kann hier allerdings einiges vereinfachen und einzelne Befehle oder Befehlsequenzen auf allen System ausführen.&lt;/p&gt;
 &lt;h2 id=&#34;vorbereitung-ssh-zugriff-ohne-passwort&#34;&gt;Vorbereitung: SSH Zugriff ohne Passwort&lt;/h2&gt;
 &lt;p&gt;Damit man von einem zentralen PC oder Laptop ohne Passworteingabe auf den Raspberry Pi zugreifen kann muss SSH korrekt eingerichtet sein. Der SSH-Key vom Host muss auf allen Clients (Raspberry Pis) übertragen werden. Dazu muss am Host der SSH-Key einmalig erstellt werden. Das macht man mit dem Befehl ssh-keygen. Man kann hier dann eine Passwort vergeben oder auch leer lassen - wie man möchte. Danach kann der SSH-Key auf die Clients übertragen wwerden. Das macht man am besten mit &lt;code&gt;ssh-copy-id&lt;/code&gt; gefolgt vom username pi und hostname des Clients.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ls ~/.ssh/id_*.pub || ssh-keygen
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ls ~/.ssh/id_*.pub || ssh-keygen
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;ssh-copy-id pi@homeautomation
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;ssh-copy-id pi@piserver
 &lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;ssh-copy-id pi@picamera01
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;ansible-installation&#34;&gt;Ansible Installation&lt;/h2&gt;
 &lt;p&gt;Nun kann Ansible mit &lt;code&gt;apt install ansible&lt;/code&gt; installiert werden. Dies ist allerdings die etwas ältere Version 2.7.7. Die aktuellste könnte mit pip3 installiert werden. Ich habe allerdings darauf verzichtet und benutze die Version Der Distribution.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo apt-get install python3-pip
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo apt-get install python3-pip
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;pip3 install --user ansible
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;ansible-konfiguration&#34;&gt;Ansible Konfiguration&lt;/h2&gt;
 &lt;p&gt;Nun gibt man die Host in der Datei &amp;quot;etc/ansible/hosts&amp;quot; an. Man kann sie gleich in Gruppen zusammenfassen um später Aktionen für alle Clients einer Gruppe zu starten.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;[pis]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;[pis]
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;homeautomation
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;piserver
 &lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;picamera01
@@ -123,16 +333,16 @@ Also stecke ich die Platte einfach an meinen Pi 4 an und starten die Löschung m
 &lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt;[picams]
 &lt;span class=&#34;ln&#34;&gt;7&lt;/span&gt;picamera01
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mit dem Befehl &lt;code&gt;ansible all --list-hosts&lt;/code&gt; können alle Hosts aufgelistet und damit die Konfigurationsdatei überprüft werden.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;  hosts (3):
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;  hosts (3):
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;    homeautomation
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;    piserver
 &lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;    picamera01
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Da wir nur mit Raspberry Pis arbeiten, kann man als user pi verwenden. Das hat Gegenüber root den Nachteil, dass man Befehle oft mit sudo ausführen muss.
 Allerdings entspricht der pi Benutzer dem üblichen Vorgang.
 Der Benutzer für den SSH Zugang wird in die Datei &amp;quot;/etc/ansible/ansible.cf&amp;quot; eingetragen&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt; remote_user = pi
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt; remote_user = pi
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun kann man bereits den ersten Befehl &lt;code&gt;ansible all -m ping&lt;/code&gt; ausprobieren. Wenn alles korrekt eingerichtet und die SSH-Keys übertagen wurden wird der Befehl erfolgreich ausgeführt.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;piserver | SUCCESS =&amp;gt; {
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;piserver | SUCCESS =&amp;gt; {
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;    &amp;#34;changed&amp;#34;: false,
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;    &amp;#34;ping&amp;#34;: &amp;#34;pong&amp;#34;
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;}
@@ -147,7 +357,7 @@ Der Benutzer für den SSH Zugang wird in die Datei &amp;quot;/etc/ansible/ansibl
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;ansible-playbook&#34;&gt;Ansible Playbook&lt;/h2&gt;
 &lt;p&gt;Playbooks sind Anweisungs-Dateien die ein oder mehrere Befehlr enthalten, die auf den Clients ausgeführt werden sollen. Als Beispiel gibt es ein upgrade Playbook und ein reboot Playbook.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Playbook upgrade:&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;---
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;---
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;- hosts: all
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;  tasks:
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;    - name: Wait for automatic system updates
@@ -159,7 +369,7 @@ Der Benutzer für den SSH Zugang wird in die Datei &amp;quot;/etc/ansible/ansibl
 &lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;        update_cache: &amp;#34;yes&amp;#34;
 &lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;        cache_valid_time: 0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Playbook reboot:&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;---
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;---
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;- hosts: all
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;  tasks:
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;    - name: Reboot host
@@ -174,7 +384,7 @@ Der Benutzer für den SSH Zugang wird in die Datei &amp;quot;/etc/ansible/ansibl
 &lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;        sleep: 2
 &lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;        timeout: 120
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun kann man die Playbooks ausführen:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ansible-playbook upgrade 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ansible-playbook upgrade 
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;ansible-playbook reboot 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         
@@ -365,7 +575,7 @@ Schaut man sich aber die Werte der Samsung 840 Pro SSD am USB an, so spielt dies
 &lt;p&gt;&lt;strong&gt;Pi 4 overclocked:&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Den Raspberry Pi 4 kann man durch eine Spannungserhöhung mit Faktor 3 (0,075 V) auch stabil auf 1,8 GHz betrieben. Dann läuft er mit &lt;strong&gt;0.9563 V&lt;/strong&gt; und damit etwas höher (~0,04 V) als die CPU vom Pi 400.&lt;/p&gt;
 &lt;p&gt;config.txt:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;#uncomment to overlock the arm. 1800 MHz is the default.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;#uncomment to overlock the arm. 1800 MHz is the default.
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;over_voltage=3
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;arm_freq=1800
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mehr zum Thema Übertakten des Raspberry Pi 4 kannst du bei &lt;a href=&#34;https://magpi.raspberrypi.org/articles/how-to-overclock-raspberry-pi-4&#34;&gt;How to overclock Raspberry Pi 4&lt;/a&gt; finden.&lt;/p&gt;
@@ -375,7 +585,7 @@ Schaut man sich aber die Werte der Samsung 840 Pro SSD am USB an, so spielt dies
 &lt;h3 id=&#34;wiringpi-library&#34;&gt;WiringPi Library&lt;/h3&gt;
 &lt;p&gt;Die WiringPi Library ist eine weit verbreitete C-Bibliothek für die GPIOs des Raspberry Pis. Sie wurde Ursprünglich von Gordon Henderson programmiert. Er Unterstützt das Projekt inzwischen nicht mehr. Dadurch unterstützt die Library den Raspberry Pi 4 und Pi 400 in der vorinstallieren Version nicht! Bei Veröffentlichung des Pi 4 Computers hat er noch eine allerletzte Version 2.52 auf seiner &lt;a href=&#34;http://wiringpi.com/wiringpi-updated-to-2-52-for-the-raspberry-pi-4b/&#34;&gt;Webseite&lt;/a&gt; veröffentlicht. Unverständlicherweise ist aber bei Raspberry Pi OS nur die Version 2.50 verfügbar.
 Aber auch wenn man die Version 2.52 nachinstalliert, so gibt es keine Erkennung für den Pi 400.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;gpio version: 2.50
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;gpio version: 2.50
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;Copyright (c) 2012-2018 Gordon Henderson
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;This is free software with ABSOLUTELY NO WARRANTY.
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;For details type: gpio -warranty
@@ -386,7 +596,7 @@ Aber auch wenn man die Version 2.52 nachinstalliert, so gibt es keine Erkennung 
 &lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;  *--&amp;gt; Raspberry Pi 400 Rev 1.0
 &lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;  * This Raspberry Pi supports user-level GPIO access.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Zum Glück gibt es aber inzwischen ein Git-Hub &lt;a href=&#34;https://github.com/WiringPi/WiringPi&#34;&gt;WiringPi&lt;/a&gt; Projekt, das die Library weiter wartet. Hier ist die Version 2.60 verfügbar, die keine Probleme mit der neuen Hardware hat!&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;gpio version: 2.60
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;gpio version: 2.60
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;Copyright (c) 2012-2018 Gordon Henderson
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;This is free software with ABSOLUTELY NO WARRANTY.
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;For details type: gpio -warranty
@@ -475,54 +685,54 @@ Die Systemplatine mit diesem IC wird für teilweise unter 2 Euro verkauft. Es wi
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;left&#34;&gt;STM32  Anschluss&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;STM32  Anschluss&lt;/th&gt;
 &lt;th&gt;LCD Anschluss&lt;/th&gt;
 &lt;th&gt;Beschreibung&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;A0&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A0&lt;/td&gt;
 &lt;td&gt;D/C&lt;/td&gt;
 &lt;td&gt;Data/Command&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;A1&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A1&lt;/td&gt;
 &lt;td&gt;CS&lt;/td&gt;
 &lt;td&gt;Chip select&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;A2&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A2&lt;/td&gt;
 &lt;td&gt;RESET&lt;/td&gt;
 &lt;td&gt;Reset&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;3.3&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;3.3&lt;/td&gt;
 &lt;td&gt;LED&lt;/td&gt;
 &lt;td&gt;Hintergrundbeleuchtung&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;A5&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A5&lt;/td&gt;
 &lt;td&gt;SCK&lt;/td&gt;
 &lt;td&gt;SPI Takt&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;A6&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A6&lt;/td&gt;
 &lt;td&gt;SDO(MISO)&lt;/td&gt;
 &lt;td&gt;SPI master input / slave output nur bei Touchfunktion&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;A7&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A7&lt;/td&gt;
 &lt;td&gt;SDI(MOSI)&lt;/td&gt;
 &lt;td&gt;SPI master output / slave input&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;G&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;G&lt;/td&gt;
 &lt;td&gt;GND&lt;/td&gt;
 &lt;td&gt;Ground&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;3.3&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;3.3&lt;/td&gt;
 &lt;td&gt;VCC&lt;/td&gt;
 &lt;td&gt;Versorgung&lt;/td&gt;
 &lt;/tr&gt;
@@ -542,29 +752,29 @@ Auf einem Raspberry PI kann direkt der vorhandene UART benutzt werden. In diesem
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;left&#34;&gt;STM32  Anschluss&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;STM32  Anschluss&lt;/th&gt;
 &lt;th&gt;UART Adapter / RaspPi(BCM)&lt;/th&gt;
 &lt;th&gt;Beschreibung (PC sicht)&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;A9&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A9&lt;/td&gt;
 &lt;td&gt;RXD (15)&lt;/td&gt;
 &lt;td&gt;Receive&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;A10&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A10&lt;/td&gt;
 &lt;td&gt;TXD (14)&lt;/td&gt;
 &lt;td&gt;Transmit&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;G&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;G&lt;/td&gt;
 &lt;td&gt;GND&lt;/td&gt;
 &lt;td&gt;Ground&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;3.3&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;3.3&lt;/td&gt;
 &lt;td&gt;3V3&lt;/td&gt;
 &lt;td&gt;Versorgung&lt;/td&gt;
 &lt;/tr&gt;
@@ -573,7 +783,7 @@ Auf einem Raspberry PI kann direkt der vorhandene UART benutzt werden. In diesem
 &lt;p&gt;Achtung wenn das STM32-System über den UART Adapter versorgt wird (3.3 Volt) benötigt man keine weitere Versorgung!&lt;/p&gt;
 &lt;p&gt;Nun muss man das Übertragungs- bzw Flash-Programm vom Hersteller bereitstellen. Es kann unter &lt;a href=&#34;https://sourceforge.net/projects/stm32flash/&#34;&gt;https://sourceforge.net/projects/stm32flash/&lt;/a&gt; heruntergeladen werden.
 Danach muss es kompiliert und installiert werden.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;cd ~
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;cd ~
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;mkdir stm
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;cd stm
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;apt get install build-essential
@@ -585,15 +795,15 @@ Danach muss es kompiliert und installiert werden.&lt;/p&gt;
 &lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;cd ..
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Möchte man nun die STM32duino Firmware installieren, was nicht nötig ist, so muss man folgendermaßen vorgehen.&lt;/p&gt;
 &lt;p&gt;Man holt sich eine zum STM32-System passende Firmware von &lt;a href=&#34;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&#34;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader&lt;/a&gt; bzw. &lt;a href=&#34;https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries&#34;&gt;https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries&lt;/a&gt;. In meinen Fall ist &amp;quot;generic_boot20_pc13.bin&amp;quot; die richtige Version, da am Board eine LED an PC13 angeschlossen ist.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;wget https://github.com/rogerclarkmelbourne/STM32duino-bootloader/raw/master/binaries/generic_boot20_pc13.bin
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;wget https://github.com/rogerclarkmelbourne/STM32duino-bootloader/raw/master/binaries/generic_boot20_pc13.bin
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun muss der obere gelbe Jumper (nahe an B11) von links (0) auf rechts (1) umgesetzt werden. Danach kann der USB Adapter angeschlossen werden. Üblicherweise wird er als &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; in Linux eingebunden. Beim Raspberry Pi muss man den Parameter &lt;code&gt;/dev/ttyUSB0&lt;/code&gt; durch &lt;code&gt;/dev/ttyAMA0&lt;/code&gt; ersetzen. Zuvor muss man aber auch noch der Terminal-Dienst beenden werden. Dann kann die Firmware übertragen werden.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;USB UART-Adapter:&lt;/strong&gt;
 &lt;code&gt;sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyUSB0&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Raspberry Pi:&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo service serial-getty@ttyAMA0 stop
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;sudo service serial-getty@ttyAMA0 stop
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;sudo stm32flash -g 0x8000000 -b 115200 -w generic_boot20_pc13.bin /dev/ttyAMA0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Folgende Ausgabe ist am Bildschirm zu sehen:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;stm32flash 0.5
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;stm32flash 0.5
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;http://stm32flash.sourceforge.net/
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;
@@ -614,7 +824,7 @@ Danach muss es kompiliert und installiert werden.&lt;/p&gt;
 &lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;Starting execution at address 0x08000000... done.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun kann der USB-Adapter angesteckt und der Jumper zurück auf 0 gesetzt werden.&lt;br&gt;
 Verbindet man den Mikrocontroller per USB mit dem PC System, werden folgenden Meldungen in Systemlog (Abrufbar mit &lt;code&gt;dmesg&lt;/code&gt;) geschrieben:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;[ 1538.366444] usb 2-1: new full-speed USB device number 7 using xhci_hcd
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;[ 1538.366444] usb 2-1: new full-speed USB device number 7 using xhci_hcd
 &lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;[ 1538.515763] usb 2-1: New USB device found, idVendor=1eaf, idProduct=0003, bcdDevice= 2.01
 &lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;[ 1538.515770] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
 &lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;[ 1538.515774] usb 2-1: Product: Maple 003
@@ -632,7 +842,7 @@ Verbindet man den Mikrocontroller per USB mit dem PC System, werden folgenden Me
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;arduino-ide-vorbereiten&#34;&gt;Arduino IDE vorbereiten&lt;/h2&gt;
 &lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
 &lt;p&gt;Bei Linux Mint 20 könnte man zwar die Arduino IDE mit &lt;code&gt;sudo apt install arduino&lt;/code&gt; installieren, dies ist aber eine zu alte Version. Darum sollte man sie manuell installieren. Auf der Web-Seite &lt;a href=&#34;https://www.arduino.cc/en/software&#34;&gt;https://www.arduino.cc/en/software&lt;/a&gt; kann die &amp;quot;Linux 64 bits&amp;quot; Version heruntergeladen werden.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;cd ~
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;cd ~
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;tar xvf arduino-1.8.13-linux64.tar.xz
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;cd arduino-1.8.13/
 &lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;sudo sh install.sh 
@@ -650,7 +860,7 @@ Unter Tools -&amp;gt; Port muss auch die entsprechende Schnittstelle (/dev/ttyUS
 &lt;h2 id=&#34;software-erstellen-und-übertragen&#34;&gt;Software erstellen und übertragen&lt;/h2&gt;
 &lt;h2 id=&#34;sketch-laden&#34;&gt;Sketch laden&lt;/h2&gt;
 &lt;p&gt;Nun lädt man sich das STM32-O-Scope Projekt herunter.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;git clone https://github.com/pingumacpenguin/STM32-O-Scope.git
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;git clone https://github.com/pingumacpenguin/STM32-O-Scope.git
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;cd STM32-O-Scope
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In der Arduino IDE kann das Projekt dann über das Menü mit File -&amp;gt; Open... und dem Auswählen der STM32-O-Scope.ino Datei, geladen werden.&lt;/p&gt;
 &lt;h2 id=&#34;bibliotheken-installieren&#34;&gt;Bibliotheken installieren&lt;/h2&gt;
@@ -661,7 +871,7 @@ Im Menü über Sketch -&amp;gt; include Library -&amp;gt; Add .ZIP library... ka
 &lt;p&gt;Von der Webseite &lt;a href=&#34;https://github.com/PaulStoffregen/Time/archive/v1.6.zip&#34;&gt;https://github.com/PaulStoffregen/Time/archive/v1.6.zip&lt;/a&gt; kann man sich die Time Library herunterladen.
 Im Menü über Sketch -&amp;gt; include Library -&amp;gt; Add .ZIP library... kann die Zip-Datei Time-1.6.zip ausgewählt werden.&lt;/p&gt;
 &lt;p&gt;Von der Webseite &lt;a href=&#34;https://github.com/kroimon/Arduino-SerialCommand&#34;&gt;https://github.com/kroimon/Arduino-SerialCommand&lt;/a&gt; kann man sich die SerialCommand Library herunterladen. Da sie aber nicht also Zip-Datei angeboten wird, kann man sie lokal erstellen.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;git clone https://github.com/kroimon/Arduino-SerialCommand.git
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;git clone https://github.com/kroimon/Arduino-SerialCommand.git
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;mv Arduino-SerialCommand/ SerialCommand/
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;zip ~/Downloads/SerialCommand.zip SerialCommand/*
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Im Menü über Sketch -&amp;gt; include Library -&amp;gt; Add .ZIP library... kann die Zip-Datei SerialCommand.zip ausgewählt werden.&lt;/p&gt;

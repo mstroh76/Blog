@@ -1,140 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/categories/</loc>
-    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mstroh76.github.io/Blog/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="https://mstroh76.github.io/Blog/pt/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="de"
-                href="https://mstroh76.github.io/Blog/categories/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/categories/hardware/</loc>
-    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/tags/openwrt/</loc>
-    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/post/openwrt/</loc>
-    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/post/</loc>
-    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/tags/</loc>
-    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mstroh76.github.io/Blog/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="https://mstroh76.github.io/Blog/pt/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="de"
-                href="https://mstroh76.github.io/Blog/tags/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/post/piban/</loc>
-    <lastmod>2021-06-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/tags/raspberry-pi/</loc>
-    <lastmod>2021-06-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/categories/raspberry-pi/</loc>
-    <lastmod>2021-06-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/post/ansible/</loc>
-    <lastmod>2021-06-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/post/tools/</loc>
-    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/tags/tools/</loc>
-    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/post/pi400/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/categories/elektronik/</loc>
-    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/tags/mikrocontroller/</loc>
-    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/post/stm32-o-scope/</loc>
-    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/tags/blog/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/tags/hugo/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/post/hugo-blog/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mstroh76.github.io/Blog/categories/web/</loc>
-    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
   <url>
     <loc>https://mstroh76.github.io/Blog/</loc>
-    <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+    <lastmod>2023-12-08T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -150,29 +19,121 @@
                 hreflang="de"
                 href="https://mstroh76.github.io/Blog/"
                 />
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/categories/</loc>
+    <lastmod>2023-12-08T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mstroh76.github.io/Blog/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mstroh76.github.io/Blog/pt/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://mstroh76.github.io/Blog/categories/"
+                />
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/categories/elektronik/</loc>
+    <lastmod>2023-12-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/esp8266/</loc>
+    <lastmod>2023-12-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/mikrocontroller/</loc>
+    <lastmod>2023-12-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/</loc>
+    <lastmod>2023-12-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/</loc>
+    <lastmod>2023-12-08T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mstroh76.github.io/Blog/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mstroh76.github.io/Blog/pt/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="https://mstroh76.github.io/Blog/tags/"
+                />
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/wled/</loc>
+    <lastmod>2023-12-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/ffmpeg_h264/</loc>
+    <lastmod>2023-10-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/raspberry-pi/</loc>
+    <lastmod>2023-10-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/categories/raspberry-pi/</loc>
+    <lastmod>2023-10-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/video/</loc>
+    <lastmod>2023-10-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/categories/hardware/</loc>
+    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/openwrt/</loc>
+    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/openwrt/</loc>
+    <lastmod>2023-07-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/piban/</loc>
+    <lastmod>2021-06-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/ansible/</loc>
+    <lastmod>2021-06-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/tools/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/tools/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/pi400/</loc>
+    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/stm32-o-scope/</loc>
+    <lastmod>2021-01-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/blog/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/tags/hugo/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/post/hugo-blog/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mstroh76.github.io/Blog/categories/web/</loc>
+    <lastmod>2021-01-04T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://mstroh76.github.io/Blog/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://mstroh76.github.io/Blog/tags/markdown/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://mstroh76.github.io/Blog/post/markdown-syntax/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://mstroh76.github.io/Blog/about/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://mstroh76.github.io/Blog/series/</loc>
     <xhtml:link
                 rel="alternate"
@@ -190,5 +151,4 @@
                 href="https://mstroh76.github.io/Blog/series/"
                 />
   </url>
-  
 </urlset>

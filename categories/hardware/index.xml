@@ -26,14 +26,14 @@ In meinen Fall hab ich mir für einen USB-Ethernet Adapter entschieden um mögli
 &lt;p&gt;&lt;img src=&#34;../../images/OpenWRT_USB-Ethernet.png&#34; alt=&#34;Netzwerkeinstellungen IPv4 192.168.0.1/255.255.255.0&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;fehler-korrigieren&#34;&gt;Fehler korrigieren&lt;/h2&gt;
 &lt;p&gt;Nun kann man sich per SSH-Client als Benutzer root ohne Passwort verbinden. Dann muss man das Dateisystem einbinden damit man Änderungen durchführen kann.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ssh root@192.168.1.1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;ssh root@192.168.1.1
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;mount_root
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun kann man auf Konfigurationsdaten in /etc/config zugreifen.
 Wir müssen in diesem Fall die Firewall Einstellungen korrigieren. Dazu öffen wir die Datei &amp;quot;etc/config/firewall&amp;quot; mit vi.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;vi /etc/config/firewall
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;vi /etc/config/firewall
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;../../images/OpenWRT_Firewall.png&#34; alt=&#34;Firewall Einstellungen korrigieren&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Nach dem Speichern  bzw. ausführen der Korrekturen kann man den Router neu starten.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;reboot -f
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;reboot -f
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nun sollte der Router wider erreichbar sein.&lt;/p&gt;
         
       </description>

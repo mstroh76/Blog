@@ -4,7 +4,7 @@
   <head>
 <title>Raspberry Pis verwalten mit Ansible | Blog</title>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.92.2" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <script async src="https://www.googletagmanager.com/gtag/js?id=XXXXXXXXXX"></script>
@@ -40,8 +40,8 @@
     
     
     <link rel="preload" href="https://mstroh76.github.io/Blog/css/styles.37cea41fe2c1b43e2a17095e01eb999e8701c9f0ba06d4df0a9db514a215e26dfbdb8a606a36c9d3b54bb1c09fd4a9ce41ee8f6788a8c6b17067830f34396135.css" integrity = "sha512-N86kH&#43;LBtD4qFwleAeuZnocByfC6BtTfCp21FKIV4m3724pgajbJ07VLscCf1KnOQe6PZ4ioxrFwZ4MPNDlhNQ==" as="style" crossorigin="anonymous">
-    <link rel="preload" href="https://mstroh76.github.io/Blog/js/bundle.min.541d24e20123eb62c95c9d42fe5345fd3269dad029c746689f1f9c0014170baaeff357d09c847e5a975fcdc8ce2c7a3f0ce035e38fd3e4d960fd86343654065e.js" as="script" integrity=
-    "sha512-VB0k4gEj62LJXJ1C/lNF/TJp2tApx0Zonx&#43;cABQXC6rv81fQnIR&#43;WpdfzcjOLHo/DOA144/T5Nlg/YY0NlQGXg==" crossorigin="anonymous">
+    <link rel="preload" href="https://mstroh76.github.io/Blog/js/bundle.min.09c46cbb85256d417bf4eaeacfac3a93becc289c1da73104e027ed778b1b1fb55e5f055957fe9bc2174e9d79da1c8374b5db91ce039116f2c10e1f9f855a980f.js" as="script" integrity=
+    "sha512-CcRsu4UlbUF79Orqz6w6k77MKJwdpzEE4Cftd4sbH7VeXwVZV/6bwhdOnXnaHIN0tduRzgORFvLBDh&#43;fhVqYDw==" crossorigin="anonymous">
 
     
     <link rel="stylesheet" type="text/css" href="https://mstroh76.github.io/Blog/css/styles.37cea41fe2c1b43e2a17095e01eb999e8701c9f0ba06d4df0a9db514a215e26dfbdb8a606a36c9d3b54bb1c09fd4a9ce41ee8f6788a8c6b17067830f34396135.css" integrity="sha512-N86kH&#43;LBtD4qFwleAeuZnocByfC6BtTfCp21FKIV4m3724pgajbJ07VLscCf1KnOQe6PZ4ioxrFwZ4MPNDlhNQ==" crossorigin="anonymous">
@@ -172,17 +172,17 @@
 <p>Inzwischen haben immer mehr Leute mehrere Raspberry Pis in ihrem Netzwerk laufen. Eine für die Homeautomation, eine als NAS-Server und vielleicht noch eine mit Kameraaufgaben wie Überwachung oder für die Vögelbeobachtung. Hin und wieder möchte man die Rapsberry Pis dann aber auch aktualisieren oder andere Aktien auf allen durchführen. Einzel kann das dann zur mühevollen Aufgabe werden. Ansible kann hier allerdings einiges vereinfachen und einzelne Befehle oder Befehlsequenzen auf allen System ausführen.</p>
 <h2 id="vorbereitung-ssh-zugriff-ohne-passwort">Vorbereitung: SSH Zugriff ohne Passwort</h2>
 <p>Damit man von einem zentralen PC oder Laptop ohne Passworteingabe auf den Raspberry Pi zugreifen kann muss SSH korrekt eingerichtet sein. Der SSH-Key vom Host muss auf allen Clients (Raspberry Pis) übertragen werden. Dazu muss am Host der SSH-Key einmalig erstellt werden. Das macht man mit dem Befehl ssh-keygen. Man kann hier dann eine Passwort vergeben oder auch leer lassen - wie man möchte. Danach kann der SSH-Key auf die Clients übertragen wwerden. Das macht man am besten mit <code>ssh-copy-id</code> gefolgt vom username pi und hostname des Clients.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>ls ~/.ssh/id_*.pub || ssh-keygen
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>ls ~/.ssh/id_*.pub || ssh-keygen
 <span class="ln">2</span>ssh-copy-id pi@homeautomation
 <span class="ln">3</span>ssh-copy-id pi@piserver
 <span class="ln">4</span>ssh-copy-id pi@picamera01
 </code></pre></div><h2 id="ansible-installation">Ansible Installation</h2>
 <p>Nun kann Ansible mit <code>apt install ansible</code> installiert werden. Dies ist allerdings die etwas ältere Version 2.7.7. Die aktuellste könnte mit pip3 installiert werden. Ich habe allerdings darauf verzichtet und benutze die Version Der Distribution.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>sudo apt-get install python3-pip
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>sudo apt-get install python3-pip
 <span class="ln">2</span>pip3 install --user ansible
 </code></pre></div><h2 id="ansible-konfiguration">Ansible Konfiguration</h2>
 <p>Nun gibt man die Host in der Datei &quot;etc/ansible/hosts&quot; an. Man kann sie gleich in Gruppen zusammenfassen um später Aktionen für alle Clients einer Gruppe zu starten.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>[pis]
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>[pis]
 <span class="ln">2</span>homeautomation
 <span class="ln">3</span>piserver
 <span class="ln">4</span>picamera01
@@ -190,16 +190,16 @@
 <span class="ln">6</span>[picams]
 <span class="ln">7</span>picamera01
 </code></pre></div><p>Mit dem Befehl <code>ansible all --list-hosts</code> können alle Hosts aufgelistet und damit die Konfigurationsdatei überprüft werden.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>  hosts (3):
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>  hosts (3):
 <span class="ln">2</span>    homeautomation
 <span class="ln">3</span>    piserver
 <span class="ln">4</span>    picamera01
 </code></pre></div><p>Da wir nur mit Raspberry Pis arbeiten, kann man als user pi verwenden. Das hat Gegenüber root den Nachteil, dass man Befehle oft mit sudo ausführen muss.
 Allerdings entspricht der pi Benutzer dem üblichen Vorgang.
 Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf&quot; eingetragen</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span> remote_user = pi
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span> remote_user = pi
 </code></pre></div><p>Nun kann man bereits den ersten Befehl <code>ansible all -m ping</code> ausprobieren. Wenn alles korrekt eingerichtet und die SSH-Keys übertagen wurden wird der Befehl erfolgreich ausgeführt.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>piserver | SUCCESS =&gt; {
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>piserver | SUCCESS =&gt; {
 <span class="ln"> 2</span>    &#34;changed&#34;: false,
 <span class="ln"> 3</span>    &#34;ping&#34;: &#34;pong&#34;
 <span class="ln"> 4</span>}
@@ -214,7 +214,7 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
 </code></pre></div><h2 id="ansible-playbook">Ansible Playbook</h2>
 <p>Playbooks sind Anweisungs-Dateien die ein oder mehrere Befehlr enthalten, die auf den Clients ausgeführt werden sollen. Als Beispiel gibt es ein upgrade Playbook und ein reboot Playbook.</p>
 <p><strong>Playbook upgrade:</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>---
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>---
 <span class="ln"> 2</span>- hosts: all
 <span class="ln"> 3</span>  tasks:
 <span class="ln"> 4</span>    - name: Wait for automatic system updates
@@ -226,7 +226,7 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
 <span class="ln">10</span>        update_cache: &#34;yes&#34;
 <span class="ln">11</span>        cache_valid_time: 0
 </code></pre></div><p><strong>Playbook reboot:</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>---
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>---
 <span class="ln"> 2</span>- hosts: all
 <span class="ln"> 3</span>  tasks:
 <span class="ln"> 4</span>    - name: Reboot host
@@ -241,7 +241,7 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
 <span class="ln">13</span>        sleep: 2
 <span class="ln">14</span>        timeout: 120
 </code></pre></div><p>Nun kann man die Playbooks ausführen:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>ansible-playbook upgrade 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>ansible-playbook upgrade 
 <span class="ln">2</span>ansible-playbook reboot 
 </code></pre></div>
     
@@ -259,6 +259,12 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
     <h2 class="mt-4">Empfohlene Artikel</h2>
     <ul>
       <li>
+        <a href="https://mstroh76.github.io/Blog/post/wled/" class="nav-link">WLED LED-Streifen mit ESP8266</a>
+      </li>
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/ffmpeg_h264/" class="nav-link">H264 CPU Hardware Encoding mit Linux</a>
+      </li>
+      <li>
         <a href="https://mstroh76.github.io/Blog/post/openwrt/" class="nav-link">OpenWRT Failsave / Widerherstellung</a>
       </li>
       <li>
@@ -275,14 +281,17 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
       </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/hugo-blog/" class="nav-link">Hugo Blog</a>
-      </li>
-      <li>
-        <a href="https://mstroh76.github.io/Blog/post/markdown-syntax/" class="nav-link">Markdown Syntax Guide</a>
       </li>
     </ul>
     <h2 class="mt-4">Neueste Artikel</h2>
     <ul class="flex-column">
       <li>
+        <a href="https://mstroh76.github.io/Blog/post/wled/" class="nav-link">WLED LED-Streifen mit ESP8266</a>
+      </li>
+      <li>
+        <a href="https://mstroh76.github.io/Blog/post/ffmpeg_h264/" class="nav-link">H264 CPU Hardware Encoding mit Linux</a>
+      </li>
+      <li>
         <a href="https://mstroh76.github.io/Blog/post/openwrt/" class="nav-link">OpenWRT Failsave / Widerherstellung</a>
       </li>
       <li>
@@ -299,9 +308,6 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
       </li>
       <li>
         <a href="https://mstroh76.github.io/Blog/post/hugo-blog/" class="nav-link">Hugo Blog</a>
-      </li>
-      <li>
-        <a href="https://mstroh76.github.io/Blog/post/markdown-syntax/" class="nav-link">Markdown Syntax Guide</a>
       </li>
     </ul>
     <div>
@@ -309,17 +315,17 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
       <nav class="tags_nav">
         <a href='https://mstroh76.github.io/Blog/categories/raspberry-pi/' class="post_tag button button_translucent">
           RASPBERRY-PI
-          <span class="button_tally">4</span>
+          <span class="button_tally">5</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/categories/elektronik/' class="post_tag button button_translucent">
+          ELEKTRONIK
+          <span class="button_tally">2</span>
         </a>
         
         <a href='https://mstroh76.github.io/Blog/categories/web/' class="post_tag button button_translucent">
           WEB
           <span class="button_tally">2</span>
-        </a>
-        
-        <a href='https://mstroh76.github.io/Blog/categories/elektronik/' class="post_tag button button_translucent">
-          ELEKTRONIK
-          <span class="button_tally">1</span>
         </a>
         
         <a href='https://mstroh76.github.io/Blog/categories/hardware/' class="post_tag button button_translucent">
@@ -335,11 +341,16 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
       <nav class="tags_nav">
         <a href='https://mstroh76.github.io/Blog/tags/raspberry-pi/' class="post_tag button button_translucent">
           RASPBERRY-PI
-          <span class="button_tally">5</span>
+          <span class="button_tally">6</span>
         </a>
         
         <a href='https://mstroh76.github.io/Blog/tags/hugo/' class="post_tag button button_translucent">
           HUGO
+          <span class="button_tally">2</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/mikrocontroller/' class="post_tag button button_translucent">
+          MIKROCONTROLLER
           <span class="button_tally">2</span>
         </a>
         
@@ -348,13 +359,13 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
           <span class="button_tally">1</span>
         </a>
         
-        <a href='https://mstroh76.github.io/Blog/tags/markdown/' class="post_tag button button_translucent">
-          MARKDOWN
+        <a href='https://mstroh76.github.io/Blog/tags/esp8266/' class="post_tag button button_translucent">
+          ESP8266
           <span class="button_tally">1</span>
         </a>
         
-        <a href='https://mstroh76.github.io/Blog/tags/mikrocontroller/' class="post_tag button button_translucent">
-          MIKROCONTROLLER
+        <a href='https://mstroh76.github.io/Blog/tags/markdown/' class="post_tag button button_translucent">
+          MARKDOWN
           <span class="button_tally">1</span>
         </a>
         
@@ -365,6 +376,11 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
         
         <a href='https://mstroh76.github.io/Blog/tags/tools/' class="post_tag button button_translucent">
           TOOLS
+          <span class="button_tally">1</span>
+        </a>
+        
+        <a href='https://mstroh76.github.io/Blog/tags/video/' class="post_tag button button_translucent">
+          VIDEO
           <span class="button_tally">1</span>
         </a>
         
@@ -449,7 +465,7 @@ Der Benutzer für den SSH Zugang wird in die Datei &quot;/etc/ansible/ansible.cf
   </div>
 </footer>
 
-    <script type="text/javascript" src="https://mstroh76.github.io/Blog/js/bundle.min.541d24e20123eb62c95c9d42fe5345fd3269dad029c746689f1f9c0014170baaeff357d09c847e5a975fcdc8ce2c7a3f0ce035e38fd3e4d960fd86343654065e.js" integrity="sha512-VB0k4gEj62LJXJ1C/lNF/TJp2tApx0Zonx&#43;cABQXC6rv81fQnIR&#43;WpdfzcjOLHo/DOA144/T5Nlg/YY0NlQGXg==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://mstroh76.github.io/Blog/js/bundle.min.09c46cbb85256d417bf4eaeacfac3a93becc289c1da73104e027ed778b1b1fb55e5f055957fe9bc2174e9d79da1c8374b5db91ce039116f2c10e1f9f855a980f.js" integrity="sha512-CcRsu4UlbUF79Orqz6w6k77MKJwdpzEE4Cftd4sbH7VeXwVZV/6bwhdOnXnaHIN0tduRzgORFvLBDh&#43;fhVqYDw==" crossorigin="anonymous"></script>
     
   </body>
 </html>
