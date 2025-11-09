@@ -2,8 +2,8 @@
 # if you set it to "/" share icons won't work properly on production
 baseurl = "https://mstroh76.github.io/Blog/"  # Include trailing slash
 title = "Blog"
-author = "Martin Stromayer"
-copyright = "Copyright © 2021, Martin Strohmayer"
+author = "mstroh"
+copyright = "Copyright © 2025, mstroh"
 # canonifyurls = true
 paginate = 10
 theme = "hugo-clarity"
@@ -43,8 +43,8 @@ series = "series"
     tabWidth = 2
 
 [params]
-author = "Martin Strohmayer"
-twitter = "@m_stroh"
+author = "mstroh"
+twitter = ""
 largeTwitterCard = true # set to true if you want to show a large twitter card image. The default is a small twitter card image
 introDescription = "Softewareentwickler, Linux fan, Raspberry Pi Enthusiast."
 # description = "" # set your site's description here. will be use for home page content meta tags (seo). Alternatively set this description in your homepage content file i.e content/_index.md. Whatever is set in the latter will take precedence
